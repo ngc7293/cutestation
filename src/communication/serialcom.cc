@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-#include <cstring>
 #include <cerrno>
+#include <cstring>
 
 #include <fcntl.h>
 #include <termios.h>
@@ -61,7 +61,7 @@ void SerialCom::config()
     }
 }
 
-int SerialCom::read_byte(uint8_t * dest, int retry)
+int SerialCom::read_byte(uint8_t* dest, int retry)
 {
     int n = 0;
     int tries = retry;

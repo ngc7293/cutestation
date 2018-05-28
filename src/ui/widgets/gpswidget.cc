@@ -1,7 +1,7 @@
 #include "ui/widgets/gpswidget.hh"
 
-#include <QVBoxLayout>
 #include <QGridLayout>
+#include <QVBoxLayout>
 
 #include "messages/gpsdatamessage.hh"
 #include "messages/gpsmetamessage.hh"
@@ -18,16 +18,16 @@ GPSWidget::GPSWidget()
 
     QVBoxLayout* vbox = new QVBoxLayout();
     QGridLayout* grid = new QGridLayout();
-    grid->addWidget(new QLabel("<span style=\"font-weight: bold;\">STATUS</span>"),0,0);
-    grid->addWidget(status_,1,0);
-    grid->addWidget(new QLabel("<span style=\"font-weight: bold;\">SATELLITES</span>"),0,1);
-    grid->addWidget(count_,1,1);
-    grid->addWidget(new QLabel("<span style=\"font-weight: bold;\">LON</span>"),2,0);
-    grid->addWidget(lon_,3,0);
-    grid->addWidget(new QLabel("<span style=\"font-weight: bold;\">LAT</span>"),2,1);
-    grid->addWidget(lat_,3,1);
-    grid->addWidget(new QLabel("<span style=\"font-weight: bold;\">ALT</span>"),2,2);
-    grid->addWidget(alt_,3,2);
+    grid->addWidget(new QLabel("<span style=\"font-weight: bold;\">STATUS</span>"), 0, 0);
+    grid->addWidget(status_, 1, 0);
+    grid->addWidget(new QLabel("<span style=\"font-weight: bold;\">SATELLITES</span>"), 0, 1);
+    grid->addWidget(count_, 1, 1);
+    grid->addWidget(new QLabel("<span style=\"font-weight: bold;\">LON</span>"), 2, 0);
+    grid->addWidget(lon_, 3, 0);
+    grid->addWidget(new QLabel("<span style=\"font-weight: bold;\">LAT</span>"), 2, 1);
+    grid->addWidget(lat_, 3, 1);
+    grid->addWidget(new QLabel("<span style=\"font-weight: bold;\">ALT</span>"), 2, 2);
+    grid->addWidget(alt_, 3, 2);
     vbox->addLayout(grid);
     vbox->addStretch();
     layout_->addLayout(vbox);
@@ -35,7 +35,7 @@ GPSWidget::GPSWidget()
     setMinimumHeight(150);
 }
 
-GPSWidget::~GPSWidget() { }
+GPSWidget::~GPSWidget() {}
 
 void GPSWidget::accept(Message& message)
 {

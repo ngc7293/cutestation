@@ -3,12 +3,12 @@
 
 #include <QMainWindow>
 
-#include "workers/serialworker.hh"
 #include "ui/widgets/accelerationwidget.hh"
 #include "ui/widgets/altitudewidget.hh"
-#include "ui/widgets/velocitywidget.hh"
 #include "ui/widgets/chutewidget.hh"
 #include "ui/widgets/gpswidget.hh"
+#include "ui/widgets/velocitywidget.hh"
+#include "workers/serialworker.hh"
 
 namespace Ui {
 class App;

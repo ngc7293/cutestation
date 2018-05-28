@@ -18,7 +18,7 @@ public:
     SerialCom(std::string port, unsigned int baudrate);
     virtual ~SerialCom();
 
-    virtual int read_byte(uint8_t * dest, int retry = 0);
+    virtual int read_byte(uint8_t* dest, int retry = 0);
 
     // Getters
     std::string port() const { return port_; }

@@ -16,7 +16,7 @@ private:
 
     std::thread* internal_;
 
-public: 
+public:
     SerialWorker();
     SerialWorker(Serial* serial);
     virtual ~SerialWorker();

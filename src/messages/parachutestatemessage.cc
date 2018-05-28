@@ -23,7 +23,7 @@ std::string ParachuteStateMessage::toString()
 {
     std::stringstream ss;
     ss << "[CHUTE   ";
-    
+
     ss << " MAIN:";
     if (main_fired_) {
         ss << "FIRED";
