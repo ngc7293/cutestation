@@ -13,7 +13,7 @@ public:
     SerialStub();
     ~SerialStub();
 
-    virtual int read_byte(uint8_t * dest, int retry = 0);
+    virtual int read_byte(uint8_t* dest, int retry = 0);
 };
 
 #endif // SERIALSTUB_H

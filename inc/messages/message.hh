@@ -8,7 +8,7 @@
 
 class Message {
 public:
-    static Message* fromPacket(Packet& packet); 
+    static Message* fromPacket(Packet& packet);
 
 protected:
     Packet data_;

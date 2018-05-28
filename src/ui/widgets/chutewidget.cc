@@ -1,10 +1,9 @@
 #include "ui/widgets/chutewidget.hh"
 
-
 #include <QVBoxLayout>
 
-#include "messages/parachutestatemessage.hh"
 #include "messages/message_defs.h"
+#include "messages/parachutestatemessage.hh"
 
 ChuteWidget::ChuteWidget()
     : SensorWidget("Parachute")
@@ -29,7 +28,7 @@ ChuteWidget::ChuteWidget()
     setMinimumHeight(150);
 }
 
-ChuteWidget::~ChuteWidget() { }
+ChuteWidget::~ChuteWidget() {}
 
 void ChuteWidget::accept(Message& message)
 {
@@ -39,27 +38,26 @@ void ChuteWidget::accept(Message& message)
 
     ParachuteStateMessage& msg = (ParachuteStateMessage&)message;
 
-
     if (msg.main_fired()) {
         if (main_status_ != FIRED) {
             main_fired_timestamp_ = QDateTime::currentDateTime();
         }
         main_status_ = FIRED;
-    }
-    else if (msg.main_detect()) {
+    } else if (msg.main_detect()) {
         main_status_ = DETECT;
-    }
-    else {
+    } else {
         main_status_ = NONE;
     }
 
     switch (main_status_) {
-        case NONE:
-            main_->setText("<span style=\"color: darkgreen\">Disarmed</span>"); break;
-        case DETECT:
-            main_->setText("<span style=\"color: red\">Armed</span>"); break;
-        case FIRED:
-            main_->setText(QString("Fired at %1").arg(main_fired_timestamp_.toString("HH:mm:ss")));
+    case NONE:
+        main_->setText("<span style=\"color: darkgreen\">Disarmed</span>");
+        break;
+    case DETECT:
+        main_->setText("<span style=\"color: red\">Armed</span>");
+        break;
+    case FIRED:
+        main_->setText(QString("Fired at %1").arg(main_fired_timestamp_.toString("HH:mm:ss")));
     }
 
     if (msg.drogue_fired()) {
@@ -67,20 +65,20 @@ void ChuteWidget::accept(Message& message)
             drogue_fired_timestamp_ = QDateTime::currentDateTime();
         }
         drogue_status_ = FIRED;
-    }
-    else if (msg.drogue_detect()) {
+    } else if (msg.drogue_detect()) {
         drogue_status_ = DETECT;
-    }
-    else {
+    } else {
         drogue_status_ = NONE;
     }
 
     switch (drogue_status_) {
-        case NONE:
-            drogue_->setText("<span style=\"color: darkgreen\">Disarmed</span>"); break;
-        case DETECT:
-            drogue_->setText("<span style=\"color: red\">Armed</span>"); break;
-        case FIRED:
-            drogue_->setText(QString("Fired at %1").arg(main_fired_timestamp_.toString("HH:mm:ss")));
+    case NONE:
+        drogue_->setText("<span style=\"color: darkgreen\">Disarmed</span>");
+        break;
+    case DETECT:
+        drogue_->setText("<span style=\"color: red\">Armed</span>");
+        break;
+    case FIRED:
+        drogue_->setText(QString("Fired at %1").arg(main_fired_timestamp_.toString("HH:mm:ss")));
     }
 }

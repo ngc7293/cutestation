@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Packet::Packet() 
+Packet::Packet()
 {
     cursor_ = 5;
 }

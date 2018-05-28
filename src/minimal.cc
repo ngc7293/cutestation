@@ -1,11 +1,11 @@
+#include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <sstream>
-#include <iomanip>
-#include <fstream>
 #include <vector>
 
-#include <ctime>
 #include <csignal>
+#include <ctime>
 
 #include <termios.h>
 
@@ -14,8 +14,8 @@
 #include "communication/serialcom.hh"
 #include "communication/serialstub.hh"
 
-#include "messages/message_defs.h"
 #include "messages/message.hh"
+#include "messages/message_defs.h"
 
 void print(Packet& packet)
 {
@@ -33,26 +33,25 @@ int main(int argc, const char* argv[])
     std::string port = "/dev/ttyUSB0";
     bool dump = false;
 
-    signal(SIGINT, [](int sig){ 
+    signal(SIGINT, [](int sig) {
         if (file) {
             file->close();
             delete file;
         }
-        exit(0); 
+        exit(0);
     });
 
     for (int i = 1; i < argc; ++i) {
         if (argv[i] == "--port" || argv[i] == "-p") {
             port = argv[++i];
-        }
-        else if (argv[i] == "--dump" || "-d") {
+        } else if (argv[i] == "--dump" || "-d") {
             dump = true;
         }
     }
 
     SerialCom serial("/dev/ttyUSB0", B115200);
     //SerialStub serial;
-    
+
     std::vector<Packet> packets;
 
     if (dump) {
@@ -67,7 +66,6 @@ int main(int argc, const char* argv[])
         ss << std::setw(2) << std::setfill('0') << date->tm_sec << ".dump";
         file = new std::ofstream(ss.str(), std::ios::binary | std::ios::app);
     }
-
 
     while (true) {
         uint8_t b;

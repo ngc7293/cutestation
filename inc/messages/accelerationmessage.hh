@@ -18,9 +18,10 @@ public:
     float x() const { return x_; }
     float y() const { return y_; }
     float z() const { return z_; }
-    float norm() const { 
+    float norm() const
+    {
         return sqrt(x_ * x_ + y_ * y_ + z_ * z_);
-}
+    }
 
 protected:
     virtual std::string toString();

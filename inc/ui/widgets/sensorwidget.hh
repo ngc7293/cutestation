@@ -1,10 +1,10 @@
 #ifndef SENSORWIDGET_H
 #define SENSORWIDGET_H
 
-#include <QWidget>
-#include <QHBoxLayout>
 #include <QGroupBox>
+#include <QHBoxLayout>
 #include <QPushButton>
+#include <QWidget>
 
 #include "messages/message.hh"
 

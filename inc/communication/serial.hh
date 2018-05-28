@@ -7,7 +7,7 @@
 
 class Serial {
 public:
-    virtual int read_byte(uint8_t * dest, int retry = 0) = 0;
+    virtual int read_byte(uint8_t* dest, int retry = 0) = 0;
 
     friend Serial& operator>>(Serial& serial, uint8_t& val);
 };

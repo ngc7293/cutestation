@@ -1,7 +1,7 @@
 #include "ui/widgets/sensorwidget.hh"
 
-#include <QLabel>
 #include <QGroupBox>
+#include <QLabel>
 #include <QVBoxLayout>
 
 SensorWidget::SensorWidget(QString name)

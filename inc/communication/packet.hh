@@ -27,9 +27,9 @@ public:
     // Operator Overloading
     friend Packet& operator<<(Packet& packet, uint8_t& val);
 
-    template<typename T>
+    template <typename T>
     friend Packet& operator>>(Packet& packet, T& val);
-    
+
     // Simple setters
     void setCursor(unsigned int pos) { cursor_ = pos; }
 
@@ -41,7 +41,7 @@ private:
     void checkCursor();
 };
 
-template<typename T>
+template <typename T>
 Packet& operator>>(Packet& packet, T& val)
 {
     packet.checkCursor();

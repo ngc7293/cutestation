@@ -14,7 +14,7 @@ SerialStub::~SerialStub()
     file_.close();
 }
 
-int SerialStub::read_byte(uint8_t * dest, int retry)
+int SerialStub::read_byte(uint8_t* dest, int retry)
 {
     if (file_.eof()) {
         exit(1);

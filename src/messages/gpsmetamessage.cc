@@ -34,6 +34,6 @@ std::string GPSMetaMessage::fixString() const
 std::string GPSMetaMessage::toString()
 {
     std::stringstream ss;
-    ss << "[GPS DATA " << fixString() << ", " << count_ << "satellite" << (count_ == 1 ? "s" : "" ) << "]";
+    ss << "[GPS DATA " << fixString() << ", " << count_ << "satellite" << (count_ == 1 ? "s" : "") << "]";
     return ss.str();
 }
