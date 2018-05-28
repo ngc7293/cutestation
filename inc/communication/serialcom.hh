@@ -16,10 +16,9 @@ private:
 
 public:
     SerialCom(std::string port, unsigned int baudrate);
-    ~SerialCom();
+    virtual ~SerialCom();
 
-    // Operator overloads
-    friend SerialCom& operator>>(SerialCom& serial, uint8_t& val);
+    virtual int read_byte(uint8_t * dest, int retry = 0);
 
     // Getters
     std::string port() const { return port_; }

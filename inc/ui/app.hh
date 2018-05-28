@@ -4,7 +4,7 @@
 #include <QMainWindow>
 
 #include "workers/serialworker.hh"
-#include "ui/sensorwidget.hh"
+#include "ui/widgets/accelerationwidget.hh"
 
 namespace Ui {
 class App;
@@ -16,7 +16,7 @@ class App : public QMainWindow {
 private:
     Ui::App* ui_;
     SerialWorker* serial_;
-    SensorWidget* state_widget_;
+    AccelerationWidget* accel_widget_;
 
 public:
     explicit App(QWidget* parent = 0);

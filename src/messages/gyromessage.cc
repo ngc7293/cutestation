@@ -5,7 +5,7 @@
 GyroMessage::GyroMessage(Packet packet)
     : Message(packet)
 {
-    packet >> x_ >> y_ >> z_;
+    packet >> q1_ >> q2_ >> q3_ >> q4_;
 }
 
 GyroMessage::~GyroMessage()
@@ -15,6 +15,6 @@ GyroMessage::~GyroMessage()
 std::string GyroMessage::toString()
 {
     std::stringstream ss;
-    ss << "[GYRO   " << x_ << "° " << y_ << "° " << z_ << "° EULER]";
+    ss << "[GYRO   " << q1_ << "° " << q2_ << "° " << q3_ << "° " << q4_ << "° QUATERNIONS]";
     return ss.str();
 }

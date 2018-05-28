@@ -10,6 +10,7 @@
 #include <termios.h>
 
 #include "communication/packet.hh"
+#include "communication/serial.hh"
 #include "communication/serialcom.hh"
 #include "communication/serialstub.hh"
 
@@ -19,7 +20,7 @@
 void print(Packet& packet)
 {
     Message* message = Message::fromPacket(packet);
-    if (message && (message->id() == MSG_ID_GYRO || message->id() == MSG_ID_ACCELERATION)) {
+    if (message) {
         std::cout << message << std::endl;
     }
     delete message;
