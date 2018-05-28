@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QHBoxLayout>
+#include <QGroupBox>
+#include <QPushButton>
 
 #include "messages/message.hh"
 
@@ -21,6 +23,9 @@ public:
 
     virtual void accept(Message& message) = 0;
     friend SensorWidget& operator<<(SensorWidget& widget, Message& message);
+
+private slots:
+    void onChecked(bool checked);
 };
 
 #endif // SENSORWIDGET_H

@@ -11,7 +11,11 @@ SOURCES += \
         src/main.cc \
         src/ui/app.cc \
         src/ui/widgets/sensorwidget.cc \
+        src/ui/widgets/altitudewidget.cc \
+        src/ui/widgets/velocitywidget.cc \
         src/ui/widgets/accelerationwidget.cc \
+        src/ui/widgets/chutewidget.cc \
+        src/ui/widgets/gpswidget.cc \
         src/communication/packet.cc \
         src/communication/serial.cc \
         src/communication/serialcom.cc \
@@ -31,7 +35,11 @@ SOURCES += \
 HEADERS += \
         inc/ui/app.hh \
         inc/ui/widgets/sensorwidget.hh \
+        inc/ui/widgets/altitudewidget.hh \
+        inc/ui/widgets/velocitywidget.hh \
         inc/ui/widgets/accelerationwidget.hh \
+        inc/ui/widgets/chutewidget.hh \
+        inc/ui/widgets/gpswidget.hh \
         inc/communication/packet.hh \
         inc/communication/serial.hh \
         inc/communication/serialcom.hh \
