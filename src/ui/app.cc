@@ -22,8 +22,21 @@ App::App(QWidget* parent)
     serial_ = new SerialWorker(new SerialCom("/dev/ttyUSB0", B115200));
     QObject::connect(serial_, SIGNAL(messageReady(Message*)), this, SLOT(onMessage(Message*)));
     serial_->start();
+
+    altitude_widget_ = new AltitudeWidget();
+    velocity_widget_ = new VelocityWidget();
     accel_widget_ = new AccelerationWidget();
+    chute_widget_ = new ChuteWidget();
+    gps_widget_ = new GPSWidget();
+
+    ui_->chart_vbox->addWidget(altitude_widget_);
+    ui_->chart_vbox->addWidget(velocity_widget_);
     ui_->chart_vbox->addWidget(accel_widget_);
+
+    QHBoxLayout* chutegpsbox = new QHBoxLayout();
+    chutegpsbox->addWidget(chute_widget_);
+    chutegpsbox->addWidget(gps_widget_);
+    ui_->chart_vbox->addLayout(chutegpsbox);
 }
 
 App::~App()
@@ -34,6 +47,10 @@ App::~App()
 
 void App::onMessage(Message* message)
 {
+    *altitude_widget_ << *message;
+    *velocity_widget_ << *message;
     *accel_widget_ << *message;
+    *chute_widget_ << *message;
+    *gps_widget_ << *message;
     delete message;
 }

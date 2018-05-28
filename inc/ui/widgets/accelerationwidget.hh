@@ -4,24 +4,25 @@
 #include "ui/widgets/sensorwidget.hh"
 
 #include <QChart>
+#include <QDateTimeAxis>
+#include <QLabel>
 #include <QLineSeries>
 #include <QValueAxis>
-#include <QDateTimeAxis>
-
-using namespace QtCharts;
 
 class AccelerationWidget : public SensorWidget {
     Q_OBJECT
 
 public:
-    static const int MAX_DATA_POINTS = 100;
+    static const int GRAPH_LENGTH_SEC = 30;
 
 private:
-    QChart* chart_;
-    QLineSeries *seriesX_, *seriesY_, *seriesZ_, *seriesNorm_;
+    QtCharts::QChart* chart_;
+    QtCharts::QLineSeries *seriesX_, *seriesY_, *seriesZ_, *seriesNorm_;
     QVector<QPointF> valuesX_, valuesY_, valuesZ_, valuesNorm_;
-    QDateTimeAxis *axisX;
-    QValueAxis *axisY;
+    QtCharts::QDateTimeAxis* axisX;
+    QtCharts::QValueAxis* axisY;
+    float max_, min_;
+    QLabel *peak_, *current_;
 
 public:
     AccelerationWidget();

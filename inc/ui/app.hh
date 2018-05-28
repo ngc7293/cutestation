@@ -5,6 +5,10 @@
 
 #include "workers/serialworker.hh"
 #include "ui/widgets/accelerationwidget.hh"
+#include "ui/widgets/altitudewidget.hh"
+#include "ui/widgets/velocitywidget.hh"
+#include "ui/widgets/chutewidget.hh"
+#include "ui/widgets/gpswidget.hh"
 
 namespace Ui {
 class App;
@@ -17,6 +21,10 @@ private:
     Ui::App* ui_;
     SerialWorker* serial_;
     AccelerationWidget* accel_widget_;
+    AltitudeWidget* altitude_widget_;
+    VelocityWidget* velocity_widget_;
+    ChuteWidget* chute_widget_;
+    GPSWidget* gps_widget_;
 
 public:
     explicit App(QWidget* parent = 0);

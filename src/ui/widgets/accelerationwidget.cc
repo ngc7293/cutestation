@@ -6,10 +6,13 @@
 #include <QDateTime>
 #include <QDateTimeAxis>
 
-#include "messages/message_defs.h"
 #include "messages/accelerationmessage.hh"
+#include "messages/message_defs.h"
 
-AccelerationWidget::AccelerationWidget() : SensorWidget("Acceleration")
+using namespace QtCharts;
+
+AccelerationWidget::AccelerationWidget()
+    : SensorWidget("Acceleration")
 {
     seriesX_ = new QLineSeries();
     seriesX_->setName("x");
@@ -27,12 +30,15 @@ AccelerationWidget::AccelerationWidget() : SensorWidget("Acceleration")
     chart_->addSeries(seriesNorm_);
     chart_->legend()->setAlignment(Qt::AlignRight);
 
+    max_ = +10;
+    min_ = -10;
+
     axisX = new QDateTimeAxis();
-    axisX->setRange(QDateTime::fromMSecsSinceEpoch(0), QDateTime::fromMSecsSinceEpoch(1));
-    axisX->setFormat("HH:mm:ss.zzz");
+    axisX->setRange(QDateTime::fromMSecsSinceEpoch(QDateTime::currentMSecsSinceEpoch() - GRAPH_LENGTH_SEC * 1000), QDateTime::fromMSecsSinceEpoch(QDateTime::currentMSecsSinceEpoch()));
+    axisX->setFormat("HH:mm:ss");
     axisX->setTickCount(6);
     axisY = new QValueAxis();
-    axisY->setRange(0, 10);
+    axisY->setRange(min_, max_);
 
     chart_->setAxisX(axisX, seriesX_);
     chart_->setAxisX(axisX, seriesY_);
@@ -43,7 +49,17 @@ AccelerationWidget::AccelerationWidget() : SensorWidget("Acceleration")
     chart_->setAxisY(axisY, seriesZ_);
     chart_->setAxisY(axisY, seriesNorm_);
 
+    peak_ = new QLabel("");
+    current_ = new QLabel("");
+    peak_->setMinimumWidth(100);
+    QVBoxLayout* vbox = new QVBoxLayout();
+    vbox->addWidget(new QLabel("<span style=\"font-weight: bold;\">PEAK</span>"));
+    vbox->addWidget(peak_);
+    vbox->addWidget(new QLabel("<span style=\"font-weight: bold;\">CURRENT</span>"));
+    vbox->addWidget(current_);
+    vbox->addStretch();
     layout_->addWidget(new QChartView(chart_), 1);
+    layout_->addLayout(vbox);
 }
 
 AccelerationWidget::~AccelerationWidget()
@@ -64,23 +80,27 @@ void AccelerationWidget::accept(Message& message)
         return;
     }
 
+    current_->setText(QString("%1m/s²").arg(msg.norm(), 0, 'f', 2));
+    if (msg.norm() > max_) {
+        max_ = msg.norm();
+        peak_->setText(QString("%1m/s²").arg(msg.norm(), 0, 'f', 2));
+        axisY->setMax(max_);
+    }
+
+    if (min_ > msg.norm()) {
+        min_ = msg.norm();
+        axisY->setMin(min_);
+    }
+
     valuesX_.push_back(QPointF(now, msg.x()));
-    if (valuesX_.size() > MAX_DATA_POINTS) {
-        valuesX_.removeFirst();
-    }
-
     valuesY_.push_back(QPointF(now, msg.y()));
-    if (valuesY_.size() > MAX_DATA_POINTS) {
-        valuesY_.removeFirst();
-    }
-
     valuesZ_.push_back(QPointF(now, msg.z()));
-    if (valuesZ_.size() > MAX_DATA_POINTS) {
-        valuesZ_.removeFirst();
-    }
-
     valuesNorm_.push_back(QPointF(now, msg.norm()));
-    if (valuesNorm_.size() > MAX_DATA_POINTS) {
+
+    while (now - valuesX_.first().x() > GRAPH_LENGTH_SEC * 1000) {
+        valuesX_.removeFirst();
+        valuesY_.removeFirst();
+        valuesZ_.removeFirst();
         valuesNorm_.removeFirst();
     }
 
@@ -89,6 +109,5 @@ void AccelerationWidget::accept(Message& message)
     seriesZ_->replace(valuesZ_);
     seriesNorm_->replace(valuesNorm_);
 
-    axisX->setRange(QDateTime::fromMSecsSinceEpoch(valuesNorm_.first().x()), QDateTime::fromMSecsSinceEpoch(valuesNorm_.last().x()));
-    axisY->setMax((axisY->max() > msg.norm() ? axisY->max() : msg.norm()));
+    axisX->setRange(QDateTime::fromMSecsSinceEpoch(valuesNorm_.last().x() - GRAPH_LENGTH_SEC * 1000), QDateTime::fromMSecsSinceEpoch(valuesNorm_.last().x()));
 }
