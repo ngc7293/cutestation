@@ -7,14 +7,13 @@
 
 class SerialStub : public Serial {
 private:
-    std::ifstream file;
+    std::ifstream file_;
 
 public:
     SerialStub();
     ~SerialStub();
 
-    // Operator overloads
-    friend SerialStub& operator>>(SerialStub& serial, uint8_t& val);
+    virtual int read_byte(uint8_t * dest, int retry = 0);
 };
 
 #endif // SERIALSTUB_H

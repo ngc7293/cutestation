@@ -10,8 +10,10 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x051001
 SOURCES += \
         src/main.cc \
         src/ui/app.cc \
-        src/ui/sensorwidget.cc \
+        src/ui/widgets/sensorwidget.cc \
+        src/ui/widgets/accelerationwidget.cc \
         src/communication/packet.cc \
+        src/communication/serial.cc \
         src/communication/serialcom.cc \
         src/communication/serialstub.cc \
         src/messages/message.cc \
@@ -28,7 +30,8 @@ SOURCES += \
 
 HEADERS += \
         inc/ui/app.hh \
-        inc/ui/sensorwidget.hh \
+        inc/ui/widgets/sensorwidget.hh \
+        inc/ui/widgets/accelerationwidget.hh \
         inc/communication/packet.hh \
         inc/communication/serial.hh \
         inc/communication/serialcom.hh \

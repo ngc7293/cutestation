@@ -2,10 +2,12 @@
 
 #include <sstream>
 
+#include <termios.h>
+
 #include "communication/serialcom.hh"
 #include "communication/serialstub.hh"
 
-#include "ui/sensorwidget.hh"
+#include "ui/widgets/sensorwidget.hh"
 
 #include "messages/message_defs.h"
 #include "messages/rocketstatemessage.hh"
@@ -15,13 +17,13 @@
 App::App(QWidget* parent)
     : QMainWindow(parent)
     , ui_(new Ui::App())
-    , state_widget_(new SensorWidget("State :"))
 {
     ui_->setupUi(this);
-    serial_ = new SerialWorker(new SerialStub());
+    serial_ = new SerialWorker(new SerialCom("/dev/ttyUSB0", B115200));
     QObject::connect(serial_, SIGNAL(messageReady(Message*)), this, SLOT(onMessage(Message*)));
     serial_->start();
-    ui_->chart_vbox->addWidget(state_widget_);
+    accel_widget_ = new AccelerationWidget();
+    ui_->chart_vbox->addWidget(accel_widget_);
 }
 
 App::~App()
@@ -32,13 +34,6 @@ App::~App()
 
 void App::onMessage(Message* message)
 {
-    if (message->id() == MSG_ID_ROCKET_STATE) {
-        state_widget_->setValue(((RocketStateMessage*)message)->state(), ((RocketStateMessage*)message)->stateString().c_str());
-    }
-    else if (message->id() == MSG_ID_GYRO) {
-        std::stringstream ss;
-        ss << message;
-        ui_->textEdit->setText(QString(ss.str().c_str()) + "\n" + ui_->textEdit->toPlainText());
-    }
+    *accel_widget_ << *message;
     delete message;
 }

@@ -45,7 +45,7 @@ template<typename T>
 Packet& operator>>(Packet& packet, T& val)
 {
     packet.checkCursor();
-    memcpy(&val, packet.data_.data() + packet.cursor_, sizeof(T));
+    memcpy(&val, &packet.data_.data()[packet.cursor_], sizeof(T));
     packet.cursor_ += sizeof(T);
     return packet;
 }

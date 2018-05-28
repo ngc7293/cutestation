@@ -5,17 +5,19 @@
 
 class GyroMessage : public Message {
 private:
-    float x_;
-    float y_;
-    float z_;
+    float q1_;
+    float q2_;
+    float q3_;
+    float q4_;
 
 public:
     GyroMessage(Packet packet);
     virtual ~GyroMessage();
 
-    float x() const { return x_; }
-    float y() const { return y_; }
-    float z() const { return z_; }
+    float q1() const { return q1_; }
+    float q2() const { return q2_; }
+    float q3() const { return q3_; }
+    float q4() const { return q4_; }
 
 protected:
     virtual std::string toString();

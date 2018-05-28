@@ -1,5 +1,6 @@
 SOURCES =
 SOURCES += communication/packet.cc
+SOURCES += communication/serial.cc
 SOURCES += communication/serialcom.cc
 SOURCES += communication/serialstub.cc
 SOURCES += messages/message.cc

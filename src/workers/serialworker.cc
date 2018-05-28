@@ -1,9 +1,14 @@
 #include "workers/serialworker.hh"
 
+#include <iostream>
+
 #include <termios.h>
 
+#include "communication/serialcom.hh"
+#include "communication/serialstub.hh"
+
 SerialWorker::SerialWorker()
-    : serial_(new Serial("/dev/ttyUSB0", B115200))
+    : serial_(new SerialCom("/dev/ttyUSB0", B115200))
     , internal_(nullptr)
 {
     quit_ = false;

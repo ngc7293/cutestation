@@ -61,13 +61,17 @@ void SerialCom::config()
     }
 }
 
-SerialCom& operator>>(SerialCom& serial, uint8_t& val)
+int SerialCom::read_byte(uint8_t * dest, int retry)
 {
     int n = 0;
+    int tries = retry;
     uint8_t buf[1];
-    while (n != 1) {
-        n = read(serial.device_, buf, 1);
+    while (n != 1 && tries >= 0) {
+        n = read(device_, buf, 1);
     }
-    val = buf[0];
-    return serial;
+    if (tries == 0) {
+        return 0;
+    }
+    *dest = buf[0];
+    return 1;
 }

@@ -1,22 +1,25 @@
 #include "communication/serialstub.hh"
 
+#include <iostream>
+
 #include <unistd.h>
 
 SerialStub::SerialStub()
 {
-    file.open("dump");
+    file_.open("dump");
 }
 
 SerialStub::~SerialStub()
 {
-    file.close();
+    file_.close();
 }
 
-SerialStub& operator>>(SerialStub& serial, uint8_t& val)
+int SerialStub::read_byte(uint8_t * dest, int retry)
 {
-    if (serial.file.eof()) {
+    if (file_.eof()) {
         exit(1);
     }
+    *dest = file_.get();
     usleep(10000);
-    val = serial.file.get();
+    return 1;
 }
