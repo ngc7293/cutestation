@@ -32,7 +32,7 @@ GPSWidget::GPSWidget()
     vbox->addStretch();
     layout_->addLayout(vbox);
 
-    setMinimumHeight(150);
+    setMinimumHeight(120);
 }
 
 GPSWidget::~GPSWidget() {}
