@@ -37,7 +37,7 @@ void SerialWorker::run()
     std::cout << "Starting SerialWorker thread" << std::endl;
     std::vector<Packet> packets;
 
-    while (!quit_) {
+    while (!quit_ && !serial_->error()) {
         uint8_t b;
         *serial_ >> b;
         if (b == 250) {
