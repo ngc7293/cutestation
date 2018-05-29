@@ -6,17 +6,19 @@
 
 SensorWidget::SensorWidget(QString name)
     : name_(name)
-    , layout_(new QHBoxLayout())
+    , container_(new QWidget())
+    , layout_(new QHBoxLayout(container_))
+    , group_(new QGroupBox(name))
 {
-    setMinimumHeight(250);
+    container_->setMinimumHeight(200);
+
+    group_->setCheckable(true);
+    group_->setLayout(new QVBoxLayout());
+    QObject::connect(group_, SIGNAL(clicked(bool)), this, SLOT(onChecked(bool)));
+    group_->layout()->addWidget(container_);
+
     setLayout(new QVBoxLayout(this));
-    QGroupBox* box = new QGroupBox(name);
-    box->setCheckable(true);
-    box->setLayout(layout_);
-
-    QObject::connect(box, SIGNAL(clicked(bool)), this, SLOT(onChecked(bool)));
-
-    ((QVBoxLayout*)layout())->addWidget(box);
+    ((QVBoxLayout*)layout())->addWidget(group_);
 }
 
 SensorWidget::~SensorWidget()
@@ -31,6 +33,14 @@ SensorWidget& operator<<(SensorWidget& widget, Message& message)
 
 void SensorWidget::onChecked(bool checked)
 {
-    setMinimumHeight(checked ? 250 : 50);
-    setMaximumHeight(checked ? QWIDGETSIZE_MAX : 50);
+    container_->setVisible(checked);
+    if (checked) {
+        group_->layout()->addWidget(container_);
+    } else {
+        group_->layout()->removeWidget(container_);
+    }
+}
+
+void SensorWidget::setMinimumHeight(int minh) {
+    container_->setMinimumHeight(minh);
 }

@@ -37,6 +37,10 @@ App::App(QWidget* parent)
     chutegpsbox->addWidget(chute_widget_);
     chutegpsbox->addWidget(gps_widget_);
     ui_->chart_vbox->addLayout(chutegpsbox);
+
+    ui_->chart_vbox->addStretch();
+
+    setWindowIcon(QIcon("/usr/share/icons/Numix-Circle/48/apps/boostnote.svg"));
 }
 
 App::~App()
