@@ -6,7 +6,7 @@
 
 SerialStub::SerialStub()
 {
-    file_.open("dump");
+    file_.open("data/");
 }
 
 SerialStub::~SerialStub()

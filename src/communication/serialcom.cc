@@ -15,8 +15,10 @@ SerialCom::SerialCom(std::string port, unsigned int baudrate)
 {
     device_ = open(port_.c_str(), O_RDWR | O_NONBLOCK | O_NDELAY);
     if (device_ < 0) {
+        error_ = true;
         std::cerr << "Error " << errno << " opening " << port_ << ": " << strerror(errno) << std::endl;
     }
+    config();
 }
 
 SerialCom::~SerialCom()
@@ -31,6 +33,7 @@ void SerialCom::config()
     memset(&tty, 0, sizeof tty);
 
     if (tcgetattr(device_, &tty) != 0) {
+        error_ = true;
         std::cerr << "Error " << errno << " from tcgetattr: " << strerror(errno) << std::endl;
     }
 
@@ -57,6 +60,7 @@ void SerialCom::config()
     // Set attributes
     tcflush(device_, TCIFLUSH);
     if (tcsetattr(device_, TCSANOW, &tty) != 0) {
+        error_ = true;
         std::cerr << "Error " << errno << " from tcsetattr" << std::endl;
     }
 }
