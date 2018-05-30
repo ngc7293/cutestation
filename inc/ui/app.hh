@@ -6,6 +6,7 @@
 #include "ui/widgets/accelerationwidget.hh"
 #include "ui/widgets/altitudewidget.hh"
 #include "ui/widgets/chutewidget.hh"
+#include "ui/widgets/ejectionwidget.hh"
 #include "ui/widgets/gpswidget.hh"
 #include "ui/widgets/velocitywidget.hh"
 #include "workers/serialworker.hh"
@@ -25,6 +26,7 @@ private:
     VelocityWidget* velocity_widget_;
     ChuteWidget* chute_widget_;
     GPSWidget* gps_widget_;
+    EjectionWidget* ejection_widget_;
 
 public:
     explicit App(QWidget* parent = 0);

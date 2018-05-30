@@ -28,17 +28,15 @@ App::App(QWidget* parent)
     accel_widget_ = new AccelerationWidget();
     chute_widget_ = new ChuteWidget();
     gps_widget_ = new GPSWidget();
+    ejection_widget_ = new EjectionWidget();
 
-    // ui_->chart_grid->addWidget(altitude_widget_, 0, 0, 1, 2);
-    // ui_->chart_grid->addWidget(velocity_widget_, 1, 0, 1, 2);
-    // ui_->chart_grid->addWidget(accel_widget_,    2, 0, 1, 2);
-    // ui_->chart_grid->addWidget(chute_widget_,    3, 0, 1, 1);
-    // ui_->chart_grid->addWidget(gps_widget_,      3, 1, 1, 1);
-    ui_->chart_grid->addWidget(altitude_widget_, 0, 0, 1, 2);
+    ui_->chart_grid->addWidget(altitude_widget_, 0, 1, 1, 1);
     ui_->chart_grid->addWidget(velocity_widget_, 1, 1, 1, 1);
     ui_->chart_grid->addWidget(accel_widget_, 2, 1, 1, 1);
     ui_->chart_grid->addWidget(chute_widget_, 1, 0, 1, 1);
     ui_->chart_grid->addWidget(gps_widget_, 2, 0, 1, 1);
+    ui_->chart_grid->addWidget(ejection_widget_, 0, 0);
+    ui_->chart_grid->setColumnStretch(1, 1);
 
     // FIXME: Find a real icon. This only works on my machine
     setWindowIcon(QIcon("/usr/share/icons/Numix-Circle/48/apps/boostnote.svg"));
@@ -57,5 +55,6 @@ void App::onMessage(Message* message)
     *accel_widget_ << *message;
     *chute_widget_ << *message;
     *gps_widget_ << *message;
+    *ejection_widget_ << *message;
     delete message;
 }
