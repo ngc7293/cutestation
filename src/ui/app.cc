@@ -29,17 +29,18 @@ App::App(QWidget* parent)
     chute_widget_ = new ChuteWidget();
     gps_widget_ = new GPSWidget();
 
-    ui_->chart_vbox->addWidget(altitude_widget_);
-    ui_->chart_vbox->addWidget(velocity_widget_);
-    ui_->chart_vbox->addWidget(accel_widget_);
+    // ui_->chart_grid->addWidget(altitude_widget_, 0, 0, 1, 2);
+    // ui_->chart_grid->addWidget(velocity_widget_, 1, 0, 1, 2);
+    // ui_->chart_grid->addWidget(accel_widget_,    2, 0, 1, 2);
+    // ui_->chart_grid->addWidget(chute_widget_,    3, 0, 1, 1);
+    // ui_->chart_grid->addWidget(gps_widget_,      3, 1, 1, 1);
+    ui_->chart_grid->addWidget(altitude_widget_, 0, 0, 1, 2);
+    ui_->chart_grid->addWidget(velocity_widget_, 1, 1, 1, 1);
+    ui_->chart_grid->addWidget(accel_widget_, 2, 1, 1, 1);
+    ui_->chart_grid->addWidget(chute_widget_, 1, 0, 1, 1);
+    ui_->chart_grid->addWidget(gps_widget_, 2, 0, 1, 1);
 
-    QHBoxLayout* chutegpsbox = new QHBoxLayout();
-    chutegpsbox->addWidget(chute_widget_);
-    chutegpsbox->addWidget(gps_widget_);
-    ui_->chart_vbox->addLayout(chutegpsbox);
-
-    ui_->chart_vbox->addStretch();
-
+    // FIXME: Find a real icon. This only works on my machine
     setWindowIcon(QIcon("/usr/share/icons/Numix-Circle/48/apps/boostnote.svg"));
 }
 

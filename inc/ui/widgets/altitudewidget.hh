@@ -18,6 +18,7 @@ public:
 private:
     QtCharts::QChart* chart_;
     QtCharts::QLineSeries* series_;
+    QtCharts::QLineSeries* main_ejection_;
     QVector<QPointF> values_;
     float max_, min_;
     QtCharts::QDateTimeAxis* axisX;

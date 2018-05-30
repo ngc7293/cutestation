@@ -5,6 +5,7 @@
 #include <QChartView>
 #include <QDateTime>
 #include <QDateTimeAxis>
+#include <QSplineSeries>
 
 #include "messages/accelerationmessage.hh"
 #include "messages/message_defs.h"
@@ -14,13 +15,13 @@ using namespace QtCharts;
 AccelerationWidget::AccelerationWidget()
     : SensorWidget("Acceleration")
 {
-    seriesX_ = new QLineSeries();
+    seriesX_ = new QSplineSeries();
     seriesX_->setName("x");
-    seriesY_ = new QLineSeries();
+    seriesY_ = new QSplineSeries();
     seriesY_->setName("y");
-    seriesZ_ = new QLineSeries();
+    seriesZ_ = new QSplineSeries();
     seriesZ_->setName("z");
-    seriesNorm_ = new QLineSeries();
+    seriesNorm_ = new QSplineSeries();
     seriesNorm_->setName("Norme");
 
     chart_ = new QChart();
@@ -30,15 +31,15 @@ AccelerationWidget::AccelerationWidget()
     chart_->addSeries(seriesNorm_);
     chart_->legend()->setAlignment(Qt::AlignRight);
 
-    max_ = +10;
-    min_ = -10;
+    max_ = 0;
+    min_ = 0;
 
     axisX = new QDateTimeAxis();
     axisX->setRange(QDateTime::fromMSecsSinceEpoch(QDateTime::currentMSecsSinceEpoch() - GRAPH_LENGTH_SEC * 1000), QDateTime::fromMSecsSinceEpoch(QDateTime::currentMSecsSinceEpoch()));
     axisX->setFormat("HH:mm:ss");
     axisX->setTickCount(6);
     axisY = new QValueAxis();
-    axisY->setRange(min_, max_);
+    axisY->setRange(-10, 10);
 
     chart_->setAxisX(axisX, seriesX_);
     chart_->setAxisX(axisX, seriesY_);
@@ -84,12 +85,18 @@ void AccelerationWidget::accept(Message& message)
     if (msg.norm() > max_) {
         max_ = msg.norm();
         peak_->setText(QString("%1m/s²").arg(msg.norm(), 0, 'f', 2));
-        axisY->setMax(max_);
+
+        if (max_ > axisY->max()) {
+            axisY->setMax(max_);
+        }
     }
 
     if (min_ > msg.norm()) {
         min_ = msg.norm();
-        axisY->setMin(min_);
+
+        if (min_ < axisY->min()) {
+            axisY->setMin(min_);
+        }
     }
 
     valuesX_.push_back(QPointF(now, msg.x()));
@@ -97,11 +104,13 @@ void AccelerationWidget::accept(Message& message)
     valuesZ_.push_back(QPointF(now, msg.z()));
     valuesNorm_.push_back(QPointF(now, msg.norm()));
 
-    while (now - valuesX_.first().x() > GRAPH_LENGTH_SEC * 1000) {
-        valuesX_.removeFirst();
-        valuesY_.removeFirst();
-        valuesZ_.removeFirst();
-        valuesNorm_.removeFirst();
+    if (valuesNorm_.size() > 2) {
+        while (valuesNorm_.last().x() - valuesNorm_.at(1).x() >= GRAPH_LENGTH_SEC * 1000) {
+            valuesX_.removeFirst();
+            valuesY_.removeFirst();
+            valuesZ_.removeFirst();
+            valuesNorm_.removeFirst();
+        }
     }
 
     seriesX_->replace(valuesX_);

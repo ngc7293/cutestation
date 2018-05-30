@@ -41,6 +41,7 @@ void SensorWidget::onChecked(bool checked)
     }
 }
 
-void SensorWidget::setMinimumHeight(int minh) {
+void SensorWidget::setMinimumHeight(int minh)
+{
     container_->setMinimumHeight(minh);
 }

@@ -6,6 +6,7 @@
 #include <QDateTime>
 #include <QDateTimeAxis>
 #include <QLabel>
+#include <QSplineSeries>
 
 #include "messages/altimetermessage.hh"
 #include "messages/message_defs.h"
@@ -15,7 +16,7 @@ using namespace QtCharts;
 VelocityWidget::VelocityWidget()
     : SensorWidget("Velocity")
 {
-    series_ = new QLineSeries();
+    series_ = new QSplineSeries();
     series_->setName("AGL");
 
     max_ = 0;
@@ -30,7 +31,7 @@ VelocityWidget::VelocityWidget()
     axisX->setFormat("HH:mm:ss");
     axisX->setTickCount(6);
     axisY = new QValueAxis();
-    axisY->setRange(min_, max_);
+    axisY->setRange(0, 1);
 
     chart_->setAxisX(axisX, series_);
     chart_->setAxisY(axisY, series_);
@@ -68,18 +69,26 @@ void VelocityWidget::accept(Message& message)
     if (max_ < msg.velocity()) {
         max_ = msg.velocity();
         apogee_->setText(QString("%1m/s").arg(max_, 0, 'f', 2));
-        axisY->setMax(max_);
+
+        if (max_ > axisY->max()) {
+            axisY->setMax(max_);
+        }
     }
 
     if (min_ > msg.velocity()) {
         min_ = msg.velocity();
-        axisY->setMin(min_);
+
+        if (min_ < axisY->min()) {
+            axisY->setMin(min_);
+        }
     }
 
     values_.push_back(QPointF(now, msg.velocity()));
 
-    while (values_.last().x() - values_.first().x() > GRAPH_LENGTH_SEC * 1000) {
-        values_.removeFirst();
+    if (values_.size() > 2) {
+        while (values_.last().x() - values_.at(1).x() >= GRAPH_LENGTH_SEC * 1000) {
+            values_.removeFirst();
+        }
     }
 
     series_->replace(values_);
