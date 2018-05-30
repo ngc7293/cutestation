@@ -13,12 +13,12 @@ Packet::~Packet()
 
 int Packet::length()
 {
-    return (data_.size() >= 3 ? data_[3] : -1);
+    return (data_.size() > 3 ? data_[3] : -1);
 }
 
 int Packet::id()
 {
-    return (data_.size() >= 4 ? data_[4] : -1);
+    return (data_.size() > 4 ? data_[4] : -1);
 }
 
 int Packet::validate()
