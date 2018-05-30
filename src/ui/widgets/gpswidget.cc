@@ -39,10 +39,6 @@ GPSWidget::~GPSWidget() {}
 
 void GPSWidget::accept(Message& message)
 {
-    if (message.id() != MSG_ID_GPS_DATA && message.id() != MSG_ID_GPS_METADATA) {
-        return;
-    }
-
     if (message.id() == MSG_ID_GPS_DATA) {
         GPSDataMessage& msg = (GPSDataMessage&)message;
         lon_->setText(QString::number(msg.lon()));

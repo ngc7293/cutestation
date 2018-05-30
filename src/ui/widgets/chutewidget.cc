@@ -79,6 +79,6 @@ void ChuteWidget::accept(Message& message)
         drogue_->setText("<span style=\"color: red\">Armed</span>");
         break;
     case FIRED:
-        drogue_->setText(QString("Fired at %1").arg(main_fired_timestamp_.toString("HH:mm:ss")));
+        drogue_->setText(QString("Fired at %1").arg(drogue_fired_timestamp_.toString("HH:mm:ss")));
     }
 }
