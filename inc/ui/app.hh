@@ -5,6 +5,7 @@
 
 #include "ui/widgets/accelerationwidget.hh"
 #include "ui/widgets/altitudewidget.hh"
+#include "ui/widgets/attitudewidget.hh"
 #include "ui/widgets/chutewidget.hh"
 #include "ui/widgets/ejectionwidget.hh"
 #include "ui/widgets/gpswidget.hh"
@@ -23,6 +24,7 @@ private:
     SerialWorker* serial_;
     AccelerationWidget* accel_widget_;
     AltitudeWidget* altitude_widget_;
+    AttitudeWidget* attitude_widget_;
     VelocityWidget* velocity_widget_;
     ChuteWidget* chute_widget_;
     GPSWidget* gps_widget_;

@@ -1,0 +1,53 @@
+Object
+{
+Name:
+    String(required)
+    Sensors : Object[](optional)
+    Data : Data[](optional)
+}
+
+Data
+{
+Type:
+    String / Enum(required) Name : String(optional) Time : Number, String(optional)(use received time if missing)(if number, should be MS since epoch)(if string should be ISO8601 YYYY - MM - DD HH : mm : ss.zzz±TZ : TZ(missing values will be left a 0))
+
+                                                                       NumericalData
+    { type="numeric"
+        Value : Number      (required)
+        Unit  : String/Enum (optional) (can allow for automatic conversion/uniformization)
+    }
+
+    KeyValueData
+    {
+        type = "keyvalue"
+        Key : Value(optional)(Any non - recognized key - value pair is assumed to be data)
+    }
+
+    GPSData
+    {
+        type = "gps"
+        Longitude : Number(required)
+        Latitude : Number(required)
+        Altitude : Number(optional)
+
+        FixType : String(optional)
+        SatteliteCount : Number(optional)
+    }
+
+    VectorData
+    {
+        type = "vector"
+            X : Number(required)
+            Y : Number(required)
+            Z : Number(optional)
+            Unit : String
+            / Enum(optional)
+    }
+
+    LogData
+    { type="log"
+        Code     : Number      (optional?)
+        Message  : String      (optional?)
+        Severity : String/Enum (optional) (defaults to 'error') ('fatal', 'major', 'error', 'warn', 'info', 'debug')
+    }
+}

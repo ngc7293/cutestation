@@ -1,6 +1,8 @@
 #include <iostream>
 
 #include <QApplication>
+#include <QFile>
+#include <QTextStream>
 
 #include "ui/app.hh"
 
