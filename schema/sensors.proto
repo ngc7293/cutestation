@@ -1,0 +1,17 @@
+SensorWidget
+{
+
+    MapWidget(Display GPS coordinates on a map)
+
+        GraphWidget(Displays an arbitrary number of data sources in a graph)
+
+            MinMaxWidget(Displays the maximum / minimum numbers of a data source)
+
+                KeyValueWidget(Displays a set of arbitrary Key / Value pair from a data source)
+
+                    AttitudeWidget(Displays a 3D model with an orientation from a data source)
+
+                        VideoWidget(Displays a video feed from a given URL)
+
+                            LogWidget(Displays a log of text from a data source)
+}

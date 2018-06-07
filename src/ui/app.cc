@@ -24,6 +24,7 @@ App::App(QWidget* parent)
     serial_->start();
 
     altitude_widget_ = new AltitudeWidget();
+    attitude_widget_ = new AttitudeWidget();
     velocity_widget_ = new VelocityWidget();
     accel_widget_ = new AccelerationWidget();
     chute_widget_ = new ChuteWidget();
@@ -36,6 +37,7 @@ App::App(QWidget* parent)
     ui_->chart_grid->addWidget(chute_widget_, 1, 0, 1, 1);
     ui_->chart_grid->addWidget(gps_widget_, 2, 0, 1, 1);
     ui_->chart_grid->addWidget(ejection_widget_, 0, 0);
+    ui_->chart_grid->addWidget(attitude_widget_, 3, 0, 2, 2);
     ui_->chart_grid->setColumnStretch(1, 1);
 
     // FIXME: Find a real icon. This only works on my machine
@@ -56,5 +58,6 @@ void App::onMessage(Message* message)
     *chute_widget_ << *message;
     *gps_widget_ << *message;
     *ejection_widget_ << *message;
+    *attitude_widget_ << *message;
     delete message;
 }
