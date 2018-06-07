@@ -18,17 +18,22 @@ AttitudeWidget::AttitudeWidget()
 {
     Qt3DWindow* view = new Qt3DWindow();
     scene_container_ = QWidget::createWindowContainer(view);
-    view->defaultFrameGraph()->setClearColor(QColor(QRgb(0xff00ff)));
+    view->defaultFrameGraph()->setClearColor(QColor(QRgb(0)));
 
     QEntity* root = new QEntity();
     QCylinderMesh* cylinder = new QCylinderMesh();
+    cylinder->setLength(3.0f);
+    cylinder->setSlices(5);
     Qt3DExtras::QPhongMaterial* cylinderMaterial = new Qt3DExtras::QPhongMaterial();
-    cylinderMaterial->setDiffuse(QColor(QRgb(0x928327)));
+    //cylinderMaterial->setDiffuse(QColor(QRgb(0x928327)));
     transform_ = new Qt3DCore::QTransform();
-    transform_->setTranslation(QVector3D(0.0f, 4.0f, -1.5));
+    transform_->setTranslation(QVector3D(0.0f, 0.0f, 0.0f));
+    Qt3DCore::QTransform* offset_ = new Qt3DCore::QTransform();
+    offset_->setRotationZ(1.57f);
     rocket_ = new QEntity(root);
     rocket_->addComponent(cylinder);
     rocket_->addComponent(cylinderMaterial);
+    rocket_->addComponent(offset_);
     rocket_->addComponent(transform_);
 
     Qt3DRender::QCamera* cameraEntity = view->camera();
