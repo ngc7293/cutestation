@@ -1,0 +1,20 @@
+{
+    "files.associations": {
+        "*.hh": "cpp",
+        "*.cc": "cpp",
+        "*.h": "c",
+        "*.c": "c"
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/obj/": true,
+        ".qmake.stash": true,
+        "ui_app.h": true,
+        "mini": true,
+        "cute": true
+    }
+}
