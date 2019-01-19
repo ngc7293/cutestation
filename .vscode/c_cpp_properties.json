@@ -14,6 +14,7 @@
                 "/usr/include",
                 "/opt/Qt/5.10.1/gcc_64/include",
                 "/opt/Qt/5.10.1/gcc_64/include/QtWidgets",
+                "/opt/Qt/5.10.1/gcc_64/include/QtNetwork",
                 "/opt/Qt/5.10.1/gcc_64/include/QtGui",
                 "/opt/Qt/5.10.1/gcc_64/include/QtCore",
                 "/opt/Qt/5.10.1/gcc_64/include/QtCharts"
@@ -26,6 +27,7 @@
                     "${workspaceFolder}/inc",
                     "/opt/Qt/5.10.1/gcc_64/include",
                     "/opt/Qt/5.10.1/gcc_64/include/QtWidgets",
+                    "/opt/Qt/5.10.1/gcc_64/include/QtNetwork",
                     "/opt/Qt/5.10.1/gcc_64/include/QtGui",
                     "/opt/Qt/5.10.1/gcc_64/include/QtCharts",
                     "/opt/Qt/5.10.1/gcc_64/include/QtCore",
