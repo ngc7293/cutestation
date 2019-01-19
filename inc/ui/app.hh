@@ -5,7 +5,6 @@
 #include <QThread>
 
 #include "data/data.hh"
-#include "source/source.hh"
 
 namespace Ui {
 class App;
@@ -22,8 +21,6 @@ public:
     ~App();
 
 private slots:
-    void onDataReady(Data* data);
-    void onTestButton();
 };
 
 #endif /* APP_HH_ */

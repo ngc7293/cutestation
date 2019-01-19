@@ -13,7 +13,7 @@ def send(sock, count, value):
             'value': value
         }
     })
-    content = "Content Length: {}\r\n\r\n{}".format(len(content.encode('utf-8')), content).encode('utf-8')
+    content = "Content-Length: {}\r\n\r\n{}".format(len(content.encode('utf-8')), content).encode('utf-8')
     sock.send(content)
     print(sock.recv(256))
 
@@ -23,10 +23,15 @@ def main():
     sock.connect("/tmp/cute")
     count = 1
 
-    while (True):
-        value = input(">")
-        if value == "quit":
-            break
+    while (True): 
+        try:
+            value = input(">")
+        except EOFError:
+            print("exit")
+            value = "exit"
+        if value == "exit":
+            return
+
         send(sock, count, value)
         count += 1
 

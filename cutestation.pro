@@ -10,12 +10,14 @@ SOURCES += \
         src/main.cc \ 
         src/ui/app.cc \
         src/data/data.cc \
-        src/source/source.cc
+        src/connector/unixconnector.cc \
+        src/connector/unixconnectormanager.cc
 
 HEADERS += \ 
         inc/ui/app.hh \
         inc/data/data.hh \
-        inc/source/source.hh
+        inc/connector/unixconnector.hh \
+        inc/connector/unixconnectormanager.hh
  
 FORMS += \ 
         ui/app.ui 

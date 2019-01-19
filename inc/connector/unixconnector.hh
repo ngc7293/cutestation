@@ -8,13 +8,18 @@
 /**
  * Unix Local Domain Socket connector
  */
-class UnixConnector : public Connector {
+class UnixConnector : public QObject {
+    Q_OBJECT
+
 private:
     QLocalSocket* socket_;
 
 public:
     UnixConnector(QLocalSocket* socket);
     virtual ~UnixConnector();
+
+private slots:
+    void onReadyRead();
 };
 
 #endif

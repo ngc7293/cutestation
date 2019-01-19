@@ -16,5 +16,6 @@
         "ui_app.h": true,
         "mini": true,
         "cute": true
-    }
+    },
+    "python.pythonPath": "/usr/bin/python3"
 }
