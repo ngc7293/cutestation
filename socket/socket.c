@@ -8,7 +8,7 @@
 #include <sys/un.h>
 #include <unistd.h>
 
-#define SOCKET_PATH "/home/ngc7293/cute.sock"
+#define SOCKET_PATH "/tmp/cute"
 
 
 void thread(int* cl)
@@ -97,4 +97,6 @@ int main(int argc, const char* argv[])
         server();
     else if (strcmp(argv[1], "client") == 0)
         client();
+
+    return 0;
 }
