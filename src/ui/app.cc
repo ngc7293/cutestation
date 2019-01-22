@@ -7,8 +7,8 @@
 
 #include "lib/json.hh"
 
-#include "data/data.hh"
 #include "connector/unixconnectormanager.hh"
+#include "data/data.hh"
 
 App::App(QWidget* parent)
     : QMainWindow(parent)
@@ -16,10 +16,11 @@ App::App(QWidget* parent)
 {
     ui_->setupUi(this);
 
-    new UnixConnectorManager();
+    unixconnectormanager_ = new UnixConnectorManager();
 }
 
 App::~App()
 {
+    delete unixconnectormanager_;
     delete ui_;
 }
