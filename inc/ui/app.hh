@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QThread>
 
+#include "connector/unixconnectormanager.hh"
 #include "data/data.hh"
 
 namespace Ui {
@@ -15,6 +16,8 @@ class App : public QMainWindow {
 
 private:
     Ui::App* ui_;
+
+    UnixConnectorManager* unixconnectormanager_;
 
 public:
     explicit App(QWidget* parent = 0);

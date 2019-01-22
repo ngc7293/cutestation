@@ -5,11 +5,11 @@
 #include <QLocalSocket>
 #include <QString>
 
-
 UnixConnector::UnixConnector(QLocalSocket* socket)
     : socket_(socket)
 {
     connect(socket_, &QLocalSocket::readyRead, this, &UnixConnector::onReadyRead);
+    connect(socket_, &QLocalSocket::disconnected, this, &UnixConnector::deleteLater);
 }
 
 UnixConnector::~UnixConnector()
