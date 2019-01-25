@@ -15,7 +15,6 @@ def send(sock, count, value):
     })
     content = "Content-Length: {}\r\n\r\n{}".format(len(content.encode('utf-8')), content).encode('utf-8')
     sock.send(content)
-    #print(sock.recv(256))
 
 
 def main():

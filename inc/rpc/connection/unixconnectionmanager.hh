@@ -3,18 +3,18 @@
 
 #include <QLocalServer>
 
-class UnixConnectorManager : public QObject {
+class UnixConnectionManager : public QObject {
     Q_OBJECT
 
 private:
     QLocalServer* server_;
 
 public:
-    UnixConnectorManager();
-    virtual ~UnixConnectorManager();
+    UnixConnectionManager();
+    virtual ~UnixConnectionManager();
 
 private slots:
-    void onNewConnection();
+    void onLocalConnection();
 
 };
 
