@@ -8,7 +8,7 @@ RPCServer::~RPCServer()
 {
 }
 
-void RPCServer::add(std::string method, void (*callback)(void* self, nlohmann::json params))
+void RPCServer::add(std::string method, void (*callback)(void* self, nlohmann::json params, nlohmann::json& result, nlohmann::json& error))
 {
     methods_.emplace(method, callback);
 }

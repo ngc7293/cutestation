@@ -1,24 +1,25 @@
-#include "connector/unixconnector.hh"
+#include "rpc/connection/unixconnection.hh"
 
 #include <iostream>
 
 #include <QLocalSocket>
 #include <QString>
 
-UnixConnector::UnixConnector(QLocalSocket* socket)
-    : socket_(socket)
+UnixConnection::UnixConnection(QLocalSocket* socket)
+    : Connection()
+    , socket_(socket)
 {
-    connect(socket_, &QLocalSocket::readyRead, this, &UnixConnector::onReadyRead);
-    connect(socket_, &QLocalSocket::disconnected, this, &UnixConnector::deleteLater);
+    connect(socket_, &QLocalSocket::readyRead, this, &UnixConnection::onReadyRead);
+    connect(socket_, &QLocalSocket::disconnected, this, &UnixConnection::deleteLater);
 }
 
-UnixConnector::~UnixConnector()
+UnixConnection::~UnixConnection()
 {
     socket_->disconnectFromServer();
     delete socket_;
 }
 
-void UnixConnector::onReadyRead()
+void UnixConnection::onReadyRead()
 {
     uint64_t length = 0;
     while (true) {
@@ -32,7 +33,7 @@ void UnixConnector::onReadyRead()
         }
     }
 
-    std::cout << "UnixConnector at " << this << " with length " << length << std::endl;
+    std::cout << "UnixConnection at " << this << " with length " << length << std::endl;
     std::cout << socket_->read(length).toStdString() << std::endl;
     socket_->readAll();
 }

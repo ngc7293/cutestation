@@ -1,9 +1,11 @@
-#include "connector/unixconnectormanager.hh"
-#include "connector/unixconnector.hh"
+#include "rpc/connection/unixconnectionmanager.hh"
 
 #include <QMessageBox>
 
-UnixConnectorManager::UnixConnectorManager()
+#include "rpc/connection/connectionmanager.hh"
+#include "rpc/connection/unixconnection.hh"
+
+UnixConnectionManager::UnixConnectionManager()
 {
     bool failed = false;
     server_ = new QLocalServer();
@@ -24,15 +26,15 @@ UnixConnectorManager::UnixConnectorManager()
                 .arg(server_->errorString()));
     }
 
-    connect(server_, &QLocalServer::newConnection, this, &UnixConnectorManager::onNewConnection);
+    connect(server_, &QLocalServer::newConnection, this, &UnixConnectionManager::onLocalConnection);
 }
 
-UnixConnectorManager::~UnixConnectorManager()
+UnixConnectionManager::~UnixConnectionManager()
 {
     delete server_;
 }
 
-void UnixConnectorManager::onNewConnection()
+void UnixConnectionManager::onLocalConnection()
 {
-    UnixConnector* connector = new UnixConnector(server_->nextPendingConnection());
+    ConnectionManager::get().open(new UnixConnection(server_->nextPendingConnection()));
 }
