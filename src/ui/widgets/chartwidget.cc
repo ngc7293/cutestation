@@ -34,8 +34,10 @@ ChartWidget::ChartWidget()
     axisY = new QValueAxis();
     axisY->setRange(min_, max_);
 
-    chart_->setAxisX(axisX, series_);
-    chart_->setAxisY(axisY, series_);
+    chart_->addAxis(axisX, Qt::AlignBottom);
+    chart_->addAxis(axisY, Qt::AlignLeft);
+    series_->attachAxis(axisX);
+    series_->attachAxis(axisY);
 
     chart_->setBackgroundVisible(false);
 
