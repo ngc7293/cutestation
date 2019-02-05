@@ -1,23 +1,30 @@
 #include "ui/app.hh"
 
 #include <sstream>
-#include "ui/widgets/widget.hh"
 
 #include "ui_app.h"
+
+#include "connection/connectionmanager.hh"
+#include "ui/widgets/widget.hh"
+#include "distributor.hh"
 
 App::App(QWidget* parent)
     : QMainWindow(parent)
     , ui_(new Ui::App())
 {
     ui_->setupUi(this);
-    random_ = new RandomWorker();
-    QObject::connect(random_, SIGNAL(messageReady(Message*)), this, SLOT(onMessage(Message*)));
-    random_->start();
+
+    unixconnectionmanager_ = new UnixConnectionManager();
 
     chart_widget1_ = new ChartWidget();
     chart_widget2_ = new ChartWidget();
     chart_widget3_ = new ChartWidget();
     chart_widget4_ = new ChartWidget();
+
+    Distributor::get().add(chart_widget1_);
+    Distributor::get().add(chart_widget2_);
+    Distributor::get().add(chart_widget3_);
+    Distributor::get().add(chart_widget4_);
 
     ui_->chart_grid->addWidget(chart_widget1_, 0, 0, 1, 1);
     ui_->chart_grid->addWidget(chart_widget2_, 0, 1, 1, 1);
@@ -31,7 +38,7 @@ App::App(QWidget* parent)
 App::~App()
 {
     delete ui_;
-    delete random_;
+    ConnectionManager::get().closeAll();
 }
 
 void App::onMessage(Message* message)

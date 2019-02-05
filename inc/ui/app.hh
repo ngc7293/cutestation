@@ -4,7 +4,7 @@
 #include <QMainWindow>
 
 #include "ui/widgets/chartwidget.hh"
-#include "workers/randomworker.hh"
+#include "connection/unixconnectionmanager.hh"
 
 namespace Ui {
 class App;
@@ -15,11 +15,12 @@ class App : public QMainWindow {
 
 private:
     Ui::App* ui_;
-    RandomWorker* random_;
     ChartWidget* chart_widget1_;
     ChartWidget* chart_widget2_;
     ChartWidget* chart_widget3_;
     ChartWidget* chart_widget4_;
+
+    UnixConnectionManager* unixconnectionmanager_;
 
 public:
     explicit App(QWidget* parent = 0);
