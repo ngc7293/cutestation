@@ -1,29 +1,17 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
-#include <iostream>
-#include <string>
-
-#include "communication/packet.hh"
+#include "lib/rapidjson/document.h"
 
 class Message {
-public:
-    static Message* fromPacket(Packet& packet);
-
-protected:
-    Packet data_;
+private:
+    rapidjson::Value* value_;
 
 public:
-    Message(Packet packet);
+    Message(rapidjson::Value* value);
     virtual ~Message();
 
-    int id() { return data_.id(); }
-
-    friend std::ostream& operator<<(std::ostream& stream, Message& message);
-    friend std::ostream& operator<<(std::ostream& stream, Message* message);
-
-protected:
-    virtual std::string toString() = 0;
+    rapidjson::Value* value() { return value_; }
 };
 
 #endif // MESSAGE_H

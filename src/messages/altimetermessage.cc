@@ -2,10 +2,9 @@
 
 #include <sstream>
 
-AltimeterMessage::AltimeterMessage(Packet packet)
-    : Message(packet)
+AltimeterMessage::AltimeterMessage()
+    : Message()
 {
-    packet >> agl_altitude_ >> altitude_ >> velocity_ >> acceleration_;
 }
 
 AltimeterMessage::~AltimeterMessage()

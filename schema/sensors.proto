@@ -1,4 +1,4 @@
-SensorWidget
+Widget
 {
 
     MapWidget(Display GPS coordinates on a map)
