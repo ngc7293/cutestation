@@ -1,7 +1,6 @@
 #ifndef SENSORWIDGET_H
 #define SENSORWIDGET_H
 
-#include <QGroupBox>
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QWidget>
@@ -17,7 +16,6 @@ private:
 protected:
     QWidget* container_;
     QHBoxLayout* layout_;
-    QGroupBox* group_;
 
 public:
     Widget(QString name);
@@ -27,9 +25,6 @@ public:
     friend Widget& operator<<(Widget& widget, Message& message);
 
     virtual void setMinimumHeight(int minh);
-
-private slots:
-    void onChecked(bool checked);
 };
 
 #endif // SENSORWIDGET_H
