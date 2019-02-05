@@ -5,10 +5,14 @@
 
 #include <QLocalSocket>
 
+#include "messages/message.hh"
+
 /**
  * Unix Local Domain Socket connection
  */
 class UnixConnection : public Connection {
+    Q_OBJECT
+
 private:
     QLocalSocket* socket_;
 
@@ -18,6 +22,9 @@ public:
 
 private slots:
     void onReadyRead();
+
+signals:
+    void messageReady(Message* message);
 };
 
 #endif
