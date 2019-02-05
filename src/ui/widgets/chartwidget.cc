@@ -39,7 +39,9 @@ ChartWidget::ChartWidget()
 
     chart_->setBackgroundVisible(false);
 
-    layout_->addWidget(new QChartView(chart_), 1);
+    QChartView* view = new QChartView(chart_);
+    view->setRenderHint(QPainter::Antialiasing);
+    layout_->addWidget(view, 1);
 
     timer_ = new QTimer(this);
     connect(timer_, &QTimer::timeout, this, &ChartWidget::refresh);
@@ -54,7 +56,7 @@ void ChartWidget::accept(Message& message)
 {
     if ((*message.value())["name"] == "altitude") {
         qint64 now = QDateTime::currentDateTime().toMSecsSinceEpoch();
-        int value = (*message.value())["value"].GetInt();
+        int value = (int)((*message.value())["value"].GetFloat());
 
          if (max_ < value) {
             max_ = value;
