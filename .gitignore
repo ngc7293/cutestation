@@ -3,6 +3,7 @@ obj/
 *.slo
 *.lo
 *.o
+*.d
 *.a
 *.la
 *.lai
@@ -11,7 +12,6 @@ obj/
 *.dylib
 
 # Qt-es
-
 /.qmake.cache
 /.qmake.stash
 *.pro.user
@@ -27,7 +27,6 @@ Makefile*
 *build-*
 
 # QtCreator
-
 *.autosave
 
 # QtCtreator Qml
@@ -38,4 +37,10 @@ Makefile*
 CMakeLists.txt.user*
 
 # Binaries
+cute
+# VSCode
+.vscode/
+
+# Project-specifics
+mini
 cute

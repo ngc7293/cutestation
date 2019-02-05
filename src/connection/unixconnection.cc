@@ -1,9 +1,14 @@
-#include "rpc/connection/unixconnection.hh"
+#include "connection/unixconnection.hh"
 
 #include <iostream>
 
 #include <QLocalSocket>
 #include <QString>
+
+#include "lib/rapidjson/document.h"
+
+#include "messages/message.hh"
+#include "distributor.hh"
 
 UnixConnection::UnixConnection(QLocalSocket* socket)
     : Connection()
@@ -11,6 +16,7 @@ UnixConnection::UnixConnection(QLocalSocket* socket)
 {
     connect(socket_, &QLocalSocket::readyRead, this, &UnixConnection::onReadyRead);
     connect(socket_, &QLocalSocket::disconnected, this, &UnixConnection::deleteLater);
+    connect(this, &UnixConnection::messageReady, &(Distributor::get()), &Distributor::onMessage);
 }
 
 UnixConnection::~UnixConnection()
@@ -33,7 +39,9 @@ void UnixConnection::onReadyRead()
         }
     }
 
-    std::cout << "UnixConnection at " << this << " with length " << length << std::endl;
-    std::cout << socket_->read(length).toStdString() << std::endl;
+    rapidjson::Document* payload = new rapidjson::Document;
+    payload->Parse(socket_->read(length).data());
+    Message* msg = new Message(payload);
+    emit messageReady(msg);
     socket_->readAll();
 }

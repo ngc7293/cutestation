@@ -1,4 +1,4 @@
-#include "rpc/connection/connection.hh"
+#include "connection/connection.hh"
 
 Connection::Connection()
 {

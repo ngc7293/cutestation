@@ -1,4 +1,4 @@
-#include "rpc/connection/connectionmanager.hh"
+#include "connection/connectionmanager.hh"
 
 ConnectionManager::ConnectionManager()
 {

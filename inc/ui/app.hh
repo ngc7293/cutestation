@@ -1,11 +1,10 @@
-#ifndef APP_HH_
-#define APP_HH_
+#ifndef APP_H
+#define APP_H
 
 #include <QMainWindow>
-#include <QThread>
 
-#include "rpc/connection/unixconnectionmanager.hh"
-#include "data/data.hh"
+#include "ui/widgets/chartwidget.hh"
+#include "connection/unixconnectionmanager.hh"
 
 namespace Ui {
 class App;
@@ -16,6 +15,10 @@ class App : public QMainWindow {
 
 private:
     Ui::App* ui_;
+    ChartWidget* chart_widget1_;
+    ChartWidget* chart_widget2_;
+    ChartWidget* chart_widget3_;
+    ChartWidget* chart_widget4_;
 
     UnixConnectionManager* unixconnectionmanager_;
 
@@ -23,7 +26,8 @@ public:
     explicit App(QWidget* parent = 0);
     ~App();
 
-private slots:
+public slots:
+    void onMessage(Message* message);
 };
 
-#endif /* APP_HH_ */
+#endif // APP_H

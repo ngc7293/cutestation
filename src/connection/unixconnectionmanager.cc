@@ -1,9 +1,9 @@
-#include "rpc/connection/unixconnectionmanager.hh"
+#include "connection/unixconnectionmanager.hh"
 
 #include <QMessageBox>
 
-#include "rpc/connection/connectionmanager.hh"
-#include "rpc/connection/unixconnection.hh"
+#include "connection/connectionmanager.hh"
+#include "connection/unixconnection.hh"
 
 UnixConnectionManager::UnixConnectionManager()
 {
