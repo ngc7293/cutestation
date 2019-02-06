@@ -1,5 +1,5 @@
-#ifndef UNIX_CONNECTION_HH
-#define UNIX_CONNECTION_HH
+#ifndef UNIX_CONNECTION_HH_
+#define UNIX_CONNECTION_HH_
 
 #include "connection.hh"
 
@@ -27,4 +27,4 @@ signals:
     void messageReady(Message* message);
 };
 
-#endif
+#endif // UNIX_CONNECTION_HH_

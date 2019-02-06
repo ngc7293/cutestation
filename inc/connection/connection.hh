@@ -1,5 +1,5 @@
-#ifndef CONNECTION_HH
-#define CONNECTION_HH
+#ifndef CONNECTION_HH_
+#define CONNECTION_HH_
 
 #include <QObject>
 
@@ -11,4 +11,4 @@ public:
     virtual ~Connection();
 };
 
-#endif
+#endif // CONNECTION_HH_

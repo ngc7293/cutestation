@@ -1,5 +1,5 @@
-#ifndef CONNECTOR_MANAGER_HH
-#define CONNECTOR_MANAGER_HH
+#ifndef CONNECTOR_MANAGER_HH_
+#define CONNECTOR_MANAGER_HH_
 
 #include <vector>
 
@@ -21,4 +21,4 @@ private:
     ConnectionManager();
 };
 
-#endif
+#endif // CONNECTOR_MANAGER_HH_

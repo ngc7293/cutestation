@@ -1,5 +1,5 @@
-#ifndef UNIX_CONNECTOR_MANAGER_HH
-#define UNIX_CONNECTOR_MANAGER_HH
+#ifndef UNIX_CONNECTOR_MANAGER_HH_
+#define UNIX_CONNECTOR_MANAGER_HH_
 
 #include <QLocalServer>
 
@@ -18,4 +18,4 @@ private slots:
 
 };
 
-#endif
+#endif // UNIX_CONNECTOR_MANAGER_HH_

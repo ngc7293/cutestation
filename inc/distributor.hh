@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-#include "ui/widgets/widget.hh"
+#include "widgets/widget.hh"
 
 class Distributor: public QObject {
     Q_OBJECT

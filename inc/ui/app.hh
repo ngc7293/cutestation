@@ -1,9 +1,9 @@
-#ifndef APP_H
-#define APP_H
+#ifndef APP_HH_
+#define APP_HH_
 
 #include <QMainWindow>
 
-#include "ui/widgets/chartwidget.hh"
+#include "widgets/chartwidget.hh"
 #include "connection/unixconnectionmanager.hh"
 
 namespace Ui {
@@ -30,4 +30,4 @@ public slots:
     void onMessage(Message* message);
 };
 
-#endif // APP_H
+#endif // APP_HH_

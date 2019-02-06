@@ -1,5 +1,5 @@
-#ifndef SENSORWIDGET_H
-#define SENSORWIDGET_H
+#ifndef WIDGET_HH_
+#define WIDGET_HH_
 
 #include <QHBoxLayout>
 #include <QPushButton>
@@ -9,6 +9,9 @@
 
 class Widget : public QWidget {
     Q_OBJECT
+
+protected:
+    class Config;
 
 private:
     QString name_;
@@ -27,4 +30,4 @@ public:
     virtual void setMinimumHeight(int minh);
 };
 
-#endif // SENSORWIDGET_H
+#endif // WIDGET_HH_

@@ -1,7 +1,7 @@
-#ifndef ALTITUDE_WIDGET_H
-#define ALTITUDE_WIDGET_H
+#ifndef CHART_WIDGET_HH_
+#define CHART_WIDGET_HH_
 
-#include "ui/widgets/widget.hh"
+#include "widgets/widget.hh"
 
 #include <QChart>
 #include <QDateTimeAxis>
@@ -37,4 +37,4 @@ public slots:
     virtual void refresh();
 };
 
-#endif
+#endif // CHART_WIDGET_HH_
