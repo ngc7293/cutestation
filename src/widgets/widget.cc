@@ -1,4 +1,4 @@
-#include "ui/widgets/widget.hh"
+#include "widgets/widget.hh"
 
 #include <QGroupBox>
 #include <QLabel>
@@ -9,7 +9,7 @@ Widget::Widget(QString name)
     , container_(new QWidget())
     , layout_(new QHBoxLayout(container_))
 {
-    container_->setMinimumHeight(200);
+    container_->setMinimumHeight(250);
     layout_->setContentsMargins(0, 0, 0, 0);
 
     setLayout(new QVBoxLayout(this));

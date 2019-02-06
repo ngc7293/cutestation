@@ -1,5 +1,5 @@
-#ifndef MESSAGE_H
-#define MESSAGE_H
+#ifndef MESSAGE_HH_
+#define MESSAGE_HH_
 
 #include "lib/rapidjson/document.h"
 
@@ -14,4 +14,4 @@ public:
     rapidjson::Value* value() { return value_; }
 };
 
-#endif // MESSAGE_H
+#endif // MESSAGE_HH_

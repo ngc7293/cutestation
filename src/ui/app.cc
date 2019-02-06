@@ -5,7 +5,7 @@
 #include "ui_app.h"
 
 #include "connection/connectionmanager.hh"
-#include "ui/widgets/widget.hh"
+#include "widgets/widget.hh"
 #include "distributor.hh"
 
 App::App(QWidget* parent)

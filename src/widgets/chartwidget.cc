@@ -1,4 +1,4 @@
-#include "ui/widgets/chartwidget.hh"
+#include "widgets/chartwidget.hh"
 
 #include <ctime>
 
@@ -8,6 +8,7 @@
 #include <QLabel>
 #include <QSplineSeries>
 #include <QLineSeries>
+#include <QGraphicsLayout>
 
 #include "messages/message.hh"
 
@@ -26,6 +27,8 @@ ChartWidget::ChartWidget()
     chart_ = new QChart();
     chart_->addSeries(series_);
     chart_->legend()->setVisible(false);
+    chart_->layout()->setContentsMargins(0,0,0,0);
+    chart_->setBackgroundVisible(false);
 
     axisX = new QDateTimeAxis();
     axisX->setRange(QDateTime::fromMSecsSinceEpoch(QDateTime::currentMSecsSinceEpoch() - GRAPH_LENGTH_SEC * 1000), QDateTime::fromMSecsSinceEpoch(QDateTime::currentMSecsSinceEpoch()));
@@ -38,8 +41,6 @@ ChartWidget::ChartWidget()
     chart_->addAxis(axisY, Qt::AlignLeft);
     series_->attachAxis(axisX);
     series_->attachAxis(axisY);
-
-    chart_->setBackgroundVisible(false);
 
     QChartView* view = new QChartView(chart_);
     view->setRenderHint(QPainter::Antialiasing);
