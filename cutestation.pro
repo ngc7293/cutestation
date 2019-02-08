@@ -11,6 +11,8 @@ SOURCES += \
         src/ui/app.cc \
         src/widgets/widget.cc \
         src/widgets/chartwidget.cc \
+        src/widgets/config/widget_config.cc \
+        src/widgets/config/chartwidget_config.cc \
         src/messages/message.cc \
         src/distributor.cc \
         src/connection/connection.cc \
@@ -20,8 +22,10 @@ SOURCES += \
 
 HEADERS += \
         inc/ui/app.hh \
-        inc/widgets/chartwidget.hh \
         inc/widgets/widget.hh \
+        inc/widgets/chartwidget.hh \
+        inc/widgets/config/widget_config.hh \
+        inc/widgets/config/chartwidget_config.hh \
         inc/messages/message.hh \
         inc/distributor.hh \
         inc/connection/connection.hh \

@@ -1,5 +1,7 @@
 #include "widgets/chartwidget.hh"
 
+#include <iostream>
+
 #include <ctime>
 
 #include <QChartView>
@@ -11,18 +13,21 @@
 #include <QGraphicsLayout>
 
 #include "messages/message.hh"
+#include "widgets/config/chartwidget_config.hh"
 
 using namespace QtCharts;
 
 ChartWidget::ChartWidget()
-    : Widget("Altitude")
+    : Widget()
+    , config_(new ChartWidget::Config(this))
 {
+    graph_length_ = 60;
+    max_ = -0;
+    min_ = 0;
+
     series_ = new QLineSeries();
     series_->setName("AGL");
     series_->setUseOpenGL(true);
-
-    max_ = 200;
-    min_ = 0;
 
     chart_ = new QChart();
     chart_->addSeries(series_);
@@ -31,7 +36,7 @@ ChartWidget::ChartWidget()
     chart_->setBackgroundVisible(false);
 
     axisX = new QDateTimeAxis();
-    axisX->setRange(QDateTime::fromMSecsSinceEpoch(QDateTime::currentMSecsSinceEpoch() - GRAPH_LENGTH_SEC * 1000), QDateTime::fromMSecsSinceEpoch(QDateTime::currentMSecsSinceEpoch()));
+    axisX->setRange(QDateTime::fromMSecsSinceEpoch(QDateTime::currentMSecsSinceEpoch() - graph_length_ * 1000), QDateTime::fromMSecsSinceEpoch(QDateTime::currentMSecsSinceEpoch()));
     axisX->setFormat("HH:mm:ss");
     axisX->setTickCount(6);
     axisY = new QValueAxis();
@@ -57,7 +62,7 @@ ChartWidget::~ChartWidget()
 
 void ChartWidget::accept(Message& message)
 {
-    if ((*message.value())["name"] == "altitude") {
+    if ((*message.value())["name"] == value_.toStdString().c_str()) {
         qint64 now = QDateTime::currentDateTime().toMSecsSinceEpoch();
         int value = (int)((*message.value())["value"].GetFloat());
 
@@ -78,16 +83,19 @@ void ChartWidget::accept(Message& message)
 
         values_.push_back(QPointF(now, value));
     }
+    else {
+        std::cout << (*message.value())["name"].GetString() << " != " << value_.toStdString() << std::endl;
+    }
 }
 
 void ChartWidget::refresh() 
 {
     if (values_.size() > 2) {
-        while (values_.last().x() - values_.at(1).x() >= GRAPH_LENGTH_SEC * 1000) {
+        while (values_.last().x() - values_.at(1).x() >= graph_length_ * 1000) {
             values_.removeFirst();
         }
     }
 
     series_->replace(values_);
-    axisX->setRange(QDateTime::fromMSecsSinceEpoch(values_.last().x() - GRAPH_LENGTH_SEC * 1000), QDateTime::fromMSecsSinceEpoch(values_.last().x()));
+    axisX->setRange(QDateTime::fromMSecsSinceEpoch(values_.last().x() - graph_length_ * 1000), QDateTime::fromMSecsSinceEpoch(values_.last().x()));
 }
