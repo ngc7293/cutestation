@@ -4,6 +4,7 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QWidget>
+#include <QLabel>
 
 #include "messages/message.hh"
 
@@ -14,20 +15,20 @@ protected:
     class Config;
 
 private:
-    QString name_;
+    QLabel* name_;
+    Config* config_;
 
 protected:
     QWidget* container_;
     QHBoxLayout* layout_;
 
 public:
-    Widget(QString name);
+    Widget();
     virtual ~Widget();
 
     virtual void accept(Message& message) = 0;
-    friend Widget& operator<<(Widget& widget, Message& message);
 
-    virtual void setMinimumHeight(int minh);
+    Config* config() { return config_; }
 };
 
 #endif // WIDGET_HH_

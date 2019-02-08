@@ -1,11 +1,17 @@
 #include "ui/app.hh"
 
-#include <sstream>
+#include <fstream>
+#include <iostream>
+
+#include "lib/rapidjson/document.h"
+#include "lib/rapidjson/istreamwrapper.h"
 
 #include "ui_app.h"
 
 #include "connection/connectionmanager.hh"
 #include "widgets/widget.hh"
+#include "widgets/chartwidget.hh"
+#include "widgets/config/chartwidget_config.hh"
 #include "distributor.hh"
 
 App::App(QWidget* parent)
@@ -16,20 +22,25 @@ App::App(QWidget* parent)
 
     unixconnectionmanager_ = new UnixConnectionManager();
 
-    chart_widget1_ = new ChartWidget();
-    chart_widget2_ = new ChartWidget();
-    chart_widget3_ = new ChartWidget();
-    chart_widget4_ = new ChartWidget();
+    std::ifstream ifs("config.json");
+    rapidjson::IStreamWrapper isw(ifs);
+    rapidjson::Document config;
+    config.ParseStream(isw);
 
-    Distributor::get().add(chart_widget1_);
-    Distributor::get().add(chart_widget2_);
-    Distributor::get().add(chart_widget3_);
-    Distributor::get().add(chart_widget4_);
-
-    ui_->chart_grid->addWidget(chart_widget1_, 0, 0, 1, 1);
-    ui_->chart_grid->addWidget(chart_widget2_, 0, 1, 1, 1);
-    ui_->chart_grid->addWidget(chart_widget3_, 1, 0, 1, 1);
-    ui_->chart_grid->addWidget(chart_widget4_, 1, 1, 1, 1);
+    for (int i = 0; i < config["widgets"].Size(); i++) {
+        if (!config["widgets"][i].IsObject()) {
+            continue;
+        }
+        if (config["widgets"][i]["type"] == "chart") {
+            ChartWidget* widget_ = new ChartWidget();
+            Distributor::get().add(widget_);
+            widget_->config()->parse(config["widgets"][i]);
+            ui_->chart_grid->addWidget(widget_, config["widgets"][i]["pos"]["y"].GetInt(), config["widgets"][i]["pos"]["x"].GetInt(), config["widgets"][i]["pos"]["height"].GetInt(), config["widgets"][i]["pos"]["width"].GetInt());
+        }
+        else {
+            std::cout << "Unknown widget type " << config["widgets"][i]["type"].GetString() << std::endl;
+        }
+    }
 
     // FIXME: Find a real icon. This only works on my machine
     setWindowIcon(QIcon("/usr/share/icons/Numix-Circle/48/apps/boostnote.svg"));
@@ -39,13 +50,4 @@ App::~App()
 {
     delete ui_;
     ConnectionManager::get().closeAll();
-}
-
-void App::onMessage(Message* message)
-{
-    *chart_widget1_ << *message;
-    *chart_widget2_ << *message;
-    *chart_widget3_ << *message;
-    *chart_widget4_ << *message;
-    delete message;
 }

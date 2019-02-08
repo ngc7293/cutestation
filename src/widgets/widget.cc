@@ -1,11 +1,13 @@
 #include "widgets/widget.hh"
+#include "widgets/config/widget_config.hh"
 
 #include <QGroupBox>
 #include <QLabel>
 #include <QVBoxLayout>
 
-Widget::Widget(QString name)
-    : name_(name)
+Widget::Widget()
+    : name_(new QLabel("Widget"))
+    , config_(new Widget::Config(this))
     , container_(new QWidget())
     , layout_(new QHBoxLayout(container_))
 {
@@ -13,21 +15,10 @@ Widget::Widget(QString name)
     layout_->setContentsMargins(0, 0, 0, 0);
 
     setLayout(new QVBoxLayout(this));
-    ((QVBoxLayout*)layout())->addWidget(new QLabel(name_));
+    ((QVBoxLayout*)layout())->addWidget(name_);
     ((QVBoxLayout*)layout())->addWidget(container_);
 }
 
 Widget::~Widget()
 {
-}
-
-Widget& operator<<(Widget& widget, Message& message)
-{
-    widget.accept(message);
-    return widget;
-}
-
-void Widget::setMinimumHeight(int minh)
-{
-    container_->setMinimumHeight(minh);
 }
