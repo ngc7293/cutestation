@@ -14,7 +14,7 @@ Widget::Config::~Config()
 {
 }
 
-bool Widget::Config::parse(rapidjson::Value& config)
+bool Widget::Config::parse(const rapidjson::Value& config)
 {
     if (config.HasMember("name")) {
         if (config["name"].IsString()) {

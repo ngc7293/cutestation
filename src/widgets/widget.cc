@@ -6,9 +6,9 @@
 #include <QVBoxLayout>
 
 Widget::Widget()
-    : name_(new QLabel("Widget"))
+    : name_(new QLabel("Widget", this))
     , config_(new Widget::Config(this))
-    , container_(new QWidget())
+    , container_(new QWidget(this))
     , layout_(new QHBoxLayout(container_))
 {
     container_->setMinimumHeight(250);

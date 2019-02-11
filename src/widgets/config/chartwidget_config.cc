@@ -15,7 +15,7 @@ ChartWidget::Config::~Config()
 {
 }
 
-bool ChartWidget::Config::parse(rapidjson::Value& config)
+bool ChartWidget::Config::parse(const rapidjson::Value& config)
 {
     if (!((Widget*) parent_)->config()->parse(config)) {
         return false;

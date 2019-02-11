@@ -4,11 +4,12 @@
 #include "widget.hh"
 
 #include <QChart>
+#include <QChartView>
 #include <QDateTimeAxis>
 #include <QLabel>
 #include <QLineSeries>
-#include <QValueAxis>
 #include <QTimer>
+#include <QValueAxis>
 
 class ChartWidget : public Widget {
     Q_OBJECT
@@ -18,6 +19,7 @@ public:
 
 private:
     QtCharts::QChart* chart_;
+    QtCharts::QChartView* view_;
     Config* config_;
 
     /** For each series you'll need this */

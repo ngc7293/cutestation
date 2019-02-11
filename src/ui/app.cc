@@ -9,10 +9,10 @@
 #include "ui_app.h"
 
 #include "connection/connectionmanager.hh"
-#include "widgets/widget.hh"
+#include "distributor.hh"
 #include "widgets/chartwidget.hh"
 #include "widgets/config/chartwidget_config.hh"
-#include "distributor.hh"
+#include "widgets/widget.hh"
 
 App::App(QWidget* parent)
     : QMainWindow(parent)
@@ -27,7 +27,7 @@ App::App(QWidget* parent)
     rapidjson::Document config;
     config.ParseStream(isw);
 
-    for (int i = 0; i < config["widgets"].Size(); i++) {
+    for (rapidjson::SizeType i = 0; i < config["widgets"].Size(); i++) {
         if (!config["widgets"][i].IsObject()) {
             continue;
         }
@@ -35,10 +35,12 @@ App::App(QWidget* parent)
             ChartWidget* widget_ = new ChartWidget();
             Distributor::get().add(widget_);
             widget_->config()->parse(config["widgets"][i]);
-            ui_->chart_grid->addWidget(widget_, config["widgets"][i]["pos"]["y"].GetInt(), config["widgets"][i]["pos"]["x"].GetInt(), config["widgets"][i]["pos"]["height"].GetInt(), config["widgets"][i]["pos"]["width"].GetInt());
-        }
-        else {
-            std::cout << "Unknown widget type " << config["widgets"][i]["type"].GetString() << std::endl;
+
+            ui_->chart_grid->addWidget(widget_,
+                config["widgets"][i]["pos"]["y"].GetInt(), config["widgets"][i]["pos"]["x"].GetInt(),
+                config["widgets"][i]["pos"]["height"].GetInt(), config["widgets"][i]["pos"]["width"].GetInt());
+        } else {
+            std::cerr << "Unknown widget type " << config["widgets"][i]["type"].GetString() << std::endl;
         }
     }
 

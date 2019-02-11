@@ -14,7 +14,7 @@ public:
     Config(Widget* parent);
     virtual ~Config();
 
-    bool parse(rapidjson::Value& config);
+    bool parse(const rapidjson::Value& config);
     rapidjson::Value* save() const;
 };
 
