@@ -39,9 +39,11 @@ void UnixConnection::onReadyRead()
         }
     }
 
-    rapidjson::Document* payload = new rapidjson::Document;
-    payload->Parse(socket_->read(length).data());
-    Message* msg = new Message(payload);
+    rapidjson::Document payload;
+    payload.Parse(socket_->read(length).data());
+    rapidjson::Value* value = new rapidjson::Value(rapidjson::kObjectType);
+    (*value) = payload.Move();
+    Message* msg = new Message(value);
     emit messageReady(msg);
     socket_->readAll();
 }

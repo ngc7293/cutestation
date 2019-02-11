@@ -11,7 +11,7 @@ public:
     Message(rapidjson::Value* value);
     virtual ~Message();
 
-    rapidjson::Value* value() { return value_; }
+    rapidjson::Value& value() { return *value_; }
 };
 
 #endif // MESSAGE_HH_

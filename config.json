@@ -9,20 +9,32 @@
                 "width": 1,
                 "height": 1
             },
-            "value": "altitude",
-            "length": 60
+            "value": "sin",
+            "length": 10
         },
         {
             "type": "chart",
-            "name": "other value",
+            "name": "cutestation memory usage (bytes)",
             "pos": {
                 "x": 0,
                 "y": 1,
                 "width": 3,
                 "height": 1
             },
-            "value": "altitude",
-            "length": 120
+            "value": "memory_raw",
+            "length": 10
+        },
+        {
+            "type": "chart",
+            "name": "cutestation memory usage (%)",
+            "pos": {
+                "x": 0,
+                "y": 2,
+                "width": 3,
+                "height": 1
+            },
+            "value": "memory_percent",
+            "length": 10
         },
         {
             "type": "chart",
@@ -33,7 +45,7 @@
                 "width": 1,
                 "height": 1
             },
-            "value": "altitude",
+            "value": "sin",
             "length": 10
         }
     ]
