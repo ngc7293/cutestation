@@ -35,6 +35,7 @@ private:
 
     /** Refresh timer **/
     QTimer* timer_;
+    bool new_data_;
 
 public:
     ChartWidget();
@@ -43,7 +44,7 @@ public:
     Config* config() { return config_; }
 
 public slots:
-    virtual void accept(Message& message);
+    virtual void accept(Data& data);
     virtual void refresh();
 };
 

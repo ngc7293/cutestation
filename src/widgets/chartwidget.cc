@@ -1,4 +1,4 @@
-    #include "widgets/chartwidget.hh"
+#include "widgets/chartwidget.hh"
 
 #include <iostream>
 
@@ -12,7 +12,8 @@
 #include <QLineSeries>
 #include <QSplineSeries>
 
-#include "messages/message.hh"
+#include "data/data.hh"
+#include "data/numericaldata.hh"
 #include "widgets/config/chartwidget_config.hh"
 
 using namespace QtCharts;
@@ -24,7 +25,7 @@ ChartWidget::ChartWidget()
     graph_length_ = 60;
     max_ = -0;
     min_ = 0;
- 
+
     series_ = new QLineSeries(this);
     series_->setName("agl");
     series_->setUseOpenGL(true);
@@ -59,18 +60,22 @@ ChartWidget::ChartWidget()
     timer_ = new QTimer(this);
     connect(timer_, &QTimer::timeout, this, &ChartWidget::refresh);
     timer_->start(50);
+    new_data_ = false;
 }
 
 ChartWidget::~ChartWidget()
 {
 }
 
-void ChartWidget::accept(Message& message)
+void ChartWidget::accept(Data& data)
 {
-    if (message.value()["name"] == value_.toStdString().c_str()) {
-        qint64 now = QDateTime::currentDateTime().toMSecsSinceEpoch();
-        float value = message.value()["value"].GetFloat();
+    if (data.type() != Data::NUMERICAL) {
+        return;
+    }
 
+    NumericalData& ndata = (NumericalData&)data;
+    if (ndata.name() == value_) {
+        double value = ndata.value();
         if (max_ < value) {
             max_ = value;
 
@@ -86,12 +91,17 @@ void ChartWidget::accept(Message& message)
             }
         }
 
-        values_.push_back(QPointF(now, value));
+        values_.push_back(QPointF(ndata.timestamp(), value));
+        new_data_ = true;
     }
 }
 
 void ChartWidget::refresh()
 {
+    if (!new_data_) {
+        return;
+    }
+
     if (values_.size() > 2) {
         while (values_.last().x() - values_.at(1).x() >= graph_length_ * 1000) {
             values_.removeFirst();
@@ -100,4 +110,5 @@ void ChartWidget::refresh()
 
     series_->replace(values_);
     axisX->setRange(QDateTime::fromMSecsSinceEpoch(values_.last().x() - graph_length_ * 1000), QDateTime::fromMSecsSinceEpoch(values_.last().x()));
+    new_data_ = false;
 }

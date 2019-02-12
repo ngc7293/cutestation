@@ -8,11 +8,13 @@ Name:
 
 Data
 {
-Type:
-    String / Enum(required) Name : String(optional) Time : Number, String(optional)(use received time if missing)(if number, should be MS since epoch)(if string should be ISO8601 YYYY - MM - DD HH : mm : ss.zzz±TZ : TZ(missing values will be left a 0))
+    Type : String / Enum(required)
+    Name : String(optional)
+    Time : Number, String(optional)(use received time if missing)(if number, should be MS since epoch)(if string should be ISO8601 YYYY - MM - DD HH : mm : ss.zzz±TZ : TZ(missing values will be left a 0))
 
-                                                                       NumericalData
-    { type="numeric"
+    NumericalData
+    {
+        type="numeric"
         Value : Number      (required)
         Unit  : String/Enum (optional) (can allow for automatic conversion/uniformization)
     }
