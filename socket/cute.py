@@ -9,9 +9,9 @@ import psutil
 import threading
 
 
-def send(sock, name, value):
+def send(sock, source, name, value):
     content = json.dumps({
-        'object': 'python',
+        'object': source,
         'name': name,
         'value': value
     })
@@ -24,10 +24,15 @@ def sin(sock):
     n = 0
     while True:
         value = 200 * math.sin(n / 60)
-        send(sock, "sin", value)
+        send(sock, "python", "sin", value)
         time.sleep(0.005)
         n += 1
 
+def cpu(sock):
+    while True:
+        send(sock, "system", "cpu.percent", psutil.cpu_percent(interval=None))
+        send(sock, "system", "memory.size", psutil.virtual_memory().used / 1000000)
+        time.sleep(0.1)
 
 def mem(sock):
     for proc in psutil.process_iter():
@@ -36,8 +41,8 @@ def mem(sock):
             break
 
     while True:
-        send(sock, "memory_raw", process.memory_info().rss)
-        send(sock, "memory_percent", process.memory_percent())
+        send(sock, "cute", "memory.raw", process.memory_info().rss / 1000000)
+        send(sock, "cute", "memory.percent", process.memory_percent())
         time.sleep(0.1)
 
 
@@ -45,12 +50,13 @@ def main(args):
     sock = socket.socket(family=socket.AF_UNIX, type=socket.SOCK_STREAM)
     sock.connect("/tmp/cute")
     {
-        'sin': sin,
-        'mem': mem
+        'cpu': cpu,
+        'mem': mem,
+        'sin': sin
     }[args.source](sock)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--source', choices=['mem', 'sin'])
+    parser.add_argument('--source', choices=['cpu','mem','sin'], required=True)
     main(parser.parse_args())
