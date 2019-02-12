@@ -2,51 +2,39 @@
     "widgets": [
         {
             "type": "chart",
-            "name": "altitude",
+            "name": "System CPU Usage",
             "pos": {
                 "x": 0,
                 "y": 0,
                 "width": 1,
                 "height": 1
             },
-            "value": "sin",
-            "length": 10
+            "value": "cpu.percent",
+            "length": 60
         },
         {
             "type": "chart",
-            "name": "cutestation memory usage (bytes)",
+            "name": "System RAM Usage",
             "pos": {
                 "x": 0,
                 "y": 1,
-                "width": 3,
+                "width": 2,
                 "height": 1
             },
-            "value": "memory_raw",
-            "length": 10
+            "value": "memory.size",
+            "length": 120
         },
         {
             "type": "chart",
-            "name": "cutestation memory usage (%)",
-            "pos": {
-                "x": 0,
-                "y": 2,
-                "width": 3,
-                "height": 1
-            },
-            "value": "memory_percent",
-            "length": 10
-        },
-        {
-            "type": "chart",
-            "name": "altitude again",
+            "name": "CuteStation RAM Usage",
             "pos": {
                 "x": 1,
                 "y": 0,
                 "width": 1,
                 "height": 1
             },
-            "value": "sin",
-            "length": 10
+            "value": "memory.raw",
+            "length": 60
         }
     ]
 }
