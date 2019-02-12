@@ -3,9 +3,10 @@
 
 #include <QObject>
 
+#include "data/data.hh"
 #include "widgets/widget.hh"
 
-class Distributor: public QObject {
+class Distributor : public QObject {
     Q_OBJECT
 
 private:
@@ -21,7 +22,7 @@ public:
     void add(Widget* widget) { widgets_.push_back(widget); }
 
 public slots:
-    void onMessage(Message* message);
+    void onData(Data* data);
 };
 
 #endif // DISTRIBUTOR_HH_

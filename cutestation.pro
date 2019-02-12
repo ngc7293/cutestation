@@ -13,7 +13,8 @@ SOURCES += \
         src/widgets/chartwidget.cc \
         src/widgets/config/widget_config.cc \
         src/widgets/config/chartwidget_config.cc \
-        src/messages/message.cc \
+        src/data/data.cc \
+        src/data/numericaldata.cc \
         src/distributor.cc \
         src/connection/connection.cc \
         src/connection/connectionmanager.cc \
@@ -26,7 +27,8 @@ HEADERS += \
         inc/widgets/chartwidget.hh \
         inc/widgets/config/widget_config.hh \
         inc/widgets/config/chartwidget_config.hh \
-        inc/messages/message.hh \
+        inc/data/data.hh \
+        inc/data/numericaldata.hh \
         inc/distributor.hh \
         inc/connection/connection.hh \
         inc/connection/connectionmanager.hh \

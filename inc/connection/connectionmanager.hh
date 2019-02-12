@@ -3,9 +3,13 @@
 
 #include <vector>
 
+#include <QObject>
+
 #include "connection.hh"
 
-class ConnectionManager {
+class ConnectionManager : public QObject {
+    Q_OBJECT
+
 private:
     std::vector<Connection*> connections_;
 

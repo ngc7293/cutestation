@@ -2,7 +2,6 @@
 
 Distributor::Distributor()
 {
-
 }
 
 Distributor& Distributor::get()
@@ -18,10 +17,10 @@ Distributor::~Distributor()
 {
 }
 
-void Distributor::onMessage(Message* message)
+void Distributor::onData(Data* data)
 {
     for (Widget* widget : widgets_) {
-        widget->accept(*message);
+        widget->accept(*data);
     }
-    delete message;
+    delete data;
 }

@@ -2,11 +2,11 @@
 #define WIDGET_HH_
 
 #include <QHBoxLayout>
+#include <QLabel>
 #include <QPushButton>
 #include <QWidget>
-#include <QLabel>
 
-#include "messages/message.hh"
+#include "data/data.hh"
 
 class Widget : public QWidget {
     Q_OBJECT
@@ -26,7 +26,7 @@ public:
     Widget();
     virtual ~Widget();
 
-    virtual void accept(Message& message) = 0;
+    virtual void accept(Data& data) = 0;
 
     Config* config() { return config_; }
 };

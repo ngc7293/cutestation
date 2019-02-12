@@ -7,7 +7,8 @@
 
 #include "lib/rapidjson/document.h"
 
-#include "messages/message.hh"
+#include "data/data.hh"
+#include "data/numericaldata.hh"
 #include "distributor.hh"
 
 UnixConnection::UnixConnection(QLocalSocket* socket)
@@ -15,8 +16,7 @@ UnixConnection::UnixConnection(QLocalSocket* socket)
     , socket_(socket)
 {
     connect(socket_, &QLocalSocket::readyRead, this, &UnixConnection::onReadyRead);
-    connect(socket_, &QLocalSocket::disconnected, this, &UnixConnection::deleteLater);
-    connect(this, &UnixConnection::messageReady, &(Distributor::get()), &Distributor::onMessage);
+    connect(socket_, &QLocalSocket::disconnected, this, &Connection::onClose);
 }
 
 UnixConnection::~UnixConnection()
@@ -41,9 +41,10 @@ void UnixConnection::onReadyRead()
 
     rapidjson::Document payload;
     payload.Parse(socket_->read(length).data());
-    rapidjson::Value* value = new rapidjson::Value(rapidjson::kObjectType);
-    (*value) = payload.Move();
-    Message* msg = new Message(value);
-    emit messageReady(msg);
+    // rapidjson::Value* value = new rapidjson::Value(rapidjson::kObjectType);
+    // (*value) = payload.Move();
+
+    Data* data = new NumericalData(payload["name"].GetString(), payload["value"].GetFloat());
+    emit dataReady(data);
     socket_->readAll();
 }

@@ -26,7 +26,6 @@ void ConnectionManager::close(Connection* connection)
 {
     for (std::vector<Connection*>::iterator it = connections_.begin(); it != connections_.end(); it++) {
         if (*it == connection) {
-            delete *it;
             connections_.erase(it);
             return;
         }
