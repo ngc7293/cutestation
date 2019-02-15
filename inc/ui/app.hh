@@ -1,6 +1,8 @@
 #ifndef APP_H
 #define APP_H
 
+#include <fstream>
+
 #include <QMainWindow>
 
 #include "ui/widgets/accelerationwidget.hh"
@@ -29,6 +31,7 @@ private:
     ChuteWidget* chute_widget_;
     GPSWidget* gps_widget_;
     EjectionWidget* ejection_widget_;
+    std::ofstream logfile_;
 
 public:
     explicit App(QWidget* parent = 0);

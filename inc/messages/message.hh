@@ -19,6 +19,8 @@ public:
 
     int id() { return data_.id(); }
 
+    Packet& packet() { return data_; }
+
     friend std::ostream& operator<<(std::ostream& stream, Message& message);
     friend std::ostream& operator<<(std::ostream& stream, Message* message);
 
