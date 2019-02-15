@@ -1,5 +1,6 @@
 #include "ui/app.hh"
 
+#include <iomanip>
 #include <sstream>
 
 #include <termios.h>
@@ -42,10 +43,22 @@ App::App(QWidget* parent)
 
     // FIXME: Find a real icon. This only works on my machine
     setWindowIcon(QIcon("/usr/share/icons/Numix-Circle/48/apps/boostnote.svg"));
+
+    time_t now = time(NULL);
+    struct tm* date = localtime(&now);
+    std::stringstream ss;
+    ss << std::setw(2) << std::setfill('0') << 1900 + date->tm_year << "-";
+    ss << std::setw(2) << std::setfill('0') << date->tm_mon << "-";
+    ss << std::setw(2) << std::setfill('0') << date->tm_mday << " ";
+    ss << std::setw(2) << std::setfill('0') << date->tm_hour << ":";
+    ss << std::setw(2) << std::setfill('0') << date->tm_min << ":";
+    ss << std::setw(2) << std::setfill('0') << date->tm_sec << ".dump";
+    logfile_.open(ss.str(), std::ios::app);
 }
 
 App::~App()
 {
+    logfile_.close();
     delete ui_;
     delete serial_;
 }
@@ -59,5 +72,13 @@ void App::onMessage(Message* message)
     *gps_widget_ << *message;
     *ejection_widget_ << *message;
     *attitude_widget_ << *message;
+
+    logfile_ << QDateTime::currentMSecsSinceEpoch();
+
+    for (uint8_t byte : message->packet().data()) {
+        logfile_ << "," << +byte;
+    }
+    logfile_ << "\n";
+
     delete message;
 }
