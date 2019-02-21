@@ -17,28 +17,13 @@ ChartWidget::Config::~Config()
 
 bool ChartWidget::Config::parse(const rapidjson::Value& config)
 {
-    if (!((Widget*) parent_)->config()->parse(config)) {
+    if (!((Widget*)parent_)->config()->parse(config)) {
         return false;
     }
 
-    if (config.HasMember("value")) {
-        if (config["value"].IsString()) {
-            parent_->value_ = config["value"].GetString();
-        }
-        else {
-            return false;
-        }
-    }
-
-    if (config.HasMember("length")) {
-        if (config["length"].IsUint()) {
-            parent_->graph_length_ = config["length"].GetInt();
-        }
-        else {
-
-            return false;
-        }
-    }
+    JSON_GET_OR_DIE(config, value, value, String);
+    JSON_GET_OR_DIE(config, length, graph_length, Uint);
+    JSON_GET_OR_DIE(config, always_update, always_update, Bool);
 
     return true;
 }
