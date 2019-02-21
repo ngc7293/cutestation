@@ -60,7 +60,9 @@ ChartWidget::ChartWidget()
     timer_ = new QTimer(this);
     connect(timer_, &QTimer::timeout, this, &ChartWidget::refresh);
     timer_->start(50);
-    new_data_ = false;
+    always_update_ = true;
+    last_update_ = 0;
+    last_refresh_ = 0;
 }
 
 ChartWidget::~ChartWidget()
@@ -92,13 +94,13 @@ void ChartWidget::accept(Data& data)
         }
 
         values_.push_back(QPointF(ndata.timestamp(), value));
-        new_data_ = true;
+        last_update_ = QDateTime::currentDateTime().toMSecsSinceEpoch();
     }
 }
 
 void ChartWidget::refresh()
 {
-    if (!new_data_) {
+    if (!(always_update_ || last_update_ > last_refresh_)) {
         return;
     }
 
@@ -110,5 +112,5 @@ void ChartWidget::refresh()
 
     series_->replace(values_);
     axisX->setRange(QDateTime::fromMSecsSinceEpoch(values_.last().x() - graph_length_ * 1000), QDateTime::fromMSecsSinceEpoch(values_.last().x()));
-    new_data_ = false;
+    last_refresh_ = QDateTime::currentDateTime().toMSecsSinceEpoch();
 }

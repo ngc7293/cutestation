@@ -10,7 +10,8 @@
                 "height": 1
             },
             "value": "cpu.percent",
-            "length": 60
+            "length": 60,
+			"always_update": false
         },
         {
             "type": "chart",

@@ -34,8 +34,10 @@ private:
     QtCharts::QValueAxis* axisY;
 
     /** Refresh timer **/
+    bool always_update_;
     QTimer* timer_;
-    bool new_data_;
+    qint64 last_refresh_;
+    qint64 last_update_;
 
 public:
     ChartWidget();

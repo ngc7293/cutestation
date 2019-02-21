@@ -46,5 +46,4 @@ void UnixConnection::onReadyRead()
 
     Data* data = new NumericalData(payload["name"].GetString(), payload["value"].GetFloat());
     emit dataReady(data);
-    socket_->readAll();
 }
