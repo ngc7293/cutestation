@@ -3,16 +3,8 @@
 
 #include "lib/rapidjson/document.h"
 
-Widget::Config::Config(Widget* parent)
-    : parent_(parent)
-{
-}
-
-Widget::Config::~Config()
-{
-}
-
-bool Widget::Config::parse(const rapidjson::Value& config)
+template <>
+bool Widget::Config<Widget>::parse(const rapidjson::Value& config)
 {
     if (config.HasMember("name")) {
         if (config["name"].IsString()) {
@@ -25,7 +17,10 @@ bool Widget::Config::parse(const rapidjson::Value& config)
     return true;
 }
 
-rapidjson::Value* Widget::Config::save() const
+template <class T>
+rapidjson::Value* Widget::Config<T>::save() const
 {
     return nullptr;
 }
+
+template class Widget::Config<Widget>;

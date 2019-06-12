@@ -5,26 +5,29 @@
 
 #include "lib/rapidjson/document.h"
 
+template <class T>
 class Widget::Config {
 
 private:
-    Widget* parent_;
+    T* parent_;
 
 public:
-    Config(Widget* parent);
-    virtual ~Config();
+    Config(T* parent)
+    {
+        parent_ = parent;
+    }
 
     bool parse(const rapidjson::Value& config);
     rapidjson::Value* save() const;
 };
 
-#define JSON_GET_OR_DIE(json, name, member, type)         \
-    if (json.HasMember(#name)) {                          \
-        if (json[#name].Is##type()) {                     \
-            parent_->member##_ = json[#name].Get##type(); \
-        } else {                                          \
-            return false;                                 \
-        }                                                 \
+#define JSON_GET_OR_DIE(json, name, setter, type)     \
+    if (json.HasMember(#name)) {                      \
+        if (json[#name].Is##type()) {                 \
+            parent_->setter(json[#name].Get##type()); \
+        } else {                                      \
+            return false;                             \
+        }                                             \
     }
 
 #endif // WIDGET_CONFIG_HH_

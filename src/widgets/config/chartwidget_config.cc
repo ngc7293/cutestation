@@ -1,34 +1,20 @@
-#include "widgets/config/chartwidget_config.hh"
 #include "widgets/chartwidget.hh"
-
-#include <iostream>
+#include "widgets/config/widget_config.hh"
 
 #include "lib/rapidjson/document.h"
 
-ChartWidget::Config::Config(ChartWidget* parent)
-    : Widget::Config(parent)
-    , parent_(parent)
-{
-}
-
-ChartWidget::Config::~Config()
-{
-}
-
-bool ChartWidget::Config::parse(const rapidjson::Value& config)
+template <>
+bool Widget::Config<ChartWidget>::parse(const rapidjson::Value& config)
 {
     if (!((Widget*)parent_)->config()->parse(config)) {
         return false;
     }
 
-    JSON_GET_OR_DIE(config, value, value, String);
-    JSON_GET_OR_DIE(config, length, graph_length, Uint);
-    JSON_GET_OR_DIE(config, always_update, always_update, Bool);
+    JSON_GET_OR_DIE(config, value, setValue, String);
+    JSON_GET_OR_DIE(config, length, setGraphLength, Uint);
+    JSON_GET_OR_DIE(config, always_update, setAlwaysUpdate, Bool);
 
     return true;
 }
 
-rapidjson::Value* ChartWidget::Config::save() const
-{
-    return nullptr;
-}
+template class Widget::Config<ChartWidget>;

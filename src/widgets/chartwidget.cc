@@ -1,4 +1,5 @@
 #include "widgets/chartwidget.hh"
+#include "widgets/config/widget_config.hh"
 
 #include <iostream>
 
@@ -14,13 +15,12 @@
 
 #include "data/data.hh"
 #include "data/numericaldata.hh"
-#include "widgets/config/chartwidget_config.hh"
 
 using namespace QtCharts;
 
 ChartWidget::ChartWidget()
     : Widget()
-    , config_(new ChartWidget::Config(this))
+    , config_(new Widget::Config<ChartWidget>(this))
 {
     graph_length_ = 60;
     max_ = -0;
