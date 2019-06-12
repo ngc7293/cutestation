@@ -7,7 +7,7 @@
                 "x": 0,
                 "y": 0,
                 "width": 1,
-                "height": 1
+                "height": 3
             },
             "value": "cpu.percent",
             "length": 60,
@@ -18,7 +18,7 @@
             "name": "System RAM Usage",
             "pos": {
                 "x": 0,
-                "y": 1,
+                "y": 3,
                 "width": 2,
                 "height": 1
             },
@@ -26,8 +26,8 @@
             "length": 120
         },
         {
-            "type": "chart",
-            "name": "CuteStation RAM Usage",
+            "type": "text",
+            "name": "Alpha",
             "pos": {
                 "x": 1,
                 "y": 0,
@@ -35,7 +35,31 @@
                 "height": 1
             },
             "value": "memory.raw",
-            "length": 60
+            "display_type": "string"
+        },
+        {
+            "type": "text",
+            "name": "Bravo",
+            "pos": {
+                "x": 1,
+                "y": 1,
+                "width": 1,
+                "height": 1
+            },
+            "value": "memory.raw",
+            "display_type": "string"
+        },
+        {
+            "type": "text",
+            "name": "Charlie",
+            "pos": {
+                "x": 1,
+                "y": 2,
+                "width": 1,
+                "height": 1
+            },
+            "value": "favorite.color:david",
+            "display_type": "string"
         }
     ]
 }

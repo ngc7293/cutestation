@@ -1,4 +1,4 @@
-QT       += core gui widgets charts network
+QT += core gui widgets charts network
 
 TARGET = cute
 TEMPLATE = app
@@ -11,9 +11,12 @@ SOURCES += \
         src/ui/app.cc \
         src/widgets/widget.cc \
         src/widgets/chartwidget.cc \
+        src/widgets/textwidget.cc \
         src/widgets/config/widget_config.cc \
         src/widgets/config/chartwidget_config.cc \
+        src/widgets/config/textwidget_config.cc \
         src/data/data.cc \
+        src/data/keyvaluedata.cc \
         src/data/numericaldata.cc \
         src/distributor.cc \
         src/connection/connection.cc \
@@ -25,9 +28,10 @@ HEADERS += \
         inc/ui/app.hh \
         inc/widgets/widget.hh \
         inc/widgets/chartwidget.hh \
+        inc/widgets/textwidget.hh \
         inc/widgets/config/widget_config.hh \
-        inc/widgets/config/chartwidget_config.hh \
         inc/data/data.hh \
+        inc/data/keyvaluedata.hh \
         inc/data/numericaldata.hh \
         inc/distributor.hh \
         inc/connection/connection.hh \

@@ -11,7 +11,8 @@
 #include "connection/connectionmanager.hh"
 #include "distributor.hh"
 #include "widgets/chartwidget.hh"
-#include "widgets/config/chartwidget_config.hh"
+#include "widgets/config/widget_config.hh"
+#include "widgets/textwidget.hh"
 #include "widgets/widget.hh"
 
 App::App(QWidget* parent)
@@ -33,6 +34,14 @@ App::App(QWidget* parent)
         }
         if (config["widgets"][i]["type"] == "chart") {
             ChartWidget* widget_ = new ChartWidget();
+            Distributor::get().add(widget_);
+            widget_->config()->parse(config["widgets"][i]);
+
+            ui_->chart_grid->addWidget(widget_,
+                config["widgets"][i]["pos"]["y"].GetInt(), config["widgets"][i]["pos"]["x"].GetInt(),
+                config["widgets"][i]["pos"]["height"].GetInt(), config["widgets"][i]["pos"]["width"].GetInt());
+        } else if (config["widgets"][i]["type"] == "text") {
+            TextWidget* widget_ = new TextWidget();
             Distributor::get().add(widget_);
             widget_->config()->parse(config["widgets"][i]);
 

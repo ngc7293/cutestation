@@ -3,6 +3,8 @@
 
 #include <QString>
 
+#include "lib/rapidjson/document.h"
+
 class Data {
 public:
     enum Type {
@@ -17,6 +19,9 @@ private:
     Type type_;
     QString name_;
     qint64 timestamp_;
+
+public:
+    static Data* fromJson(rapidjson::Document& json);
 
 public:
     Data(Type type, QString name, qint64 timestamp = -1);

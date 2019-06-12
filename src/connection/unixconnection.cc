@@ -43,7 +43,8 @@ void UnixConnection::onReadyRead()
     payload.Parse(socket_->read(length).data());
     // rapidjson::Value* value = new rapidjson::Value(rapidjson::kObjectType);
     // (*value) = payload.Move();
-
-    Data* data = new NumericalData(payload["name"].GetString(), payload["value"].GetFloat());
-    emit dataReady(data);
+    Data* data = Data::fromJson(payload);
+    if (data != nullptr) {
+        emit dataReady(data);
+    }
 }

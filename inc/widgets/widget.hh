@@ -12,11 +12,12 @@ class Widget : public QWidget {
     Q_OBJECT
 
 protected:
+    template <class T>
     class Config;
 
 private:
     QLabel* name_;
-    Config* config_;
+    Config<Widget>* config_;
 
 protected:
     QWidget* container_;
@@ -28,7 +29,7 @@ public:
 
     virtual void accept(Data& data) = 0;
 
-    Config* config() { return config_; }
+    Config<Widget>* config() { return config_; }
 };
 
 #endif // WIDGET_HH_
