@@ -34,7 +34,7 @@ if(CMAKE_VERSION VERSION_LESS "3.7.0")
 endif()
 
 # Qt5
-set (CMAKE_PREFIX_PATH /opt/Qt/5.13.1/gcc_64/)
+set (CMAKE_PREFIX_PATH /opt/Qt/5.12.1/gcc_64/)
 find_package(Qt5 COMPONENTS Core Widgets Network Charts REQUIRED)
 
 # Protobuf
