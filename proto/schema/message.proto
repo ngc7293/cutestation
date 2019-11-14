@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+message Data {
+    string source = 1;
+    string key = 2;
+    float value = 3;
+}
