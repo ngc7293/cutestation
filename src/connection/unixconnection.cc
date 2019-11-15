@@ -25,6 +25,12 @@ UnixConnection::~UnixConnection()
     delete socket_;
 }
 
+void UnixConnection::writeData(radio_packet_t packet)
+{
+    QByteArray data((const char*)&packet, sizeof(radio_packet_t));
+    socket_->write(data);
+}
+
 void UnixConnection::onReadyRead()
 {
     uint64_t length = 0;
