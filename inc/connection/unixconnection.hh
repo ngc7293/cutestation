@@ -20,6 +20,9 @@ public:
     UnixConnection(QLocalSocket* socket);
     virtual ~UnixConnection();
 
+public slots:
+    void writeData(radio_packet_t packet) override;
+
 private slots:
     void onReadyRead();
 };

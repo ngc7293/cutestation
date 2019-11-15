@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include <shared/interfaces/radio/radio_packet.h>
+
 #include "data/data.hh"
 
 class Connection : public QObject {
@@ -13,6 +15,7 @@ public:
     virtual ~Connection();
 
 public slots:
+    virtual void writeData(radio_packet_t packet) = 0;
     void onClose();
 
 signals:

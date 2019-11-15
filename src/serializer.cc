@@ -192,6 +192,59 @@ void Serializer::serialize(radio_packet_t packet)
             number = packet.payload.FLOAT;
             break;
         }
+    } else if (name == "anirniq.testbench.") {
+        type = "numeric";
+        number = packet.payload.FLOAT;
+
+        switch (packet.message_id) {
+        case CAN_TESTBENCH_PRESSURE_1:
+            name = "pressure.1";
+            break;
+        case CAN_TESTBENCH_PRESSURE_2:
+            name = "pressure.2";
+            break;
+        case CAN_TESTBENCH_PRESSURE_3:
+            name = "pressure.3";
+            break;
+        case CAN_TESTBENCH_PRESSURE_4:
+            name = "pressure.4";
+            break;
+        case CAN_TESTBENCH_TEMP_1:
+            name = "temperature.1";
+            break;
+        case CAN_TESTBENCH_TEMP_2:
+            name = "temperature.2";
+            break;
+        case CAN_TESTBENCH_TEMP_3:
+            name = "temperature.3";
+            break;
+        case CAN_TESTBENCH_TEMP_4:
+            name = "temperature.4";
+            break;
+        case CAN_TESTBENCH_TEMP_5:
+            name = "temperature.5";
+            break;
+        case CAN_TESTBENCH_TEMP_6:
+            name = "temperature.6";
+            break;
+        case CAN_TESTBENCH_LOAD1:
+            name = "load.1";
+            break;
+        case CAN_TESTBENCH_LOAD2:
+            name = "load.2";
+            break;
+        case CAN_TESTBENCH_LOAD3:
+            name = "load.3";
+            break;
+        case CAN_TESTBENCH_VALVE1_STATE:
+            name = "valve.1.state";
+            number = packet.payload.INT;
+            break;
+        case CAN_TESTBENCH_VALVE2_STATE:
+            name = "valve.2.state";
+            number = packet.payload.INT;
+            break;
+        }
     }
 
     Data* data = nullptr;
