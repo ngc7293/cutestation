@@ -6,23 +6,27 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 set( SOURCES
-src/proto/packet.pb.cc
 src/app.cc
-src/main.cc
+src/data_node.cc
+src/data_tree.cc
 src/displayer.cc
-src/socket_connector.cc
-src/socket_dispatcher.cc
-src/timeseries.cc
+src/main.cc
+src/proto/packet.pb.cc
+src/socket/socket_connector.cc
+src/socket/socket_dispatcher.cc
+src/series.cc
 )
 
 SET( HEADERS
-inc/proto/packet.pb.h
 inc/app.h
+inc/data_node.h
+inc/data_tree.h
 inc/displayer.h
 inc/message_ingestor.h
-inc/socket_connector.h
-inc/socket_dispatcher.h
-inc/timeseries.h
+inc/proto/packet.pb.h
+inc/socket/socket_connector.h
+inc/socket/socket_dispatcher.h
+inc/series.h
 )
 
 SET( UI

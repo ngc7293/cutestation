@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x12proto/packet.proto\"*\n\x06Packet\x12\x11\n\ttimestamp\x18\x01 \x01(\x04\x12\r\n\x05value\x18\x02 \x01(\x02\x62\x06proto3')
+  serialized_pb=_b('\n\x12proto/packet.proto\":\n\x06Packet\x12\x11\n\ttimestamp\x18\x01 \x01(\x04\x12\x0e\n\x06source\x18\x02 \x01(\t\x12\r\n\x05value\x18\x03 \x01(\x02\x62\x06proto3')
 )
 
 
@@ -41,8 +41,15 @@ _PACKET = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='value', full_name='Packet.value', index=1,
-      number=2, type=2, cpp_type=6, label=1,
+      name='source', full_name='Packet.source', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='value', full_name='Packet.value', index=2,
+      number=3, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -60,7 +67,7 @@ _PACKET = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=22,
-  serialized_end=64,
+  serialized_end=80,
 )
 
 DESCRIPTOR.message_types_by_name['Packet'] = _PACKET

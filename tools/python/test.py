@@ -13,6 +13,7 @@ def main(args):
     n = 0
     while True:
         msg = Packet()
+        msg.source = "anirniq.mission.charge"
         msg.timestamp = int(round(time() * 1000))
         msg.value = sin(n / 1.42857)
         sock.send(msg.SerializeToString())

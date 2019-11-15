@@ -3,29 +3,25 @@
 #include <QThread>
 
 #include "../ui/ui_app.h"
-#include "displayer.h"
+#include "data_tree.h"
 
-App::App(QWidget* parent)
-    : QMainWindow(parent)
-    , ui_(new Ui::App())
-{
-    ui_->setupUi(this);
+App::App(QWidget *parent) : QMainWindow(parent), ui_(new Ui::App()) {
+  ui_->setupUi(this);
 
-    Displayer* displayer = new Displayer();
-    display_thread_ = new QThread();
-    displayer->moveToThread(display_thread_);
-    display_thread_->start();
-    
-    dispatcher_ = new SocketDispatcher(displayer);
-    connect(display_thread_, &QThread::finished, displayer, &Displayer::close);
+  DataTree *tree = new DataTree();
+  data_thread_ = new QThread();
+  tree->moveToThread(data_thread_);
+  data_thread_->start();
 
-    // FIXME: Find a real icon. This only works on my machine
-    setWindowIcon(QIcon("/usr/share/icons/Numix-Circle/48/apps/boostnote.svg"));
+  dispatcher_ = new SocketDispatcher(tree);
+  connect(data_thread_, &QThread::finished, tree, &DataTree::deleteLater);
+
+  // FIXME: Find a real icon. This only works on my machine
+  setWindowIcon(QIcon("/usr/share/icons/Numix-Circle/48/apps/boostnote.svg"));
 }
 
-App::~App()
-{
-    display_thread_->exit();
-    delete dispatcher_;
-    delete ui_;
+App::~App() {
+  data_thread_->exit();
+  delete dispatcher_;
+  delete ui_;
 }
