@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QLocalSocket>
 
-#include "proto/packet.pb.h"
+#include "proto/packet.h"
 
 
 class SocketConnector : public QObject {
@@ -24,7 +24,7 @@ public slots:
     void close();
 
 signals:
-    void messageReady(Packet* msg);
+    void messageReady(PacketSP msg);
     void connectionClosed();
 };
 

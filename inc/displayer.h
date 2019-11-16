@@ -8,8 +8,8 @@
 
 #include <QObject>
 
-#include "proto/packet.pb.h"
 #include "message_ingestor.h"
+#include "proto/packet.h"
 
 class Displayer : public MessageIngestor {
     Q_OBJECT
@@ -21,8 +21,8 @@ public:
     ~Displayer();
 
 public slots:
-    void receiveMessage(Packet* msg) override;
-    void displayMessage(Packet* msg);
+    void receiveMessage(PacketSP) override;
+    void displayMessage(PacketSP);
     void close();
 };
 

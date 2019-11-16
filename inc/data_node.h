@@ -4,7 +4,7 @@
 #include <string>
 #include <unordered_map>
 
-#include "proto/packet.pb.h"
+#include "proto/packet.h"
 
 class DataNode {
 private:
@@ -15,7 +15,7 @@ public:
     DataNode(std::string name);
     ~DataNode();
 
-    void accept(const std::string& source, size_t pos, Packet* packet);
+    void accept(const std::string& source, size_t pos, PacketSP packet);
 
 };
 #endif

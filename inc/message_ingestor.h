@@ -3,11 +3,11 @@
 
 #include <QObject>
 
-#include "proto/packet.pb.h"
+#include "proto/packet.h"
 
 class MessageIngestor : public QObject {
 public slots:
-    virtual void receiveMessage(Packet* msg) = 0;
+    virtual void receiveMessage(PacketSP) = 0;
 };
 
 #endif

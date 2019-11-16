@@ -9,7 +9,8 @@ App::App(QWidget *parent) : QMainWindow(parent), ui_(new Ui::App()) {
   ui_->setupUi(this);
 
   DataTree *tree = new DataTree();
-  data_thread_ = new QThread();
+  data_thread_ = new QThread(this);
+  data_thread_->setObjectName("DataThread");
   tree->moveToThread(data_thread_);
   data_thread_->start();
 

@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-#include "proto/packet.pb.h"
+#include "proto/packet.h"
 
 class Series : public QObject {
     Q_OBJECT
@@ -12,7 +12,7 @@ public:
     Series();
     ~Series();
 
-    virtual void accept(const Packet* packet) = 0;
+    virtual void accept(const PacketSP) = 0;
 };
 
 #endif
