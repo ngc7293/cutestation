@@ -3,6 +3,8 @@
 #include <chrono>
 #include <iostream>
 
+#include "proto/packet.h"
+
 SocketConnector::SocketConnector(QLocalSocket *socket) : socket_(socket) {
   connect(socket_, &QLocalSocket::readyRead, this, &SocketConnector::readData);
   connect(socket_, &QLocalSocket::disconnected, this, &SocketConnector::close);
@@ -16,7 +18,7 @@ SocketConnector::~SocketConnector() {
 void SocketConnector::readData() {
   QByteArray data = socket_->readAll();
 
-  Packet *msg = new Packet();
+  PacketSP msg = std::make_shared<Packet>();
   msg->ParseFromArray(data.data(), data.size());
   messageReady(msg);
 }

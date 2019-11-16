@@ -11,13 +11,9 @@ DataNode::~DataNode() {
   }
 }
 
-void DataNode::accept(const std::string &source, size_t pos, Packet *packet) {
-  if (pos == source.length()) {
+void DataNode::accept(const std::string &source, size_t pos, PacketSP packet) {
+  if (pos >= source.length()) {
     // series_->accept(packet);
-
-    // FIXME: Deleting this here assumes sole ownership, which is not
-    // guaranteed. Use shared_ptr instead.
-    delete packet;
     return;
   }
 
@@ -32,5 +28,5 @@ void DataNode::accept(const std::string &source, size_t pos, Packet *packet) {
     }
   }
 
-  it->second->accept(source, pos + 1 + name.length(), packet);
+  it->second->accept(source, pos + name.length() + 1, packet);
 }

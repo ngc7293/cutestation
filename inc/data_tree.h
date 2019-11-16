@@ -3,7 +3,8 @@
 
 #include "data_node.h"
 #include "message_ingestor.h"
-#include "proto/packet.pb.h"
+
+#include "proto/packet.h"
 
 class DataTree : public MessageIngestor {
     Q_OBJECT
@@ -16,7 +17,7 @@ public:
     ~DataTree();
 
 public slots:
-    void receiveMessage(Packet* packet) override;
+    void receiveMessage(PacketSP packet) override;
 };
 
 #endif
