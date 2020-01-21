@@ -16,6 +16,9 @@ public:
     DataTree();
     ~DataTree();
 
+    DataNode& root() const { return *root_; }
+    DataNode* find(std::string name) { return DataNode::find(*root_, name, 0); }
+
 public slots:
     void receiveMessage(PacketSP packet) override;
 };

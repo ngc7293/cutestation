@@ -3,30 +3,35 @@
 #include <chrono>
 #include <iostream>
 
-DataNode::DataNode(std::string name) : name_(name) {}
+#include "series/time_series.h"
 
-DataNode::~DataNode() {
-  for (auto node : children_) {
-    delete node.second;
-  }
+DataNode::DataNode(std::string name)
+    : name_(name)
+{
+    series_ = new TimeSeries();
 }
 
-void DataNode::accept(const std::string &source, size_t pos, PacketSP packet) {
-  if (pos >= source.length()) {
-    // series_->accept(packet);
-    return;
-  }
-
-  std::string name = source.substr(pos, source.find('.', pos + 1) - pos);
-  auto it = children_.find(name);
-
-  if (it == children_.end()) {
-    auto baby = children_.emplace(name, new DataNode(name));
-
-    if (baby.second) {
-      it = baby.first;
+DataNode::~DataNode()
+{
+    for (auto node : children_) {
+        delete node.second;
     }
-  }
 
-  it->second->accept(source, pos + name.length() + 1, packet);
+    delete series_;
+}
+
+DataNode* DataNode::find(DataNode& current, const std::string& name, size_t pos)
+{
+    if (pos >= name.length()) {
+        return &current;
+    }
+
+    std::string subname = name.substr(pos, name.find('.', pos + 1) - pos);
+    DataNode* subnode;
+
+    if ((subnode = current.child(subname)) != nullptr) {
+        return find(*subnode, name, pos + name.length() + 1);
+    }
+
+    return nullptr;
 }
