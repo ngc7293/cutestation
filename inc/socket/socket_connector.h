@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QLocalSocket>
+#include <QThread>
 
 #include "proto/packet.h"
 
@@ -14,7 +15,7 @@ private:
     QLocalSocket* socket_;
 
 public:
-    SocketConnector(QLocalSocket* socket);
+    SocketConnector(QLocalSocket* socket, QThread* thread);
     ~SocketConnector();
 
 private slots:

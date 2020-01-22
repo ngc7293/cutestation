@@ -14,16 +14,16 @@ class Widget : public QWidget {
 protected:
     QLabel* label_;
     std::string name_;
-    Series* series_;
+    SeriesSP series_;
 
 public:
     Widget(QWidget* parent, std::string name);
     ~Widget();
 
-    void init(Series* series);
+    void init(SeriesSP series);
 
 protected slots:
-    void refresh();
+    virtual void refresh() = 0;
 };
 
 #endif

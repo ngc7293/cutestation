@@ -4,7 +4,7 @@
 
 Series::Series()
 {
-    sampling_policy_ = new NoSamplingPolicy();
+    sampling_policy_ = std::make_shared<NoSamplingPolicy>();
 }
 
 Series::~Series() {}

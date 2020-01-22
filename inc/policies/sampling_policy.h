@@ -1,7 +1,12 @@
 #ifndef SAMPLING_POLICY_H_
 #define SAMPLING_POLICY_H_
 
+#include <memory>
+
 #include <cstdint>
+
+class SamplingPolicy;
+typedef std::shared_ptr<SamplingPolicy> SamplingPolicySP;
 
 /** A sampling policy defines a signal processing strategy, must generally a form of decimation */
 class SamplingPolicy {
