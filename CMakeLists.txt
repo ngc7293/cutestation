@@ -19,6 +19,7 @@ set( SOURCES
     src/series/time_series.cc
     src/socket/socket_connector.cc
     src/socket/socket_dispatcher.cc
+    src/util.cc
     src/widgets/widget.cc
 )
 

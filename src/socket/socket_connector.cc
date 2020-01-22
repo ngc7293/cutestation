@@ -5,22 +5,30 @@
 
 #include "proto/packet.h"
 
-SocketConnector::SocketConnector(QLocalSocket *socket) : socket_(socket) {
-  connect(socket_, &QLocalSocket::readyRead, this, &SocketConnector::readData);
-  connect(socket_, &QLocalSocket::disconnected, this, &SocketConnector::close);
+SocketConnector::SocketConnector(QLocalSocket* socket, QThread* thread)
+    : socket_(socket)
+{
+    connect(socket_, &QLocalSocket::readyRead, this, &SocketConnector::readData);
+    connect(socket_, &QLocalSocket::disconnected, thread, &QThread::quit);
+    connect(thread, &QThread::finished, this, &SocketConnector::close);
 }
 
-SocketConnector::~SocketConnector() {
-  socket_->disconnect();
-  delete socket_;
+SocketConnector::~SocketConnector()
+{
+    socket_->disconnect();
+    delete socket_;
 }
 
-void SocketConnector::readData() {
-  QByteArray data = socket_->readAll();
+void SocketConnector::readData()
+{
+    QByteArray data = socket_->readAll();
 
-  PacketSP msg = std::make_shared<Packet>();
-  msg->ParseFromArray(data.data(), data.size());
-  messageReady(msg);
+    PacketSP msg = std::make_shared<Packet>();
+    msg->ParseFromArray(data.data(), data.size());
+    messageReady(msg);
 }
 
-void SocketConnector::close() { deleteLater(); }
+void SocketConnector::close()
+{
+    deleteLater();
+}

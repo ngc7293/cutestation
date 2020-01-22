@@ -3,22 +3,25 @@
 
 #include <QObject>
 
-#include "proto/packet.h"
+#include <memory>
 
+#include "proto/packet.h"
 #include "policies/sampling_policy.h"
+
+class Series;
+typedef std::shared_ptr<Series> SeriesSP;
 
 class Series : public QObject {
     Q_OBJECT
 
 protected:
-    SamplingPolicy* sampling_policy_;
+    SamplingPolicySP sampling_policy_;
 
 public:
     Series();
     ~Series();
 
     virtual void accept(const PacketSP) = 0;
-    virtual float last() = 0;
 };
 
 #endif

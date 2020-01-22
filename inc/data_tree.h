@@ -10,14 +10,14 @@ class DataTree : public MessageIngestor {
     Q_OBJECT
 
 private:
-    DataNode* root_;
+    DataNodeSP root_;
 
 public:
     DataTree();
     ~DataTree();
 
     DataNode& root() const { return *root_; }
-    DataNode* find(std::string name) { return DataNode::find(*root_, name, 0); }
+    DataNodeSP find(std::string name);
 
 public slots:
     void receiveMessage(PacketSP packet) override;

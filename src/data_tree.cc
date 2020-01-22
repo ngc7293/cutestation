@@ -1,19 +1,26 @@
 #include "data_tree.h"
 
+#include <series/time_series.h>
+
 DataTree::DataTree()
+    : root_(new DataNode(""))
 {
-    root_ = new DataNode("");
 }
 
 DataTree::~DataTree()
 {
-    delete root_;
+}
+
+DataNodeSP DataTree::find(std::string name)
+{
+    return DataNode::find(root_, name, 0);
 }
 
 void DataTree::receiveMessage(PacketSP packet)
 {
-    DataNode* node;
-    if ((node = DataNode::find(*root_, packet->source(), 0)) != nullptr) {
-        node->series()->accept(packet);
+    if (DataNodeSP node = find(packet->source())) {
+        if (SeriesSP series = node->series()) {
+            series->accept(packet);
+        }
     }
 }
