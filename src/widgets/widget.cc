@@ -19,4 +19,8 @@ void Widget::init(SeriesSP series)
     series_ = series;
 
     setLayout(new QHBoxLayout(this));
+
+    QTimer* timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &Widget::refresh);
+    timer->start(1000 / 60);
 }
