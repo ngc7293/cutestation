@@ -8,9 +8,8 @@ set(CMAKE_AUTOUIC ON)
 
 set( SOURCES
     src/app.cc
-    src/data_node.cc
-    src/data_tree.cc
-    src/displayer.cc
+    src/data/data_node.cc
+    src/data/data_tree.cc
     src/main.cc
     src/policies/no_sampling_policy.cc
     src/policies/sampling_policy.cc
@@ -20,14 +19,14 @@ set( SOURCES
     src/socket/socket_connector.cc
     src/socket/socket_dispatcher.cc
     src/util.cc
+    src/widgets/chart_widget.cc
     src/widgets/widget.cc
 )
 
 SET( HEADERS
     inc/app.h
-    inc/data_node.h
-    inc/data_tree.h
-    inc/displayer.h
+    inc/data/data_node.h
+    inc/data/data_tree.h
     inc/message_ingestor.h
     inc/policies/no_sampling_policy.h
     inc/policies/sampling_policy.h
@@ -37,6 +36,7 @@ SET( HEADERS
     inc/socket/socket_connector.h
     inc/socket/socket_dispatcher.h
     inc/util.h
+    inc/widgets/chart_widget.h
     inc/widgets/widget.h
 )
 

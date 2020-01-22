@@ -17,4 +17,6 @@ Widget::~Widget() {}
 void Widget::init(SeriesSP series)
 {
     series_ = series;
+
+    setLayout(new QHBoxLayout(this));
 }
