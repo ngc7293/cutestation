@@ -16,7 +16,7 @@ void TimeSeries::accept(const PacketSP packet)
 
         // TODO: Configurable data retention policy
         // retention_policy.execute()
-        if (data_.size() > 10 && now() - data_.at(10).first > 60 * 1000) {
+        if (data_.size() > 10 && now() - data_.at(10).first > 5 * 1000) {
             data_.erase(data_.begin(), data_.begin() + 10);
         }
     }

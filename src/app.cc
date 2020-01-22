@@ -25,6 +25,9 @@ App::App(QWidget* parent)
     Widget* widget = new ChartWidget(this, "test widget");
     widget->init(tree_->find("anirniq.mission.charge")->series());
     ui_->gridLayout_2->addWidget(widget, 0, 0);
+    widget = new ChartWidget(this, "test widget");
+    widget->init(tree_->find("anirniq.mission.charge")->series());
+    ui_->gridLayout_2->addWidget(widget, 0, 1);
 
     // FIXME: Find a real icon. This only works on my machine
     setWindowIcon(QIcon("/usr/share/icons/Numix-Circle/48/apps/boostnote.svg"));

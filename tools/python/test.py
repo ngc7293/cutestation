@@ -18,7 +18,7 @@ def main(args):
         msg.value = sin(n / 1.42857)
         sock.send(msg.SerializeToString())
         n += 1
-        sleep(0.1)
+        sleep(0.001)
 
 if __name__ == "__main__":
     main(None)
