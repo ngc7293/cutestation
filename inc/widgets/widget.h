@@ -18,9 +18,9 @@ protected:
 
 public:
     Widget(QWidget* parent, std::string name);
-    ~Widget();
+    ~Widget() override;
 
-    void init(SeriesSP series);
+    virtual void init(SeriesSP series);
 
 protected slots:
     virtual void refresh() = 0;
