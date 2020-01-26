@@ -31,7 +31,6 @@ SocketDispatcher::~SocketDispatcher()
 {
     closeAll();
     server_->close();
-    delete server_;
 }
 
 void SocketDispatcher::closeAll()
@@ -41,7 +40,7 @@ void SocketDispatcher::closeAll()
 
 void SocketDispatcher::openLocalConnection()
 {
-    QThread* thread = new QThread(this);
+    QThread* thread = new QThread();
     thread->setObjectName("Connector");
 
     QLocalSocket* socket = server_->nextPendingConnection();

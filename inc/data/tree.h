@@ -1,26 +1,29 @@
 #ifndef DATA_TREE_H_
 #define DATA_TREE_H_
 
-#include "data_node.h"
+#include "node.h"
 #include "message_ingestor.h"
 
 #include "proto/packet.h"
 
-class DataTree : public MessageIngestor {
+namespace cute { namespace data {
+
+class Tree : public MessageIngestor {
     Q_OBJECT
 
 private:
-    DataNodeSP root_;
+    NodeSP root_;
 
 public:
-    DataTree();
-    ~DataTree();
+    Tree();
+    ~Tree();
 
-    DataNode& root() const { return *root_; }
-    DataNodeSP find(std::string name);
+    NodeSP root() const { return root_; }
 
 public slots:
     void receiveMessage(PacketSP packet) override;
 };
+
+}} // namespaces
 
 #endif

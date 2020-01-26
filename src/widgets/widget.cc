@@ -12,15 +12,29 @@ Widget::Widget(QWidget* parent, std::string name)
 {
 }
 
-Widget::~Widget() {}
-
-void Widget::init(SeriesSP series)
+Widget::~Widget()
 {
-    series_ = series;
+    timer_->stop();
+    delete timer_;
+}
 
+bool Widget::init(SeriesSP series, const json& config)
+{
+    if (!series) {
+        return false;
+    }
+
+    series_ = series;
     setLayout(new QHBoxLayout(this));
 
-    QTimer* timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &Widget::refresh);
-    timer->start(1000 / 60);
+    timer_ = new QTimer(this);
+    connect(timer_, &QTimer::timeout, this, &Widget::refresh);
+
+    if (config.count("refresh_rate") && config["refresh_rate"].is_number()) {
+        timer_->start(1000 / config["refresh_rate"].get<int>());
+    } else {
+        return false;
+    }
+
+    return true;
 }

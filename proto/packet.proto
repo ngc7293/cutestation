@@ -1,6 +1,5 @@
 syntax = "proto3";
 
-
 message Packet {
     uint64 timestamp = 1; // ms since epoch
     string source = 2;

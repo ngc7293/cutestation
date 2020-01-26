@@ -5,7 +5,7 @@
 #include <QThread>
 
 #include "socket/socket_dispatcher.h"
-#include "data/data_tree.h"
+#include "data/tree.h"
 
 namespace Ui {
 class App;
@@ -17,7 +17,7 @@ class App : public QMainWindow {
 private:
     Ui::App* ui_;
     SocketDispatcher* dispatcher_;
-    DataTree* tree_;
+    cute::data::Tree* tree_;
 
 public:
     explicit App(QWidget* parent = 0);

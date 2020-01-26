@@ -10,12 +10,13 @@ class ChartWidget : public Widget {
 
 private:
     QtCharts::QChartView* chartview_;
+    std::uint64_t last_update_;
 
 public:
     ChartWidget(QWidget* parent, std::string name);
     ~ChartWidget() override;
 
-    void init(SeriesSP series) override;
+    bool init(SeriesSP series, const json& config = json()) override;
 
 protected slots:
     void refresh() override;

@@ -9,8 +9,8 @@ SocketConnector::SocketConnector(QLocalSocket* socket, QThread* thread)
     : socket_(socket)
 {
     connect(socket_, &QLocalSocket::readyRead, this, &SocketConnector::readData);
-    connect(socket_, &QLocalSocket::disconnected, thread, &QThread::quit);
-    connect(thread, &QThread::finished, this, &SocketConnector::close);
+    connect(socket_, &QLocalSocket::disconnected, this, &SocketConnector::close);
+    connect(socket_, &QObject::destroyed, thread, &QThread::terminate);
 }
 
 SocketConnector::~SocketConnector()
