@@ -7,11 +7,13 @@
 #include <QLabel>
 #include <QTimer>
 
-#include "series/series.h"
+#include "data/series.h"
 
 #include "nlohmann/json.hpp"
 
 using json = nlohmann::json;
+
+namespace cute { namespace widgets {
 
 class Widget : public QWidget {
     Q_OBJECT
@@ -19,7 +21,7 @@ class Widget : public QWidget {
 protected:
     QLabel* label_;
     std::string name_;
-    SeriesSP series_;
+    data::SeriesSP series_;
 
     QTimer* timer_;
 
@@ -27,10 +29,12 @@ public:
     Widget(QWidget* parent, std::string name);
     ~Widget() override;
 
-    virtual bool init(SeriesSP series, const json& config = json());
+    virtual bool init(data::SeriesSP series, const json& config = json());
 
 protected slots:
     virtual void refresh() = 0;
 };
+
+}} // namespaces
 
 #endif

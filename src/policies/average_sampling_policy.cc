@@ -9,10 +9,10 @@ AverageSamplingPolicy::~AverageSamplingPolicy()
 {
 }
 
-bool AverageSamplingPolicy::accept(std::uint64_t timestamp, float* value)
+bool AverageSamplingPolicy::accept(std::uint64_t timestamp, double* value)
 {
     if (timestamp - last_point_ > period_) {
-        float temp = *value;
+        double temp = *value;
         *value = accumulated_ / count_;
         accumulated_ = temp;
         count_ = 1;

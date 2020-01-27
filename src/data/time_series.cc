@@ -1,7 +1,9 @@
-#include "series/time_series.h"
+#include "data/time_series.h"
 
 #include "proto/packet.h"
 #include "util.h"
+
+namespace cute { namespace data {
 
 TimeSeries::TimeSeries() {}
 
@@ -9,7 +11,7 @@ TimeSeries::~TimeSeries() {}
 
 void TimeSeries::accept(const PacketSP packet)
 {
-    float value = packet->value();
+    double value = packet->value();
     if (sampling_policy_->accept(packet->timestamp(), &value)) {
         const std::lock_guard<std::mutex> lock(mutex_);
         data_.push_back(std::make_pair(packet->timestamp(), value));
@@ -27,8 +29,9 @@ void TimeSeries::toQVector(QVector<QPointF>& vector)
     const std::lock_guard<std::mutex> lock(mutex_);
     vector.reserve(data_.size());
 
-    int i = 0;
     for (const auto& point : data_) {
-        vector << QPointF(point.first, point.second);
+        vector.push_back(QPointF(point.first, point.second));
     }
 }
+
+}} // namespaces

@@ -6,7 +6,7 @@
 #include <unordered_map>
 
 #include "proto/packet.h"
-#include "series/series.h"
+#include "data/series.h"
 
 namespace cute { namespace data {
 

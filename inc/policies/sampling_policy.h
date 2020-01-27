@@ -13,9 +13,9 @@ class SamplingPolicy {
 
 public:
     SamplingPolicy();
-    ~SamplingPolicy();
+    virtual ~SamplingPolicy();
 
-    virtual bool accept(std::uint64_t timestamp, float* value) = 0;
+    virtual bool accept(std::uint64_t timestamp, double* value) = 0;
 };
 
 #endif

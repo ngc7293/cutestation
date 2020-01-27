@@ -16,8 +16,8 @@ set( SOURCES
     src/policies/no_sampling_policy.cc
     src/policies/sampling_policy.cc
     src/proto/packet.pb.cc
-    src/series/series.cc
-    src/series/time_series.cc
+    src/data/series.cc
+    src/data/time_series.cc
     src/socket/socket_connector.cc
     src/socket/socket_dispatcher.cc
     src/util.cc
@@ -35,8 +35,8 @@ SET( HEADERS
     inc/policies/no_sampling_policy.h
     inc/policies/sampling_policy.h
     inc/proto/packet.pb.h
-    inc/series/series.h
-    inc/series/time_series.h
+    inc/data/series.h
+    inc/data/time_series.h
     inc/socket/socket_connector.h
     inc/socket/socket_dispatcher.h
     inc/util.h
@@ -66,3 +66,4 @@ add_executable(cute ${SOURCES} ${HEADERS} ${UI})
 set_property(TARGET cute PROPERTY CXX_STANDARD 11)
 target_link_libraries(cute Qt5::Widgets Qt5::Network Qt5::Charts protobuf::libprotobuf gcov nlohmann_json::nlohmann_json)
 target_include_directories(cute PRIVATE inc)
+target_compile_options(cute PRIVATE -Wall -Wpedantic)

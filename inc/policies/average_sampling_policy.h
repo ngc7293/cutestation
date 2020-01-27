@@ -9,14 +9,14 @@ class AverageSamplingPolicy : public SamplingPolicy {
 
 private:
     std::uint64_t last_point_, period_;
-    float accumulated_;
+    double accumulated_;
     int count_;
 
 public:
     AverageSamplingPolicy(std::uint64_t period);
-    ~AverageSamplingPolicy();
+    ~AverageSamplingPolicy() override;
 
-    bool accept(std::uint64_t timestamp, float* value) override;
+    bool accept(std::uint64_t timestamp, double* value) override;
 };
 
 #endif
