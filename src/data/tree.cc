@@ -1,29 +1,27 @@
 #include "data/tree.h"
 
-#include <series/time_series.h>
+#include <data/time_series.h>
 
 #include "data/node_finder.h"
 
-namespace cute {
-namespace data {
+namespace cute { namespace data {
 
-    Tree::Tree()
-        : root_(new Node(""))
-    {
-    }
+Tree::Tree()
+    : root_(new Node(""))
+{
+}
 
-    Tree::~Tree()
-    {
-    }
+Tree::~Tree()
+{
+}
 
-    void Tree::receiveMessage(PacketSP packet)
-    {
-        if (NodeSP node = NodeFinder(packet->source()).visit(root_)) {
-            if (SeriesSP series = node->series()) {
-                series->accept(packet);
-            }
+void Tree::receiveMessage(PacketSP packet)
+{
+    if (NodeSP node = NodeFinder(packet->source()).visit(root_)) {
+        if (SeriesSP series = node->series()) {
+            series->accept(packet);
         }
     }
-
 }
-} // namespaces
+
+}} // namespaces

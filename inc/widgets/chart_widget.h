@@ -5,6 +5,8 @@
 
 #include <QChartView>
 
+namespace cute { namespace widgets {
+
 class ChartWidget : public Widget {
     Q_OBJECT
 
@@ -16,10 +18,12 @@ public:
     ChartWidget(QWidget* parent, std::string name);
     ~ChartWidget() override;
 
-    bool init(SeriesSP series, const json& config = json()) override;
+    bool init(data::SeriesSP series, const json& config = json()) override;
 
 protected slots:
     void refresh() override;
 };
+
+}} // namespaces
 
 #endif

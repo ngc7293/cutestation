@@ -7,8 +7,10 @@
 #include <QLineSeries>
 #include <QValueAxis>
 
-#include "series/time_series.h"
+#include "data/time_series.h"
 #include "util.h"
+
+namespace cute { namespace widgets {
 
 ChartWidget::ChartWidget(QWidget* parent, std::string name)
     : Widget(parent, name)
@@ -18,7 +20,7 @@ ChartWidget::ChartWidget(QWidget* parent, std::string name)
 
 ChartWidget::~ChartWidget() {}
 
-bool ChartWidget::init(SeriesSP series, const json& config)
+bool ChartWidget::init(data::SeriesSP series, const json& config)
 {
     Widget::init(series, config);
     chartview_ = new QtCharts::QChartView(this);
@@ -48,7 +50,7 @@ bool ChartWidget::init(SeriesSP series, const json& config)
 void ChartWidget::refresh()
 {
     QVector<QPointF> data;
-    std::dynamic_pointer_cast<TimeSeries>(series_)->toQVector(data);
+    std::dynamic_pointer_cast<data::TimeSeries>(series_)->toQVector(data);
 
     if (data.size() && data.back().x() > last_update_) {
         ((QtCharts::QLineSeries*)chartview_->chart()->series()[0])->replace(data);
@@ -67,3 +69,5 @@ void ChartWidget::refresh()
         last_update_ = now();
     }
 }
+
+}} // namespaces

@@ -8,17 +8,16 @@
 #include <mutex>
 #include <utility>
 
-#include <QPointF>
 #include <QVector>
+#include <QPointF>
 
-class TimeSeries;
-typedef std::shared_ptr<TimeSeries> TimeSeriesSP;
+namespace cute { namespace data {
 
 class TimeSeries : public Series {
     Q_OBJECT
 
 private:
-    std::deque<std::pair<std::uint64_t, float>> data_;
+    std::deque<std::pair<std::uint64_t, double>> data_;
     std::mutex mutex_;
 
 public:
@@ -26,7 +25,10 @@ public:
     ~TimeSeries();
 
     void accept(const PacketSP) override;
+
     void toQVector(QVector<QPointF>& vector);
 };
+
+}} // namespaces
 
 #endif

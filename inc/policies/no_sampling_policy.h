@@ -8,9 +8,9 @@ class NoSamplingPolicy : public SamplingPolicy {
 
 public:
     NoSamplingPolicy();
-    ~NoSamplingPolicy();
+    ~NoSamplingPolicy() override;
 
-    bool accept(std::uint64_t timestamp, float* value) override;
+    bool accept(std::uint64_t timestamp, double* value) override;
 };
 
 #endif

@@ -8,6 +8,8 @@
 #include "proto/packet.h"
 #include "policies/sampling_policy.h"
 
+namespace cute { namespace data {
+
 class Series;
 typedef std::shared_ptr<Series> SeriesSP;
 
@@ -23,5 +25,7 @@ public:
 
     virtual void accept(const PacketSP) = 0;
 };
+
+}} // namespaces
 
 #endif

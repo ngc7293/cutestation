@@ -3,8 +3,10 @@
 #include <QLayout>
 #include <QTimer>
 
-#include "series/time_series.h"
+#include "data/time_series.h"
 #include "util.h"
+
+namespace cute { namespace widgets {
 
 Widget::Widget(QWidget* parent, std::string name)
     : QWidget(parent)
@@ -18,7 +20,7 @@ Widget::~Widget()
     delete timer_;
 }
 
-bool Widget::init(SeriesSP series, const json& config)
+bool Widget::init(data::SeriesSP series, const json& config)
 {
     if (!series) {
         return false;
@@ -38,3 +40,5 @@ bool Widget::init(SeriesSP series, const json& config)
 
     return true;
 }
+
+}} // namespaces

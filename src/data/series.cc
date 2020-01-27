@@ -1,6 +1,8 @@
-#include "series/series.h"
+#include "data/series.h"
 
 #include "policies/average_sampling_policy.h"
+
+namespace cute { namespace data {
 
 Series::Series()
 {
@@ -8,3 +10,5 @@ Series::Series()
 }
 
 Series::~Series() {}
+
+}}
