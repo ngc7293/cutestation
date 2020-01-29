@@ -13,6 +13,7 @@ Daemons (the processes pushing data to CuteStation) can also register Commands w
 ## Depends
 
 - Protobuf 3.10
+- nlohmann::json
 - Qt 5.12.1
 - CMake
 - Ninja (recommended)
@@ -30,6 +31,7 @@ Note that the current CMakeLists assumes Qt to be installed in `/opt/Qt/5.12.1/`
 To rebuild Protobuf classes after you changed them:
 
 ```bash
-protoc proto/ --cpp_out src/
+protoc proto/packet.proto --cpp_out src/
 mv src/proto/*.h inc/proto
+protoc proto/packet.proto --python_out tools/python
 ```
