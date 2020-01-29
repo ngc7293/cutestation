@@ -1,6 +1,7 @@
 #ifndef WIDGET_H_
 #define WIDGET_H_
 
+#include <memory>
 #include <string>
 
 #include <QWidget>
@@ -14,6 +15,9 @@
 using json = nlohmann::json;
 
 namespace cute { namespace widgets {
+
+class Widget;
+typedef std::shared_ptr<Widget> WidgetSP;
 
 class Widget : public QWidget {
     Q_OBJECT

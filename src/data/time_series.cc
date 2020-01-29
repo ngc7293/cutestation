@@ -1,11 +1,18 @@
 #include "data/time_series.h"
 
+#include <string>
+
 #include "proto/packet.h"
 #include "util.h"
 
+#include "log.h"
+
 namespace cute { namespace data {
 
-TimeSeries::TimeSeries() {}
+TimeSeries::TimeSeries(SamplingPolicySP sampling_policy)
+    : Series(sampling_policy)
+{
+}
 
 TimeSeries::~TimeSeries() {}
 

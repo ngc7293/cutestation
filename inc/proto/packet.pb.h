@@ -198,13 +198,13 @@ class Packet :
   void _internal_set_timestamp(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
-  // float value = 3;
+  // double value = 3;
   void clear_value();
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
   public:
 
   // @@protoc_insertion_point(class_scope:Packet)
@@ -214,7 +214,7 @@ class Packet :
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr source_;
   ::PROTOBUF_NAMESPACE_ID::uint64 timestamp_;
-  float value_;
+  double value_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_proto_2fpacket_2eproto;
 };
@@ -309,22 +309,22 @@ inline void Packet::set_allocated_source(std::string* source) {
   // @@protoc_insertion_point(field_set_allocated:Packet.source)
 }
 
-// float value = 3;
+// double value = 3;
 inline void Packet::clear_value() {
   value_ = 0;
 }
-inline float Packet::_internal_value() const {
+inline double Packet::_internal_value() const {
   return value_;
 }
-inline float Packet::value() const {
+inline double Packet::value() const {
   // @@protoc_insertion_point(field_get:Packet.value)
   return _internal_value();
 }
-inline void Packet::_internal_set_value(float value) {
+inline void Packet::_internal_set_value(double value) {
   
   value_ = value;
 }
-inline void Packet::set_value(float value) {
+inline void Packet::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:Packet.value)
 }

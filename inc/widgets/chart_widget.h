@@ -7,6 +7,9 @@
 
 namespace cute { namespace widgets {
 
+class ChartWidget;
+typedef std::shared_ptr<ChartWidget> ChartWidgetSP;
+
 class ChartWidget : public Widget {
     Q_OBJECT
 

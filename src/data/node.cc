@@ -9,7 +9,6 @@ namespace cute { namespace data {
 
 Node::Node(std::string name)
     : name_(name)
-    , series_(new TimeSeries())
 {
 }
 

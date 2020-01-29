@@ -21,8 +21,8 @@ private:
     std::mutex mutex_;
 
 public:
-    TimeSeries();
-    ~TimeSeries();
+    TimeSeries(SamplingPolicySP sampling_policy);
+    ~TimeSeries() override;
 
     void accept(const PacketSP) override;
 

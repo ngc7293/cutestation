@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x12proto/packet.proto\":\n\x06Packet\x12\x11\n\ttimestamp\x18\x01 \x01(\x04\x12\x0e\n\x06source\x18\x02 \x01(\t\x12\r\n\x05value\x18\x03 \x01(\x02\x62\x06proto3')
+  serialized_pb=_b('\n\x12proto/packet.proto\":\n\x06Packet\x12\x11\n\ttimestamp\x18\x01 \x01(\x04\x12\x0e\n\x06source\x18\x02 \x01(\t\x12\r\n\x05value\x18\x03 \x01(\x01\x62\x06proto3')
 )
 
 
@@ -49,7 +49,7 @@ _PACKET = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='value', full_name='Packet.value', index=2,
-      number=3, type=2, cpp_type=6, label=1,
+      number=3, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
