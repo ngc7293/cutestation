@@ -24,6 +24,8 @@ public:
     Node(std::string name);
     ~Node();
 
+    void setSeries(SeriesSP series) { series_ = series; }
+
     std::string name() const { return name_; };
     NodeSP child(const std::string name) const { return children_.count(name) ? children_.at(name) : NodeSP(); };
     SeriesSP series() const { return series_; }

@@ -4,9 +4,9 @@
 
 namespace cute { namespace data {
 
-Series::Series()
+Series::Series(SamplingPolicySP sampling_policy)
+    : sampling_policy_(sampling_policy)
 {
-    sampling_policy_ = std::make_shared<AverageSamplingPolicy>(20);
 }
 
 Series::~Series() {}

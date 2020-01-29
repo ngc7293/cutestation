@@ -20,8 +20,8 @@ protected:
     SamplingPolicySP sampling_policy_;
 
 public:
-    Series();
-    ~Series();
+    Series(SamplingPolicySP sampling_policy);
+    virtual ~Series();
 
     virtual void accept(const PacketSP) = 0;
 };
