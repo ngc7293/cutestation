@@ -1,28 +1,27 @@
-#ifndef CHART_WIDGET_H_
-#define CHART_WIDGET_H_
+#ifndef SINGLE_VALUE_WIDGET_H_
+#define SINGLE_VALUE_WIDGET_H_
 
 #include "widget.h"
 
-#include <QChartView>
+#include <QLabel>
 
 #include "data/time_series.h"
 
 namespace cute { namespace widgets {
 
-class ChartWidget : public Widget {
+class SingleValueWidget : public Widget {
     Q_OBJECT
 
 private:
-    QtCharts::QChartView* chartview_;
-    double min_, max_;
-    int length_;
- 
     data::TimeSeriesSP<double> timeseries_;
     std::uint64_t last_update_;
 
+    QLabel* label_;
+    std::string format_;
+
 public:
-    ChartWidget(QWidget* parent, std::string name);
-    ~ChartWidget() override;
+    SingleValueWidget(QWidget* parent, std::string name);
+    ~SingleValueWidget() override;
 
     bool init(data::SeriesSP series, const json& config = json()) override;
 

@@ -5,13 +5,14 @@
 
 #include <memory>
 
+#include <nlohmann/json.hpp>
+
 #include "proto/packet.h"
 #include "policies/sampling_policy.h"
 
-namespace cute { namespace data {
+using json = nlohmann::json;
 
-class Series;
-typedef std::shared_ptr<Series> SeriesSP;
+namespace cute { namespace data {
 
 class Series : public QObject {
     Q_OBJECT
@@ -20,11 +21,15 @@ protected:
     SamplingPolicySP sampling_policy_;
 
 public:
-    Series(SamplingPolicySP sampling_policy);
+    Series();
     virtual ~Series();
+
+    virtual bool init(SamplingPolicySP sampling_policy, const json& config);
 
     virtual void accept(const PacketSP) = 0;
 };
+
+using SeriesSP = std::shared_ptr<Series>;
 
 }} // namespaces
 

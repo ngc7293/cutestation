@@ -55,7 +55,7 @@ bool Configurator::configure(QGridLayout& layout, data::Tree& tree)
         }
         widget->setParent(layout.parentWidget());
 
-        layout.addWidget(widget, widget_config["x"].get<int>(), widget_config["y"].get<int>());
+        layout.addWidget(widget, widget_config["y"].get<int>(), widget_config["x"].get<int>());
     }
 
     return true;

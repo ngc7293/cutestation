@@ -9,36 +9,49 @@
 
 namespace cute { namespace data {
 
-TimeSeries::TimeSeries(SamplingPolicySP sampling_policy)
-    : Series(sampling_policy)
+template <typename T>
+TimeSeries<T>::TimeSeries() {}
+
+template <typename T>
+TimeSeries<T>::~TimeSeries() {}
+
+template <typename T>
+bool TimeSeries<T>::init(SamplingPolicySP sampling_policy, const json& config)
 {
+    if (!Series::init(sampling_policy, config)) {
+        return false;
+    }
+
+    if (!(config.count("length") && config["length"].is_number_unsigned())) {
+        Log::warn("TimeSeries", "Missing or invalid mandatory configuration 'length'");
+        return false;
+    }
+    length_ = config["length"].get<std::uint64_t>();
+
+    return true;
 }
 
-TimeSeries::~TimeSeries() {}
-
-void TimeSeries::accept(const PacketSP packet)
+template <typename T>
+void TimeSeries<T>::accept(const PacketSP packet)
 {
-    double value = packet->value();
+    T value = extractValue(packet);
+
     if (sampling_policy_->accept(packet->timestamp(), &value)) {
         const std::lock_guard<std::mutex> lock(mutex_);
         data_.push_back(std::make_pair(packet->timestamp(), value));
 
-        // TODO: Configurable data retention policy
-        // retention_policy.execute()
-        if (data_.size() > 10 && now() - data_.at(10).first > 5 * 1000) {
-            data_.erase(data_.begin(), data_.begin() + 10);
+        if (data_.front().first < now() - length_) {
+            data_.erase(data_.begin());
         }
     }
 }
 
-void TimeSeries::toQVector(QVector<QPointF>& vector)
+template <>
+double TimeSeries<double>::extractValue(const PacketSP& packet) const
 {
-    const std::lock_guard<std::mutex> lock(mutex_);
-    vector.reserve(data_.size());
-
-    for (const auto& point : data_) {
-        vector.push_back(QPointF(point.first, point.second));
-    }
+    return packet->value();
 }
+
+template class TimeSeries<double>;
 
 }} // namespaces

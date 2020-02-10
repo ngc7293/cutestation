@@ -4,11 +4,16 @@
 
 namespace cute { namespace data {
 
-Series::Series(SamplingPolicySP sampling_policy)
-    : sampling_policy_(sampling_policy)
+Series::Series()
 {
 }
 
 Series::~Series() {}
+
+bool Series::init(SamplingPolicySP sampling_policy, const json& config)
+{
+    sampling_policy_ = sampling_policy;
+    return true;
+}
 
 }}

@@ -25,7 +25,16 @@ SeriesSP SeriesFactory::build(Tree& tree, const json& config)
     NodeFinder creator(config["source"].get<std::string>(), true);
     NodeSP node = creator.visit(tree.root());
 
-    node->setSeries(std::make_shared<TimeSeries>(std::make_shared<NoSamplingPolicy>()));
+    if (node->series()) {
+        return node->series();
+    }
+
+    series = std::make_shared<TimeSeries<double>>();
+    if (!series->init(std::make_shared<NoSamplingPolicy>(), config)) {
+        return series;
+    }
+
+    node->setSeries(series);
     return node->series();
 }
 
