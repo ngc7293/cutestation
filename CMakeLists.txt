@@ -25,6 +25,7 @@ set( SOURCES
     src/socket/socket_dispatcher.cc
     src/util.cc
     src/widgets/chart_widget.cc
+    src/widgets/single_value_widget.cc
     src/widgets/widget_factory.cc
     src/widgets/widget.cc
 )
@@ -48,6 +49,7 @@ SET( HEADERS
     inc/socket/socket_dispatcher.h
     inc/util.h
     inc/widgets/chart_widget.h
+    inc/widgets/single_value_widget.h
     inc/widgets/widget_factory.h
     inc/widgets/widget.h
 )

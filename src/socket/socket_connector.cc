@@ -16,7 +16,6 @@ SocketConnector::SocketConnector(QLocalSocket* socket, QThread* thread)
 SocketConnector::~SocketConnector()
 {
     socket_->disconnect();
-    delete socket_;
 }
 
 void SocketConnector::readData()

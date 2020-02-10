@@ -8,6 +8,6 @@
 #include "packet.pb.h"
 
 typedef std::shared_ptr<Packet> PacketSP;
-Q_DECLARE_METATYPE(PacketSP);
+Q_DECLARE_METATYPE(PacketSP)
 
 #endif

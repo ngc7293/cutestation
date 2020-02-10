@@ -8,6 +8,7 @@
 #include <QValueAxis>
 
 #include "data/time_series.h"
+#include "log.h"
 #include "util.h"
 
 namespace cute { namespace widgets {
@@ -23,13 +24,36 @@ ChartWidget::~ChartWidget() {}
 bool ChartWidget::init(data::SeriesSP series, const json& config)
 {
     Widget::init(series, config);
+
+    if (!(config.count("length") && config["length"].is_number_unsigned())) {
+        Log::warn("ChartWidget", "Could not init widget " + name_ + ": missing or invalid configuration 'length'");
+        return false;
+    }
+    length_ = config["length"].get<int>();
+
+    if (!(config.count("range") && config["range"].is_array())) {
+        Log::warn("ChartWidget", "Could not init widget " + name_ + ": missing or invalid configuration 'length'");
+        return false;
+    }
+    if (!(config["range"].size() == 2 && config["range"][0].is_number() && config["range"][1].is_number())) {
+        Log::warn("ChartWidget", "Could not init widget " + name_ + ": missing or invalid configuration 'length'");
+        return false;
+    }
+    min_ = std::min(config["range"][0].get<double>(), config["range"][1].get<double>());
+    max_ = std::max(config["range"][0].get<double>(), config["range"][1].get<double>());
+
+    if (!(timeseries_ = std::dynamic_pointer_cast<data::TimeSeries<double>>(series_))) {
+        Log::err("ChartWidget", "Could not init widget " + name_ + ": error obtaining TimeSeries");
+        return false;
+    }
+
     chartview_ = new QtCharts::QChartView(this);
 
     QtCharts::QLineSeries* lineseries = new QtCharts::QLineSeries(chartview_);
     lineseries->setUseOpenGL(true);
 
     QtCharts::QValueAxis* yaxis = new QtCharts::QValueAxis(chartview_);
-    yaxis->setRange(-2, 2);
+    yaxis->setRange(min_, max_);
 
     QtCharts::QDateTimeAxis* xaxis = new QtCharts::QDateTimeAxis(chartview_);
     xaxis->setTickCount(2);
@@ -50,11 +74,12 @@ bool ChartWidget::init(data::SeriesSP series, const json& config)
 void ChartWidget::refresh()
 {
     QVector<QPointF> data;
-    std::dynamic_pointer_cast<data::TimeSeries>(series_)->toQVector(data);
+
+    timeseries_->data<QVector, QPointF>(data);
 
     if (data.size() && data.back().x() > last_update_) {
         ((QtCharts::QLineSeries*)chartview_->chart()->series()[0])->replace(data);
-        ((QtCharts::QDateTimeAxis*)chartview_->chart()->axes(Qt::Horizontal)[0])->setRange(QDateTime::fromMSecsSinceEpoch(data.front().x()), QDateTime::fromMSecsSinceEpoch(data.back().x()));
+        ((QtCharts::QDateTimeAxis*)chartview_->chart()->axes(Qt::Horizontal)[0])->setRange(QDateTime::fromMSecsSinceEpoch(now() - length_), QDateTime::fromMSecsSinceEpoch(now()));
 
         if (now() - data.back().x() > 10) {
             QPen pen(QRgb(0xff0000));
