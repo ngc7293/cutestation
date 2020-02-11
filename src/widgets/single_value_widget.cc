@@ -3,6 +3,7 @@
 #include <QLayout>
 
 #include "log.h"
+#include "util.h"
 
 namespace cute { namespace widgets {
 
@@ -20,12 +21,12 @@ bool SingleValueWidget::init(data::SeriesSP series, const json& config)
     }
 
     if (!(timeseries_ = std::dynamic_pointer_cast<data::TimeSeries<double>>(series_))) {
-        Log::err("SingleValueWidget", "Could not init widget " + name_ + ": error obtaining TimeSeries");
+        Log::err("SingleValueWidget", name_ + ": error obtaining TimeSeries");
         return false;
     }
 
-    if (!(config.count("format") && config["format"].is_string())) {
-        Log::warn("SingleValueWidget", "Missing or invalid mandatory configuration 'format'");
+    if (!has_string(config, "format")) {
+        Log::err("SingleValueWidget", name_ + ": missing or invalid mandatory configuration 'format'");
         return false;
     }
     format_ = config["format"].get<std::string>();

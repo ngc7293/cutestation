@@ -22,8 +22,8 @@ bool TimeSeries<T>::init(SamplingPolicySP sampling_policy, const json& config)
         return false;
     }
 
-    if (!(config.count("length") && config["length"].is_number_unsigned())) {
-        Log::warn("TimeSeries", "Missing or invalid mandatory configuration 'length'");
+    if (!has_uint(config, "length")) {
+        Log::err("TimeSeries", "missing or invalid mandatory configuration 'length'");
         return false;
     }
     length_ = config["length"].get<std::uint64_t>();

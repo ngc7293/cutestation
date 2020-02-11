@@ -25,27 +25,23 @@ bool ChartWidget::init(data::SeriesSP series, const json& config)
 {
     Widget::init(series, config);
 
-    if (!(config.count("length") && config["length"].is_number_unsigned())) {
-        Log::warn("ChartWidget", "Could not init widget " + name_ + ": missing or invalid configuration 'length'");
+    if (!(timeseries_ = std::dynamic_pointer_cast<data::TimeSeries<double>>(series_))) {
+        Log::err("ChartWidget", name_ + ": error obtaining TimeSeries");
+        return false;
+    }
+
+    if (!has_uint(config, "length")) {
+        Log::err("ChartWidget", name_ + ": missing or invalid configuration 'length'");
         return false;
     }
     length_ = config["length"].get<int>();
 
-    if (!(config.count("range") && config["range"].is_array())) {
-        Log::warn("ChartWidget", "Could not init widget " + name_ + ": missing or invalid configuration 'length'");
-        return false;
-    }
-    if (!(config["range"].size() == 2 && config["range"][0].is_number() && config["range"][1].is_number())) {
-        Log::warn("ChartWidget", "Could not init widget " + name_ + ": missing or invalid configuration 'length'");
+    if (!(has_array(config, "range", 2) && config["range"][0].is_number() && config["range"][1].is_number())) {
+        Log::err("ChartWidget", name_ + ": missing or invalid configuration 'length'");
         return false;
     }
     min_ = std::min(config["range"][0].get<double>(), config["range"][1].get<double>());
     max_ = std::max(config["range"][0].get<double>(), config["range"][1].get<double>());
-
-    if (!(timeseries_ = std::dynamic_pointer_cast<data::TimeSeries<double>>(series_))) {
-        Log::err("ChartWidget", "Could not init widget " + name_ + ": error obtaining TimeSeries");
-        return false;
-    }
 
     chartview_ = new QtCharts::QChartView(this);
 
