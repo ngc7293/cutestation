@@ -32,6 +32,8 @@ public:
 
     virtual bool init(data::SeriesSP series, const json& config = json());
 
+    std::string name() { return name_; }
+
 protected slots:
     virtual void refresh() = 0;
 };

@@ -55,9 +55,40 @@ bool Configurator::configure(QGridLayout& layout, data::Tree& tree)
         }
         widget->setParent(layout.parentWidget());
 
-        layout.addWidget(widget, widget_config["y"].get<int>(), widget_config["x"].get<int>());
+        if (!addToGrid(layout, widget, widget_config)) {
+            delete widget;
+        }
     }
 
+    return true;
+}
+
+bool Configurator::addToGrid(QGridLayout& layout, widgets::Widget* widget, const json& config)
+{
+    int rowspan = 1, colspan = 1;
+
+    if (!(config.count("x") && config.count("y") && config["x"].is_number_unsigned() && config["y"].is_number_unsigned())) {
+        Log::err("Configurator", "Could not add widget '" + widget->name() + "': invalid x/y grid position");
+        return false;
+    }
+
+    if (config.count("width") && config["width"].is_number_unsigned()) {
+        widget->setFixedWidth(config["width"].get<int>());
+    }
+
+    if (config.count("height") && config["height"].is_number_unsigned()) {
+        widget->setFixedHeight(config["height"].get<int>());
+    }
+
+    if (config.count("colspan") && config["colspan"].is_number_unsigned()) {
+        colspan = config["colspan"].get<int>();
+    }
+
+    if (config.count("rowspan") && config["rowspan"].is_number_unsigned()) {
+        rowspan = config["rowspan"].get<int>();
+    }
+
+    layout.addWidget(widget, config["y"].get<int>(), config["x"].get<int>(), colspan, rowspan);
     return true;
 }
 
