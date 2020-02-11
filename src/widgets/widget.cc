@@ -4,6 +4,7 @@
 #include <QTimer>
 
 #include "data/time_series.h"
+#include "log.h"
 #include "util.h"
 
 namespace cute { namespace widgets {
@@ -32,9 +33,10 @@ bool Widget::init(data::SeriesSP series, const json& config)
     timer_ = new QTimer(this);
     connect(timer_, &QTimer::timeout, this, &Widget::refresh);
 
-    if (config.count("refresh_rate") && config["refresh_rate"].is_number()) {
+    if (has_int(config, "refresh_rate")) {
         timer_->start(1000 / config["refresh_rate"].get<int>());
     } else {
+        Log::err("Widget", name_ + ": missing or invalid mandatory configuration 'refresh_rate'");
         return false;
     }
 
