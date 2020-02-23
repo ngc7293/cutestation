@@ -1,16 +1,20 @@
 cmake_minimum_required(VERSION 3.7.0)
 project(cute)
 
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
 ## FILES
 set( SOURCES
     src/app.cc
+    src/configurator.cc
     src/data/node_finder.cc
     src/data/node.cc
+    src/data/series_factory.cc
     src/data/series.cc
     src/data/time_series.cc
     src/data/tree.cc
-    src/data/series_factory.cc
-    src/configurator.cc
     src/log.cc
     src/main.cc
     src/policies/average_sampling_policy.cc
@@ -27,13 +31,13 @@ set( SOURCES
 
 SET( HEADERS
     inc/app.h
+    inc/configurator.h
     inc/data/node_finder.h
     inc/data/node.h
+    inc/data/series_factory.h
     inc/data/series.h
     inc/data/time_series.h
     inc/data/tree.h
-    inc/data/series_factory.h
-    inc/configurator.h
     inc/log.h
     inc/message_ingestor.h
     inc/policies/average_sampling_policy.h
@@ -58,10 +62,6 @@ SET( PROTO
 
 ## Libraries
 # Qt5
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
-
 set(CMAKE_PREFIX_PATH /opt/Qt/5.14.1/gcc_64/)
 find_package(Qt5 COMPONENTS Core Widgets Network Charts REQUIRED)
 
@@ -81,6 +81,6 @@ add_executable(cute ${SOURCES} ${HEADERS} ${PROTO_SOURCES} ${PROTO_HEADERS} ${UI
 
 set_property(TARGET cute PROPERTY CXX_STANDARD 17)
 
-target_link_libraries(cute Qt5::Widgets Qt5::Network Qt5::Charts protobuf::libprotobuf gcov nlohmann_json::nlohmann_json)
+target_link_libraries(cute Qt5::Widgets Qt5::Network Qt5::Charts protobuf::libprotobuf nlohmann_json::nlohmann_json)
 target_include_directories(cute PRIVATE inc ${PROTOBUF_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR})
 target_compile_options(cute PRIVATE -Wall -Wpedantic)

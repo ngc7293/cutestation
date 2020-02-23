@@ -35,7 +35,7 @@ SocketDispatcher::~SocketDispatcher()
 
 void SocketDispatcher::closeAll()
 {
-    connectionClosed();
+    emit connectionClosed();
 }
 
 void SocketDispatcher::openLocalConnection()

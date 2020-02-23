@@ -1,19 +1,24 @@
 {
+    "series": [
+        {
+            "source": "anirniq.acquisition.gps.lat",
+            "length": 2000
+        }
+    ],
     "widgets": [
         {
-            "source": "anirniq.acquisition.gps.lat",
             "type": "chart",
+            "source": "anirniq.acquisition.gps.lat",
             "length": 2000,
-            "refresh_rate": 20,
+            "refresh_rate": 60,
+            "range": [0, 2],
             "x": 0,
-            "y": 0,
-            "range": [0, 2]
+            "y": 0
         },
         {
-            "source": "anirniq.acquisition.gps.lat",
             "type": "single",
+            "source": "anirniq.acquisition.gps.lat",
             "format": "Latitude: %1",
-            "length": 1,
             "refresh_rate": 1,
             "x": 0,
             "y": 1

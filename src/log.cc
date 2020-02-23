@@ -4,40 +4,47 @@
 #include <iomanip>
 #include <iostream>
 #include <map>
+#include <string>
 
 #include <ctime>
 
 namespace cute {
 
 namespace {
-const std::map<Log::Level, std::string> LOG_LEVEL_STRING = {
-    { Log::DEBUG, "debug" },
-    { Log::INFO, "info" },
-    { Log::WARNING, "warning" },
-    { Log::ERROR, "error" }
-};
-
 const char* LOG_TIME_FORMAT = "%Y-%m-%d %H:%M:%S";
+
+const std::string string_from_level(Log::Level level)
+{
+    static const std::map<const Log::Level, const std::string> LOG_LEVEL_STRING = {
+        { Log::DEBUG, "debug" },
+        { Log::INFO, "info" },
+        { Log::WARNING, "warning" },
+        { Log::ERROR, "error" },
+    };
+
+    return LOG_LEVEL_STRING.at(level);
 }
 
-void Log::debug(std::string component, std::string message)
-{
-    Log::get().log(DEBUG, component, message);
 }
 
-void Log::info(std::string component, std::string message)
+std::ostream& Log::debug(std::string component, std::string message)
 {
-    Log::get().log(INFO, component, message);
+    return Log::get().log(DEBUG, component, message);
 }
 
-void Log::warn(std::string component, std::string message)
+std::ostream& Log::info(std::string component, std::string message)
 {
-    Log::get().log(WARNING, component, message);
+    return Log::get().log(INFO, component, message);
 }
 
-void Log::err(std::string component, std::string message)
+std::ostream& Log::warn(std::string component, std::string message)
 {
-    Log::get().log(ERROR, component, message);
+    return Log::get().log(WARNING, component, message);
+}
+
+std::ostream& Log::err(std::string component, std::string message)
+{
+    return Log::get().log(ERROR, component, message);
 }
 
 Log::Log() {}
@@ -50,11 +57,17 @@ Log& Log::get()
     return log;
 }
 
-void Log::log(Level level, std::string component, std::string message)
+std::ostream& Log::log(Level level, std::string component, std::string message)
 {
     auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
-    std::cout << "[" << std::put_time(std::localtime(&now), LOG_TIME_FORMAT) << "] (" << LOG_LEVEL_STRING.at(level) << ") [" << component << "] " << message << std::endl;
+    std::cout << "[" << std::put_time(std::localtime(&now), LOG_TIME_FORMAT) << "] (" << string_from_level(level) << ") [" << component << "] ";
+
+    if (message != "") {
+        std::cout << message << std::endl;
+    }
+
+    return std::cout;
 }
 
 } // namespace
