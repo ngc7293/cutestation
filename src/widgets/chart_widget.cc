@@ -1,5 +1,6 @@
 #include "widgets/chart_widget.h"
 
+#include <QApplication>
 #include <QColor>
 #include <QDateTime>
 #include <QDateTimeAxis>
@@ -57,10 +58,15 @@ bool ChartWidget::init(data::SeriesSP series, const json& config)
     chartview_->chart()->addSeries(lineseries);
     chartview_->chart()->addAxis(xaxis, Qt::AlignBottom);
     chartview_->chart()->addAxis(yaxis, Qt::AlignLeft);
-    chartview_->setRenderHint(QPainter::Antialiasing);
 
     lineseries->attachAxis(xaxis);
     lineseries->attachAxis(yaxis);
+
+    // UI tweaks
+    // chartview_->chart()->setBackgroundVisible(false);
+    // xaxis->setLabelsColor(QApplication::palette().text().color());
+    // yaxis->setLabelsColor(QApplication::palette().text().color());
+    chartview_->setRenderHint(QPainter::Antialiasing);
 
     layout()->addWidget(chartview_);
 

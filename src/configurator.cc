@@ -37,9 +37,14 @@ bool Configurator::configure(QGridLayout& layout, data::Tree& tree)
         return false;
     }
 
-    for (const auto& widget_config : config_["widgets"]) {
-        data::SeriesSP series = data::SeriesFactory::build(tree, widget_config);
+    if (has_array(config_, "series")) {
+        for (const auto& series_config: config_["series"]) {
+            data::SeriesSP series = data::SeriesFactory::build(tree, series_config);
+        }
+    }
 
+    for (const auto& widget_config: config_["widgets"]) {
+        data::SeriesSP series = data::SeriesFactory::build(tree, widget_config);
         if (!series) {
             continue;
         }

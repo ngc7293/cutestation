@@ -27,5 +27,5 @@ bool has_uint(const json& j, std::string key)
 
 bool has_array(const json& j, std::string key, int size)
 {
-    return j.count(key) && j[key].is_array() && (size == -1 || j[key].size() == size);
+    return j.count(key) && j[key].is_array() && (size == -1 || j[key].size() == (std::size_t)size);
 }

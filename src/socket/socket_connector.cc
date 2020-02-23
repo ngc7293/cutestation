@@ -24,7 +24,7 @@ void SocketConnector::readData()
 
     PacketSP msg = std::make_shared<Packet>();
     msg->ParseFromArray(data.data(), data.size());
-    messageReady(msg);
+    emit messageReady(msg);
 }
 
 void SocketConnector::close()
