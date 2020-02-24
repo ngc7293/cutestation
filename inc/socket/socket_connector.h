@@ -8,8 +8,10 @@
 #include "proto/packet.h"
 
 
-class SocketConnector : public QObject {
+class SocketConnector : public QObject, public PacketEmitter, public PacketIngestor {
     Q_OBJECT
+    Q_INTERFACES(PacketEmitter)
+    Q_INTERFACES(PacketIngestor)
 
 private:
     QLocalSocket* socket_;
@@ -23,9 +25,10 @@ private slots:
 
 public slots:
     void close();
+    void receivePacket(PacketSP packet) override { };
 
 signals:
-    void messageReady(PacketSP msg);
+    void packetReady(PacketSP packet) override;
     void connectionClosed();
 };
 

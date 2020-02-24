@@ -3,17 +3,17 @@
 
 #include <QLocalServer>
 
-#include "message_ingestor.h"
+#include "proto/packet.h"
 
 class SocketDispatcher : public QObject {
     Q_OBJECT
 
 private:
     QLocalServer* server_;
-    MessageIngestor* ingestor_;
+    PacketIngestor* ingestor_;
 
 public:
-    SocketDispatcher(MessageIngestor* ingestor);
+    SocketDispatcher(PacketIngestor* ingestor);
     ~SocketDispatcher();
 
 public slots:
