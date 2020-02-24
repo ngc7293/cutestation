@@ -15,7 +15,7 @@ Tree::~Tree()
 {
 }
 
-void Tree::receiveMessage(PacketSP packet)
+void Tree::receivePacket(PacketSP packet)
 {
     if (NodeSP node = NodeFinder(packet->source()).visit(root_)) {
         if (SeriesSP series = node->series()) {

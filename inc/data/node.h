@@ -13,7 +13,10 @@ namespace cute { namespace data {
 class Node;
 typedef std::shared_ptr<Node> NodeSP;
 
-class Node {
+class Node : public QObject, public PacketEmitter {
+    Q_OBJECT
+    Q_INTERFACES(PacketEmitter)
+
 private:
     std::unordered_map<std::string, NodeSP> children_;
     std::string name_;
@@ -31,6 +34,9 @@ public:
     SeriesSP series() const { return series_; }
 
     NodeSP addChild(std::string name) { return children_.emplace(name, std::make_shared<Node>(name)).first->second; }
+
+signals:
+    void packetReady(PacketSP) override;
 };
 
 }} // namespaces

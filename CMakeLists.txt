@@ -39,7 +39,6 @@ SET( HEADERS
     inc/data/time_series.h
     inc/data/tree.h
     inc/log.h
-    inc/message_ingestor.h
     inc/policies/average_sampling_policy.h
     inc/policies/no_sampling_policy.h
     inc/policies/sampling_policy.h
