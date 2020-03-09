@@ -4,7 +4,9 @@
 
 #include "data/node_finder.h"
 
-namespace cute { namespace data {
+#include "log.h"
+
+namespace cute::data {
 
 Tree::Tree()
     : root_(new Node(""))
@@ -15,13 +17,15 @@ Tree::~Tree()
 {
 }
 
-void Tree::receivePacket(PacketSP packet)
+void Tree::receiveData(proto::DataSP data)
 {
-    if (NodeSP node = NodeFinder(packet->source()).visit(root_)) {
-        if (SeriesSP series = node->series()) {
-            series->accept(packet);
+    for (const proto::Measurement& measurement : data->measurements()) {
+        if (NodeSP node = NodeFinder(measurement.source()).visit(root_)) {
+            if (SeriesSP series = node->series()) {
+                series->accept(measurement);
+            }
         }
     }
 }
 
-}} // namespaces
+} // namespaces

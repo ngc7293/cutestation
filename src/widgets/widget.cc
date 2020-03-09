@@ -7,7 +7,7 @@
 #include "log.h"
 #include "util.h"
 
-namespace cute { namespace widgets {
+namespace cute::widgets {
 
 Widget::Widget(QWidget* parent, std::string name)
     : QWidget(parent)
@@ -43,4 +43,4 @@ bool Widget::init(data::SeriesSP series, const json& config)
     return true;
 }
 
-}} // namespaces
+} // namespaces

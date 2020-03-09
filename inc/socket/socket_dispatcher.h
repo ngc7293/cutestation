@@ -5,15 +5,17 @@
 
 #include "proto/packet.h"
 
+namespace cute::io {
+
 class SocketDispatcher : public QObject {
     Q_OBJECT
 
 private:
     QLocalServer* server_;
-    PacketIngestor* ingestor_;
+    proto::DataIngestor* ingestor_;
 
 public:
-    SocketDispatcher(PacketIngestor* ingestor);
+    SocketDispatcher(proto::DataIngestor* ingestor);
     ~SocketDispatcher();
 
 public slots:
@@ -26,5 +28,7 @@ signals:
     void connectionClosed();
 
 };
+
+} // namespaces
 
 #endif // UNIX_CONNECTOR_MANAGER_H_

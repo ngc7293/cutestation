@@ -9,6 +9,8 @@ set(CMAKE_AUTOUIC ON)
 set( SOURCES
     src/app.cc
     src/configurator.cc
+    src/data/command.cc
+    src/data/command_factory.cc
     src/data/node_finder.cc
     src/data/node.cc
     src/data/series_factory.cc
@@ -23,7 +25,9 @@ set( SOURCES
     src/socket/socket_connector.cc
     src/socket/socket_dispatcher.cc
     src/util.cc
+    src/widgets/button_widget.cc
     src/widgets/chart_widget.cc
+    src/widgets/control_widget.cc
     src/widgets/single_value_widget.cc
     src/widgets/widget_factory.cc
     src/widgets/widget.cc
@@ -32,6 +36,8 @@ set( SOURCES
 SET( HEADERS
     inc/app.h
     inc/configurator.h
+    inc/data/command.h
+    inc/data/command_factory.h
     inc/data/node_finder.h
     inc/data/node.h
     inc/data/series_factory.h
@@ -45,7 +51,9 @@ SET( HEADERS
     inc/socket/socket_connector.h
     inc/socket/socket_dispatcher.h
     inc/util.h
+    inc/widgets/button_widget.h
     inc/widgets/chart_widget.h
+    inc/widgets/control_widget.h
     inc/widgets/single_value_widget.h
     inc/widgets/widget_factory.h
     inc/widgets/widget.h

@@ -7,11 +7,16 @@
 
 #include "proto/packet.h"
 
+namespace cute::data {
+    class Source;
+}
 
-class SocketConnector : public QObject, public PacketEmitter, public PacketIngestor {
+namespace cute::io {
+
+class SocketConnector : public QObject, public proto::DataEmitter, public proto::DataIngestor {
     Q_OBJECT
-    Q_INTERFACES(PacketEmitter)
-    Q_INTERFACES(PacketIngestor)
+    Q_INTERFACES(cute::proto::DataEmitter)
+    Q_INTERFACES(cute::proto::DataIngestor)
 
 private:
     QLocalSocket* socket_;
@@ -25,11 +30,13 @@ private slots:
 
 public slots:
     void close();
-    void receivePacket(PacketSP packet) override { };
+    void receiveData(proto::DataSP data) override { };
 
 signals:
-    void packetReady(PacketSP packet) override;
+    void dataReady(proto::DataSP data) override;
     void connectionClosed();
 };
+
+}
 
 #endif

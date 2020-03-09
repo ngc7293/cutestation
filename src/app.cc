@@ -18,7 +18,7 @@ App::App(QWidget* parent)
     ui_->setupUi(this);
 
     tree_ = new cute::data::Tree();
-    dispatcher_ = new SocketDispatcher(tree_);
+    dispatcher_ = new cute::io::SocketDispatcher(tree_);
 
     cute::Configurator configurator;
     configurator.load("config.json");

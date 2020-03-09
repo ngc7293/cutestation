@@ -1,9 +1,10 @@
 #include "socket/socket_connector.h"
 
-#include <chrono>
-#include <iostream>
-
+#include "log.h"
 #include "proto/packet.h"
+
+
+namespace cute::io {
 
 SocketConnector::SocketConnector(QLocalSocket* socket, QThread* thread)
     : socket_(socket)
@@ -20,14 +21,30 @@ SocketConnector::~SocketConnector()
 
 void SocketConnector::readData()
 {
-    QByteArray data = socket_->readAll();
+    QByteArray buffer = socket_->readAll();
+    proto::DataSP data;
 
-    PacketSP msg = std::make_shared<Packet>();
-    msg->ParseFromArray(data.data(), data.size());
-    emit packetReady(msg);
+    proto::Packet* packet = new proto::Packet();
+    packet->ParseFromArray(buffer.data(), buffer.size());
+
+    switch (packet->payload_case()) {
+        case proto::Packet::kData:
+            data = std::make_shared<proto::Data>(packet->data());
+            emit dataReady(data);
+            break;
+        case proto::Packet::kHandshake:
+            break;
+
+        case proto::Packet::PAYLOAD_NOT_SET:
+            Log::info("SocketConnector") << "Invalid payload in Packet message" << std::endl;
+    }
+
+    delete packet;
 }
 
 void SocketConnector::close()
 {
     deleteLater();
 }
+
+} // namespaces

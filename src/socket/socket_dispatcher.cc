@@ -4,7 +4,9 @@
 
 #include "socket/socket_connector.h"
 
-SocketDispatcher::SocketDispatcher(PacketIngestor* ingestor)
+namespace cute::io {
+
+SocketDispatcher::SocketDispatcher(proto::DataIngestor* ingestor)
     : ingestor_(ingestor)
 {
     bool failed = false;
@@ -47,7 +49,7 @@ void SocketDispatcher::openLocalConnection()
     SocketConnector* connector = new SocketConnector(socket, thread);
 
     // Have to use the older SIGNAL()/SLOT() syntax because of abstract multiple-inheritance shenenigans
-    connect(dynamic_cast<QObject*>(connector), SIGNAL(packetReady(PacketSP)), dynamic_cast<QObject*>(ingestor_), SLOT(receivePacket(PacketSP)), Qt::DirectConnection);
+    connect(dynamic_cast<QObject*>(connector), SIGNAL(dataReady(proto::DataSP)), dynamic_cast<QObject*>(ingestor_), SLOT(receiveData(proto::DataSP)), Qt::DirectConnection);
     connect(this, &SocketDispatcher::connectionClosed, connector, &SocketConnector::close);
 
     socket->setParent(connector);
@@ -56,3 +58,5 @@ void SocketDispatcher::openLocalConnection()
 
     thread->start();
 }
+
+} // namespaces

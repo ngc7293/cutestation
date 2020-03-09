@@ -7,7 +7,7 @@
 #include "data/time_series.h"
 #include "policies/no_sampling_policy.h"
 
-namespace cute { namespace data {
+namespace cute::data {
 
 SeriesSP SeriesFactory::build(Tree& tree, const json& config)
 {
@@ -34,4 +34,4 @@ SeriesSP SeriesFactory::build(Tree& tree, const json& config)
     return node->series();
 }
 
-}} // namespaces
+} // namespaces
