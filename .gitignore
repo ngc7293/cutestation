@@ -8,3 +8,6 @@ ui_app.h
 
 # IDE
 .vscode/
+
+# Python
+venv

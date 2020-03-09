@@ -2,7 +2,7 @@
 
 #include "policies/average_sampling_policy.h"
 
-namespace cute { namespace data {
+namespace cute::data {
 
 Series::Series()
 {
@@ -16,4 +16,4 @@ bool Series::init(SamplingPolicySP sampling_policy, const json& config)
     return true;
 }
 
-}}
+} // namespaces

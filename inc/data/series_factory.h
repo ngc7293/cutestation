@@ -8,13 +8,13 @@
 
 using json = nlohmann::json;
 
-namespace cute { namespace data {
+namespace cute::data {
 
 class SeriesFactory {
 public:
     static SeriesSP build(Tree& tree, const json& config);
 };
 
-}} // namespaces
+} // namespaces
 
 #endif 

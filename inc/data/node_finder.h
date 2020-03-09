@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-namespace cute { namespace data { 
+namespace cute::data { 
 
 class Node;
 typedef std::shared_ptr<Node> NodeSP;
@@ -27,6 +27,6 @@ public:
     NodeSP visit(NodeSP node);
 };
 
-}} // namespaces
+} // namespaces
 
 #endif

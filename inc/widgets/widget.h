@@ -14,7 +14,7 @@
 
 using json = nlohmann::json;
 
-namespace cute { namespace widgets {
+namespace cute::widgets {
 
 class Widget : public QWidget {
     Q_OBJECT
@@ -38,6 +38,6 @@ protected slots:
     virtual void refresh() = 0;
 };
 
-}} // namespaces
+} // namespaces
 
 #endif

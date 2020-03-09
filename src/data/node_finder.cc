@@ -4,7 +4,7 @@
 
 #include "data/node.h"
 
-namespace cute { namespace data {
+namespace cute::data {
 
 NodeFinder::NodeFinder(std::string name, bool create)
     : create_(create)
@@ -47,4 +47,4 @@ NodeSP NodeFinder::visit(NodeSP node)
     return NodeSP();
 }
 
-}} // namespaces
+} // namespaces

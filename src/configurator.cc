@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <fstream>
 
+#include "data/command_factory.h"
 #include "data/series.h"
 #include "data/series_factory.h"
 #include "log.h"
@@ -44,12 +45,18 @@ bool Configurator::configure(QGridLayout& layout, data::Tree& tree)
     }
 
     for (const auto& widget_config: config_["widgets"]) {
+        data::CommandSP command;
+
+        if (has_string(widget_config, "command")) {
+            command = data::CommandFactory::build(tree, widget_config);
+        }
+
         data::SeriesSP series = data::SeriesFactory::build(tree, widget_config);
         if (!series) {
             continue;
         }
 
-        widgets::Widget* widget = widgets::WidgetFactory::build(series, widget_config);
+        widgets::Widget* widget = widgets::WidgetFactory::build(series, command, widget_config);
         if (!widget) {
             // TODO: Remove the series/data object if no one else refers to it?
             continue;

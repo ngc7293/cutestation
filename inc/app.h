@@ -16,7 +16,7 @@ class App : public QMainWindow {
 
 private:
     Ui::App* ui_;
-    SocketDispatcher* dispatcher_;
+    cute::io::SocketDispatcher* dispatcher_;
     cute::data::Tree* tree_;
 
 public:
