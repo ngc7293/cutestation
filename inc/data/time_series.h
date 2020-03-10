@@ -1,5 +1,5 @@
-#ifndef TIME_SERIES_H_
-#define TIME_SERIES_H_
+#ifndef DATA_TIME_SERIES_H_
+#define DATA_TIME_SERIES_H_
 
 #include "series.h"
 

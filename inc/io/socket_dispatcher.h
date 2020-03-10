@@ -12,10 +12,9 @@ class SocketDispatcher : public QObject {
 
 private:
     QLocalServer* server_;
-    proto::DataIngestor* ingestor_;
 
 public:
-    SocketDispatcher(proto::DataIngestor* ingestor);
+    SocketDispatcher();
     ~SocketDispatcher();
 
 public slots:

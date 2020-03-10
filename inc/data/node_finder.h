@@ -1,5 +1,5 @@
-#ifndef NODE_FINDER_H_
-#define NODE_FINDER_H_
+#ifndef DATA_NODE_FINDER_H_
+#define DATA_NODE_FINDER_H_
 
 #include <memory>
 #include <string>

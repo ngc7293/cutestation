@@ -1,13 +1,12 @@
-#include "socket/socket_dispatcher.h"
+#include "io/socket_dispatcher.h"
 
 #include <QMessageBox>
 
-#include "socket/socket_connector.h"
+#include "io/socket_connector.h"
 
 namespace cute::io {
 
-SocketDispatcher::SocketDispatcher(proto::DataIngestor* ingestor)
-    : ingestor_(ingestor)
+SocketDispatcher::SocketDispatcher()
 {
     bool failed = false;
     server_ = new QLocalServer();
@@ -49,8 +48,16 @@ void SocketDispatcher::openLocalConnection()
     SocketConnector* connector = new SocketConnector(socket, thread);
 
     // Have to use the older SIGNAL()/SLOT() syntax because of abstract multiple-inheritance shenenigans
-    connect(dynamic_cast<QObject*>(connector), SIGNAL(dataReady(proto::DataSP)), dynamic_cast<QObject*>(ingestor_), SLOT(receiveData(proto::DataSP)), Qt::DirectConnection);
-    connect(this, &SocketDispatcher::connectionClosed, connector, &SocketConnector::close);
+    // connect(
+    //     dynamic_cast<QObject*>(connector), SIGNAL(dataReady(proto::DataSP)),
+    //     dynamic_cast<QObject*>(ingestor_), SLOT(receiveData(proto::DataSP)),
+    //     Qt::DirectConnection
+    // );
+    
+    connect(
+        this, &SocketDispatcher::connectionClosed,
+        connector, &SocketConnector::close
+    );
 
     socket->setParent(connector);
     connector->moveToThread(thread);
