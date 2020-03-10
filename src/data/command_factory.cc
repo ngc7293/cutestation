@@ -8,7 +8,7 @@
 
 namespace cute::data {
 
-CommandSP CommandFactory::build(Tree& tree, const json& config)
+CommandSP CommandFactory::build(const json& config)
 {
     CommandSP command;
 
@@ -18,13 +18,13 @@ CommandSP CommandFactory::build(Tree& tree, const json& config)
     }
 
     NodeFinder creator(config["command"].get<std::string>(), true);
-    NodeSP node = creator.visit(tree.root());
+    NodeSP node = creator.visit(Tree::root());
 
     if (node->command()) {
         return node->command();
     }
 
-    command = std::make_shared<Command>();
+    command = std::make_shared<Command>(config["command"].get<std::string>());
     node->setCommand(command);
     return node->command();
 }

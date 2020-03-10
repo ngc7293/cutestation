@@ -7,7 +7,7 @@ from math import sin
 from socket import socket, AF_UNIX, SOCK_STREAM
 from time import sleep, time
 
-from proto.packet_pb2 import Packet, Measurement
+from proto.packet_pb2 import Packet, Measurement, Handshake
 
 
 def create_measurement(source, value):
@@ -24,6 +24,12 @@ def main(args):
     sock = socket(family=AF_UNIX, type=SOCK_STREAM)
     sock.connect("/tmp/cute")
 
+    packet = Packet()
+    packet.handshake.name = "python_testing"
+    packet.handshake.commands.append("anirniq.remote_control.engine.sequence.start")
+    sock.send(packet.SerializeToString())
+    sleep(0.001)
+
     n = 0
     while True:
         packet = Packet()
@@ -37,5 +43,5 @@ def main(args):
 
 if __name__ == '__main__':
     parser = ArgumentParser()
-    parser.add_argument('-s', '--source')
+    parser.add_argument('-s', '--source', required=True)
     main(parser.parse_args())

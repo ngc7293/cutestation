@@ -6,8 +6,9 @@
 int main(int argc, char* argv[])
 {
     /* Setup QT types */
-    qRegisterMetaType<cute::proto::DataSP>("cute.proto.DataSP");
-    qRegisterMetaType<cute::proto::HandshakeSP>("cute.proto.HandshakeSP");
+    qRegisterMetaType<cute::proto::DataSP>("cute::proto::DataSP");
+    qRegisterMetaType<cute::proto::DataSP>("proto::DataSP");
+    qRegisterMetaType<cute::proto::HandshakeSP>("cute::proto::HandshakeSP");
 
     /* App */
     QApplication qapp(argc, argv);

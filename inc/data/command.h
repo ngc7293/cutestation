@@ -1,29 +1,24 @@
-#ifndef COMMAND_H_
-#define COMMAND_H_
+#ifndef DATA_COMMAND_H_
+#define DATA_COMMAND_H_
 
+#include "source.h"
 #include "proto/packet.h"
 
 namespace cute::data {
 
-class Command : public QObject, public proto::DataEmitter {
-    Q_OBJECT
-    Q_INTERFACES(cute::proto::DataEmitter)
-
+class Command {
 private:
-    proto::DataIngestor* ingestor_;
+    std::vector<Source*> sources_;
+    std::string name_;
 
 public:
-    Command();
+    Command(std::string name);
     ~Command();
 
-    proto::DataIngestor* ingestor() const { return ingestor_; }
-    void setIngestor(proto::DataIngestor* ingestor);
+    void registerDataSource(Source* source);
 
     template<typename T>
     void setValue(T value);
-
-signals:
-    void dataReady(proto::DataSP data);
 };
 
 typedef std::shared_ptr<Command> CommandSP;

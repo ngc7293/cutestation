@@ -16,13 +16,11 @@ App::App(QWidget* parent)
     , ui_(new Ui::App())
 {
     ui_->setupUi(this);
-
-    tree_ = new cute::data::Tree();
-    dispatcher_ = new cute::io::SocketDispatcher(tree_);
+    dispatcher_ = new cute::io::SocketDispatcher();
 
     cute::Configurator configurator;
     configurator.load("config.json");
-    configurator.configure(*ui_->gridLayout_2, *tree_);
+    configurator.configure(*ui_->gridLayout_2);
 
     // FIXME: Find a real icon. This only works on my machine
     setWindowIcon(QIcon("/usr/share/icons/Numix-Circle/48/apps/boostnote.svg"));
@@ -31,6 +29,5 @@ App::App(QWidget* parent)
 App::~App()
 {
     delete dispatcher_;
-    delete tree_;
     delete ui_;
 }

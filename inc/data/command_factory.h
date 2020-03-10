@@ -1,5 +1,5 @@
-#ifndef COMMAND_FACTORY_H_
-#define COMMAND_FACTORY_H_
+#ifndef DATA_COMMAND_FACTORY_H_
+#define DATA_COMMAND_FACTORY_H_
 
 #include "nlohmann/json.hpp"
 
@@ -12,7 +12,7 @@ namespace cute::data {
 
 class CommandFactory {
 public:
-    static CommandSP build(Tree& tree, const json& config);
+    static CommandSP build(const json& config);
 };
 
 } // namespaces

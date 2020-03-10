@@ -1,5 +1,5 @@
-#ifndef SERIES_H_
-#define SERIES_H_
+#ifndef DATA_SERIES_H_
+#define DATA_SERIES_H_
 
 #include <QObject>
 

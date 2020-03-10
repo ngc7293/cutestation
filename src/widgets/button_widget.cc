@@ -28,11 +28,12 @@ bool ButtonWidget::init(data::SeriesSP series, data::CommandSP command, const js
 void ButtonWidget::clicked()
 {
     Log::info("ButtonWidget") << "Clicked!" << std::endl;
+    command_->setValue<bool>(true);
 }
 
 void ButtonWidget::refresh()
 {
-    button_->setEnabled(command_->ingestor() != nullptr);
+    // button_->setEnabled(command_->ingestor() != nullptr);
 }
 
 } // namespaces

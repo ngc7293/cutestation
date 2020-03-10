@@ -15,6 +15,7 @@ set( SOURCES
     src/data/node.cc
     src/data/series_factory.cc
     src/data/series.cc
+    src/data/source.cc
     src/data/time_series.cc
     src/data/tree.cc
     src/log.cc
@@ -22,8 +23,8 @@ set( SOURCES
     src/policies/average_sampling_policy.cc
     src/policies/no_sampling_policy.cc
     src/policies/sampling_policy.cc
-    src/socket/socket_connector.cc
-    src/socket/socket_dispatcher.cc
+    src/io/socket_connector.cc
+    src/io/socket_dispatcher.cc
     src/util.cc
     src/widgets/button_widget.cc
     src/widgets/chart_widget.cc
@@ -42,14 +43,15 @@ SET( HEADERS
     inc/data/node.h
     inc/data/series_factory.h
     inc/data/series.h
+    inc/data/source.h
     inc/data/time_series.h
     inc/data/tree.h
     inc/log.h
     inc/policies/average_sampling_policy.h
     inc/policies/no_sampling_policy.h
     inc/policies/sampling_policy.h
-    inc/socket/socket_connector.h
-    inc/socket/socket_dispatcher.h
+    inc/io/socket_connector.h
+    inc/io/socket_dispatcher.h
     inc/util.h
     inc/widgets/button_widget.h
     inc/widgets/chart_widget.h

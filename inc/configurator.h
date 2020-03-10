@@ -22,7 +22,7 @@ public:
     ~Configurator();
 
     bool load(std::string file);
-    bool configure(QGridLayout& layout, data::Tree& tree);
+    bool configure(QGridLayout& layout);
 
 private:
     bool addToGrid(QGridLayout& layout, widgets::Widget* widget, const json& config);

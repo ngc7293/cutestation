@@ -7,21 +7,22 @@
 
 namespace cute::data {
 
-class Tree : public QObject, public proto::DataIngestor {
-    Q_OBJECT
-    Q_INTERFACES(cute::proto::DataIngestor)
-
+class Tree {
 private:
     NodeSP root_;
 
-public:
+private:
     Tree();
+
+public:
+    Tree(Tree const&) = delete;
+    void operator=(Tree const&) = delete;
     ~Tree();
 
-    NodeSP root() const { return root_; }
-
-public slots:
-    void receiveData(proto::DataSP data) override;
+    static NodeSP root() { 
+        static Tree instance_;
+        return instance_.root_; 
+    }
 };
 
 } // namespaces

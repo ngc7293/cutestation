@@ -15,6 +15,7 @@ message Measurement {
         double float = 10;
         sint64 int = 11;
         string string = 12;
+        bool bool = 13;
     };
 }
 

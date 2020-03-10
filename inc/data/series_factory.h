@@ -1,5 +1,5 @@
-#ifndef SERIES_FACTORY_H_
-#define SERIES_FACTORY_H_
+#ifndef DATA_SERIES_FACTORY_H_
+#define DATA_SERIES_FACTORY_H_
 
 #include "nlohmann/json.hpp"
 
@@ -12,7 +12,7 @@ namespace cute::data {
 
 class SeriesFactory {
 public:
-    static SeriesSP build(Tree& tree, const json& config);
+    static SeriesSP build(const json& config);
 };
 
 } // namespaces

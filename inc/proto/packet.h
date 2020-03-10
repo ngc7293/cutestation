@@ -31,6 +31,13 @@ public slots:
     virtual void receiveHandshake(HandshakeSP data) = 0;
 };
 
+class HandshakeEmitter {
+public:
+    ~HandshakeEmitter() { }
+signals:
+    virtual void handshakeReady(HandshakeSP handshake) = 0;
+};
+
 } // namespaces
 
 Q_DECLARE_METATYPE(cute::proto::DataSP)
@@ -38,5 +45,7 @@ Q_DECLARE_METATYPE(cute::proto::HandshakeSP);
 
 Q_DECLARE_INTERFACE(cute::proto::DataIngestor, "cute.proto.DataIngestor")
 Q_DECLARE_INTERFACE(cute::proto::DataEmitter, "cute.proto.DataEmitter")
+Q_DECLARE_INTERFACE(cute::proto::HandshakeIngestor, "cute.proto.HandshakeIngestor")
+Q_DECLARE_INTERFACE(cute::proto::HandshakeEmitter, "cute.proto.HandshakeEmitter")
 
 #endif

@@ -31,7 +31,7 @@ bool Configurator::load(std::string file)
     return true;
 }
 
-bool Configurator::configure(QGridLayout& layout, data::Tree& tree)
+bool Configurator::configure(QGridLayout& layout)
 {
     if (!has_array(config_, "widgets")) {
         Log::err("Configurator", "Missing or invalid mandatory top-level configuration 'widgets'");
@@ -40,7 +40,7 @@ bool Configurator::configure(QGridLayout& layout, data::Tree& tree)
 
     if (has_array(config_, "series")) {
         for (const auto& series_config: config_["series"]) {
-            data::SeriesSP series = data::SeriesFactory::build(tree, series_config);
+            data::SeriesSP series = data::SeriesFactory::build(series_config);
         }
     }
 
@@ -48,10 +48,10 @@ bool Configurator::configure(QGridLayout& layout, data::Tree& tree)
         data::CommandSP command;
 
         if (has_string(widget_config, "command")) {
-            command = data::CommandFactory::build(tree, widget_config);
+            command = data::CommandFactory::build(widget_config);
         }
 
-        data::SeriesSP series = data::SeriesFactory::build(tree, widget_config);
+        data::SeriesSP series = data::SeriesFactory::build(widget_config);
         if (!series) {
             continue;
         }
