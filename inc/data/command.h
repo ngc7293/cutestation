@@ -8,14 +8,16 @@ namespace cute::data {
 
 class Command {
 private:
-    std::vector<Source*> sources_;
+    std::vector<SourceSP> sources_;
     std::string name_;
 
 public:
     Command(std::string name);
     ~Command();
 
-    void registerDataSource(Source* source);
+    void registerDataSource(const SourceSP& source);
+    void unregisterDataSource(const SourceSP& source);
+    bool hasRegisteredDataSources() const { return sources_.size() > 0; }
 
     template<typename T>
     void setValue(T value);

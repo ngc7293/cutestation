@@ -5,7 +5,7 @@
 
 namespace cute::data {
 
-class Source : public QObject, proto::DataIngestor, proto::DataEmitter, proto::HandshakeIngestor {
+class Source : public QObject, proto::DataIngestor, proto::DataEmitter, proto::HandshakeIngestor, public std::enable_shared_from_this<Source> {
     Q_OBJECT
     Q_INTERFACES(cute::proto::DataIngestor)
     Q_INTERFACES(cute::proto::DataEmitter)
@@ -17,6 +17,7 @@ public:
     Source();
     virtual ~Source();
 
+    void close();
     void sendData(proto::DataSP data) { emit dataReady(data); };
 
 public slots:
@@ -30,6 +31,9 @@ private:
     Priv& _d;
 };
 
-};
+typedef std::shared_ptr<Source> SourceSP;
+typedef std::weak_ptr<Source> SourceWP;
+
+}
 
 #endif

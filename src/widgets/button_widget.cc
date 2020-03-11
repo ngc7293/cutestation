@@ -3,6 +3,7 @@
 #include <QLayout>
 
 #include "log.h"
+#include "util.h"
 
 namespace cute::widgets {
 
@@ -20,6 +21,11 @@ bool ButtonWidget::init(data::SeriesSP series, data::CommandSP command, const js
     }
 
     button_ = new QPushButton(this);
+
+    if (has_string(config, "label")) {
+        button_->setText(config["label"].get<std::string>().c_str());
+    }
+
     layout()->addWidget(button_);
     connect(button_, &QPushButton::clicked, this, &ButtonWidget::clicked);
     return true;
@@ -27,13 +33,12 @@ bool ButtonWidget::init(data::SeriesSP series, data::CommandSP command, const js
 
 void ButtonWidget::clicked()
 {
-    Log::info("ButtonWidget") << "Clicked!" << std::endl;
     command_->setValue<bool>(true);
 }
 
 void ButtonWidget::refresh()
 {
-    // button_->setEnabled(command_->ingestor() != nullptr);
+    button_->setEnabled(command_->hasRegisteredDataSources());
 }
 
 } // namespaces

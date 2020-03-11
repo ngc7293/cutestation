@@ -23,7 +23,7 @@ class SocketConnector : public QObject, proto::DataEmitter, proto::DataIngestor,
 
 private:
     QLocalSocket* socket_;
-    data::Source* source_;
+    data::SourceSP source_;
 
 public:
     SocketConnector(QLocalSocket* socket, QThread* thread);

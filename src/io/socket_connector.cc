@@ -8,17 +8,19 @@ namespace cute::io {
 
 SocketConnector::SocketConnector(QLocalSocket* socket, QThread* thread)
     : socket_(socket)
-    , source_(new data::Source())
+    , source_(std::make_shared<data::Source>())
 {
     connect(socket_, &QLocalSocket::readyRead, this, &SocketConnector::readData);
     connect(socket_, &QLocalSocket::disconnected, this, &SocketConnector::close);
     connect(socket_, &QObject::destroyed, thread, &QThread::terminate);
-    connect(source_, &data::Source::dataReady, this, &SocketConnector::receiveData);
+
+    connect(source_.get(), &data::Source::dataReady, this, &SocketConnector::receiveData);
 }
 
 SocketConnector::~SocketConnector()
 {
     socket_->disconnect();
+    source_->close();
 }
 
 void SocketConnector::readData()
@@ -59,9 +61,7 @@ void SocketConnector::receiveData(proto::DataSP data)
     proto::Packet* packet = new proto::Packet();
     packet->set_allocated_data(data.get());
 
-
     buffer.resize(packet->ByteSizeLong());
-    Log::debug("SocketConnector") << "Packet size: " << buffer.size() << std::endl;
 
     packet->SerializeToArray(buffer.data(), buffer.size());
     socket_->write(buffer, buffer.size());

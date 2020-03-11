@@ -11,9 +11,19 @@ Command::Command(std::string name)
 
 Command::~Command() {}
 
-void Command::registerDataSource(Source* source)
+void Command::registerDataSource(const SourceSP& source)
 {
     sources_.push_back(source);
+}
+
+void Command::unregisterDataSource(const SourceSP& source)
+{
+    for (auto it = sources_.begin(); it != sources_.end(); it++) {
+        if (*it == source) {
+            sources_.erase(it);
+            return;
+        }
+    }
 }
 
 template<>
@@ -26,7 +36,7 @@ void Command::setValue<bool>(bool value)
     measurement->set_timestamp(now());
     measurement->set_bool_(value);
 
-    for (Source* source : sources_) {
+    for (SourceSP& source : sources_) {
         source->sendData(data);
     }
 }
