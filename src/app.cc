@@ -16,11 +16,12 @@ App::App(QWidget* parent)
     , ui_(new Ui::App())
 {
     ui_->setupUi(this);
-    dispatcher_ = new cute::io::SocketDispatcher();
 
     cute::Configurator configurator;
     configurator.load("config.json");
     configurator.configure(*ui_->gridLayout_2);
+
+    dispatcher_ = new cute::io::SocketDispatcher();
 
     // FIXME: Find a real icon. This only works on my machine
     setWindowIcon(QIcon("/usr/share/icons/Numix-Circle/48/apps/boostnote.svg"));

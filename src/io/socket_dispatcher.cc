@@ -3,6 +3,7 @@
 #include <QMessageBox>
 
 #include "io/socket_connector.h"
+#include "log.h"
 
 namespace cute::io {
 
@@ -44,6 +45,7 @@ void SocketDispatcher::openLocalConnection()
     QThread* thread = new QThread();
     thread->setObjectName("Connector");
 
+    Log::info("SocketDispatcher") << "New connection on socket " << qPrintable(server_->serverName()) << std::endl;
     QLocalSocket* socket = server_->nextPendingConnection();
     SocketConnector* connector = new SocketConnector(socket, thread);
 
