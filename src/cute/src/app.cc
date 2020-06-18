@@ -15,7 +15,9 @@ App::App(QWidget* parent)
     , ui_(new Ui::App())
 {
     ui_->setupUi(this);
-    socket_ = std::make_shared<cute::io::SocketDispatcher>();
+    // socket_ = std::make_shared<cute::io::SocketDispatcher>();
+
+    // dispatcher.enableUnix();
 
     cute::Configurator configurator;
     configurator.load("config.json");

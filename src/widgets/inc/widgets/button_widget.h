@@ -11,6 +11,7 @@ class ButtonWidget : public ControlWidget {
 
 private:
     QPushButton* button_;
+    std::string command_;
 
 public:
     ButtonWidget(QWidget* parent, const std::string& name);

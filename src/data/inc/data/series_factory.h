@@ -11,7 +11,8 @@ namespace cute::data {
 
 class SeriesFactory {
 public:
-    static SeriesSP build(const json& config);
+    template<typename T>
+    static std::shared_ptr<Series> build(const json& config);
 };
 
 } // namespaces

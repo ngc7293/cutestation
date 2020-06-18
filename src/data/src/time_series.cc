@@ -30,7 +30,6 @@ bool TimeSeries<T>::init(SamplingPolicySP sampling_policy, const json& config)
     }
 
     if (!subscribe<T>(config["source"].get<std::string>(), [this](const auto& t, const T& v) {
-        Log::info("TimeSeries") << v << " @ " << t.count() << std::endl;
         accept(
             std::chrono::duration_cast<std::chrono::milliseconds>(t),
             v
@@ -59,8 +58,6 @@ void TimeSeries<T>::accept(const std::chrono::milliseconds& when, const T& what)
     const std::lock_guard<std::mutex> lock(mutex_);
     data_.push_back(std::make_pair(when.count(), what));
 
-    
-
     if (data_.front().first < (now<std::milli>()) - length_) {
         data_.erase(data_.begin());
     }
@@ -68,5 +65,6 @@ void TimeSeries<T>::accept(const std::chrono::milliseconds& when, const T& what)
 }
 
 template class TimeSeries<double>;
+template class TimeSeries<bool>;
 
 } // namespaces

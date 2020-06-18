@@ -1,0 +1,28 @@
+cmake_minimum_required(VERSION 3.13)
+
+set(HEADERS
+    inc/io/client.h
+)
+
+set(SOURCES
+    src/client.cc
+)
+
+add_library(cute.io STATIC ${SOURCES} ${HEADERS})
+set_property(TARGET cute.io PROPERTY CXX_STANDARD 20)
+target_include_directories(cute.io PUBLIC inc/ PRIVATE src/)
+target_compile_options(cute.io PRIVATE -Wall -Wpedantic -Werror)
+target_link_libraries(cute.io PUBLIC cute.log cute.proto net)
+
+# Tests
+set( TESTS
+    tests/main.cc
+    tests/test_client.cc
+)
+
+add_executable(cute.io.test ${TESTS})
+add_test(NAME cute.io COMMAND cute.io.test)
+
+target_compile_options(cute.io.test PUBLIC --coverage)
+target_link_options(cute.io.test PUBLIC --coverage)
+target_link_libraries(cute.io.test PUBLIC cute.io gcov gtest)

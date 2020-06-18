@@ -8,7 +8,9 @@
 #include <QLineSeries>
 #include <QValueAxis>
 
-#include "data/time_series.h"
+#include <data/time_series.h>
+#include <data/series_factory.h>
+
 #include <log/log.h>
 #include <util/util.h>
 
@@ -24,6 +26,7 @@ ChartWidget::~ChartWidget() {}
 
 bool ChartWidget::init(const json& config)
 {
+    series_ = data::SeriesFactory::build<double>(config);
     Widget::init(config);
 
     if (!(timeseries_ = std::dynamic_pointer_cast<data::TimeSeries<double>>(series_))) {
