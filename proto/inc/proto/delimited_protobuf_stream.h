@@ -1,0 +1,68 @@
+#ifndef DELIMITED_PROTOBUF_STREAM_H_
+#define DELIMITED_PROTOBUF_STREAM_H_
+
+#include <iostream>
+
+template <class T>
+class DelimitedProtobufStream {
+public:
+    DelimitedProtobufStream(T& message)
+        : message(message)
+    {
+        buffer = nullptr;
+        size = 0;
+    }
+
+    ~DelimitedProtobufStream()
+    {
+        if (buffer) {
+            delete buffer;
+        }
+    }
+
+    operator bool() const { return valid; }
+
+    template <class U>
+    friend std::istream& operator>>(std::istream& is, DelimitedProtobufStream<U>& stream);
+
+    template <class U>
+    friend std::ostream& operator<<(std::ostream& os, DelimitedProtobufStream<U>& stream);
+
+private:
+    uint8_t* buffer;
+    uint64_t size;
+    T& message;
+    bool valid;
+};
+
+template <class T>
+std::istream& operator>>(std::istream& is, DelimitedProtobufStream<T>& stream)
+{
+    uint64_t size;
+    is.read((char*)&size, sizeof(size));
+
+    if (size > stream.size) {
+        if (stream.buffer) {
+            delete stream.buffer;
+            stream.buffer = nullptr;
+        }
+
+        stream.buffer = new uint8_t[size];
+    }
+
+    is.read((char*)stream.buffer, size);
+    stream.valid = stream.message.ParseFromArray(stream.buffer, size);
+
+    return is;
+}
+
+template <class T>
+std::ostream& operator<<(std::ostream& os, DelimitedProtobufStream<T>& stream)
+{
+    uint64_t size = stream.message.ByteSizeLong();
+    os.write((char*)&size, sizeof(size));
+    stream.message.SerializeToOstream(&os);
+    return os;
+}
+
+#endif

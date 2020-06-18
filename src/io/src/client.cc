@@ -25,7 +25,7 @@ Client::~Client()
 void Client::run()
 {
     proto::Packet packet;
-    proto::DelimitedProtobufStream<proto::Packet> stream(packet);
+    proto::DelimitedPacketStream stream(packet);
 
     while (!(_d->ios->eof())) {
         std::istream& is = *(_d->ios);
