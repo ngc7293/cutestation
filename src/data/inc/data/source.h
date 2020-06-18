@@ -6,12 +6,13 @@
 #include <memory>
 
 #include <topic/publisher.hh>
+#include <topic/subscriber.hh>
 
 #include <QObject>
 
 namespace cute::data {
 
-class Source : public QObject, public std::enable_shared_from_this<Source>, public Publisher {
+class Source : public QObject, public Publisher, public Subscriber {
     Q_OBJECT
 
     struct Priv;

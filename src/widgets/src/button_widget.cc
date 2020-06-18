@@ -2,6 +2,7 @@
 
 #include <QLayout>
 
+#include <data/series_factory.h>
 #include <log/log.h>
 #include <util/util.h>
 
@@ -16,6 +17,9 @@ ButtonWidget::~ButtonWidget() {}
 
 bool ButtonWidget::init(const json& config)
 {
+    series_ = data::SeriesFactory::build<bool>(config);
+    command_ = config["source"].get<std::string>();
+
     if (!ControlWidget::init(config)) {
         return false;
     }
@@ -33,7 +37,7 @@ bool ButtonWidget::init(const json& config)
 
 void ButtonWidget::clicked()
 {
-    // command_->setValue(true);
+    publish<bool>(command_, true);
 }
 
 void ButtonWidget::refresh()

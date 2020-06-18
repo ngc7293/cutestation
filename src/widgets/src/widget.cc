@@ -24,7 +24,6 @@ Widget::~Widget()
 
 bool Widget::init(const json& config)
 {
-    series_ = data::SeriesFactory::build(config);
     setLayout(new QHBoxLayout(this));
 
     timer_ = new QTimer(this);

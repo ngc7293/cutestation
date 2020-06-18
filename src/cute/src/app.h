@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QThread>
 
-#include "socket_dispatcher.h"
+// #include <io/io_dispatcher.h>
 
 namespace Ui {
 class App;
@@ -15,7 +15,7 @@ class App : public QMainWindow {
 
 private:
     Ui::App* ui_;
-    std::shared_ptr<cute::io::SocketDispatcher> socket_;
+    // cute::io::IODispatcher dispatcher;
 
 public:
     explicit App(QWidget* parent = 0);

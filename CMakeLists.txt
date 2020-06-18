@@ -21,8 +21,8 @@ find_package(nlohmann_json 3.7.0 REQUIRED)
 
 # Google Tests
 enable_testing()
-include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
-set(GTEST_LIBRARIES gtest gtest_main)
+# include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+# set(GTEST_LIBRARIES gtest gtest_main)
 
 # Uh
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

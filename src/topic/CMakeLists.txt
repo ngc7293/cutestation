@@ -42,5 +42,5 @@ add_test(NAME cute.topic COMMAND cute.topic.test)
 
 target_compile_options(cute.topic.test PUBLIC --coverage)
 target_link_options(cute.topic.test PUBLIC --coverage)
-target_link_libraries(cute.topic.test PUBLIC cute.topic gcov ${GTEST_LIBRARIES})
+target_link_libraries(cute.topic.test PUBLIC cute.topic gcov gtest)
 

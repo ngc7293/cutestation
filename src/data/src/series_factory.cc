@@ -9,6 +9,7 @@
 
 namespace cute::data {
 
+template <typename T>
 std::shared_ptr<Series> SeriesFactory::build(const json& config)
 {
     std::shared_ptr<Series> series;
@@ -18,12 +19,15 @@ std::shared_ptr<Series> SeriesFactory::build(const json& config)
         return std::shared_ptr<Series>();
     }
 
-    series = std::make_shared<TimeSeries<double>>();
+    series = std::make_shared<TimeSeries<T>>();
     if (!series->init(std::make_shared<NoSamplingPolicy>(), config)) {
         return std::shared_ptr<Series>();
     }
 
     return series;
 }
+
+template std::shared_ptr<Series> SeriesFactory::build<double>(const json& config);
+template std::shared_ptr<Series> SeriesFactory::build<bool>(const json& config);
 
 } // namespaces
