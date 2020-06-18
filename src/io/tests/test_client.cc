@@ -36,8 +36,7 @@ TEST(Client, pass)
     cute::proto::Packet packet;
     cute::proto::Handshake handshake;
     cute::proto::Data data;
-    cute::proto::DelimitedProtobufStream<cute::proto::Packet> stream(packet);
-
+    cute::proto::DelimitedPacketStream stream(packet);
 
     net::unix_socket client_socket;
     EXPECT_TRUE(client_socket.connect("/tmp/cute.io.test"));
