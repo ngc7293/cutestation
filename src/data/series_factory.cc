@@ -7,9 +7,9 @@
 #include "data/time_series.h"
 #include "policies/no_sampling_policy.h"
 
-namespace cute { namespace data {
+namespace cute::data {
 
-SeriesSP SeriesFactory::build(Tree& tree, const json& config)
+SeriesSP SeriesFactory::build(const json& config)
 {
     SeriesSP series;
 
@@ -19,7 +19,7 @@ SeriesSP SeriesFactory::build(Tree& tree, const json& config)
     }
 
     NodeFinder creator(config["source"].get<std::string>(), true);
-    NodeSP node = creator.visit(tree.root());
+    NodeSP node = creator.visit(Tree::root());
 
     if (node->series()) {
         return node->series();
@@ -34,4 +34,4 @@ SeriesSP SeriesFactory::build(Tree& tree, const json& config)
     return node->series();
 }
 
-}} // namespaces
+} // namespaces

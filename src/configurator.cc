@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <fstream>
 
+#include "data/command_factory.h"
 #include "data/series.h"
 #include "data/series_factory.h"
 #include "log.h"
@@ -30,7 +31,7 @@ bool Configurator::load(std::string file)
     return true;
 }
 
-bool Configurator::configure(QGridLayout& layout, data::Tree& tree)
+bool Configurator::configure(QGridLayout& layout)
 {
     if (!has_array(config_, "widgets")) {
         Log::err("Configurator", "Missing or invalid mandatory top-level configuration 'widgets'");
@@ -39,17 +40,23 @@ bool Configurator::configure(QGridLayout& layout, data::Tree& tree)
 
     if (has_array(config_, "series")) {
         for (const auto& series_config: config_["series"]) {
-            data::SeriesSP series = data::SeriesFactory::build(tree, series_config);
+            data::SeriesSP series = data::SeriesFactory::build(series_config);
         }
     }
 
     for (const auto& widget_config: config_["widgets"]) {
-        data::SeriesSP series = data::SeriesFactory::build(tree, widget_config);
+        data::CommandSP command;
+
+        if (has_string(widget_config, "command")) {
+            command = data::CommandFactory::build(widget_config);
+        }
+
+        data::SeriesSP series = data::SeriesFactory::build(widget_config);
         if (!series) {
             continue;
         }
 
-        widgets::Widget* widget = widgets::WidgetFactory::build(series, widget_config);
+        widgets::Widget* widget = widgets::WidgetFactory::build(series, command, widget_config);
         if (!widget) {
             // TODO: Remove the series/data object if no one else refers to it?
             continue;
@@ -89,7 +96,7 @@ bool Configurator::addToGrid(QGridLayout& layout, widgets::Widget* widget, const
         rowspan = config["rowspan"].get<int>();
     }
 
-    layout.addWidget(widget, config["y"].get<int>(), config["x"].get<int>(), colspan, rowspan);
+    layout.addWidget(widget, config["y"].get<int>(), config["x"].get<int>(), rowspan, colspan);
     return true;
 }
 

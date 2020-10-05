@@ -7,7 +7,7 @@
 
 #include "log.h"
 
-namespace cute { namespace data {
+namespace cute::data {
 
 template <typename T>
 TimeSeries<T>::TimeSeries() {}
@@ -32,13 +32,13 @@ bool TimeSeries<T>::init(SamplingPolicySP sampling_policy, const json& config)
 }
 
 template <typename T>
-void TimeSeries<T>::accept(const PacketSP packet)
+void TimeSeries<T>::accept(const proto::Measurement& measurement)
 {
-    T value = extractValue(packet);
+    T value = extractValue(measurement);
 
-    if (sampling_policy_->accept(packet->timestamp(), &value)) {
+    if (sampling_policy_->accept(measurement.timestamp(), &value)) {
         const std::lock_guard<std::mutex> lock(mutex_);
-        data_.push_back(std::make_pair(packet->timestamp(), value));
+        data_.push_back(std::make_pair(measurement.timestamp(), value));
 
         if (data_.front().first < now() - length_) {
             data_.erase(data_.begin());
@@ -47,11 +47,11 @@ void TimeSeries<T>::accept(const PacketSP packet)
 }
 
 template <>
-double TimeSeries<double>::extractValue(const PacketSP& packet) const
+double TimeSeries<double>::extractValue(const proto::Measurement& measurement) const
 {
-    return packet->value();
+    return measurement.float_();
 }
 
 template class TimeSeries<double>;
 
-}} // namespaces
+} // namespaces
