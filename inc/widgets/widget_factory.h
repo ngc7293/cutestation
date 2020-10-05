@@ -6,16 +6,17 @@
 #include "widget.h"
 
 #include "data/series.h"
+#include "data/command.h"
 
 using json = nlohmann::json;
 
-namespace cute { namespace widgets {
+namespace cute::widgets {
 
 class WidgetFactory {
 public:
-    static Widget* build(data::SeriesSP& series, const json& config);
+    static Widget* build(data::SeriesSP& series, data::CommandSP& command, const json& config);
 };
 
-}} // namespaces
+} // namespaces
 
 #endif

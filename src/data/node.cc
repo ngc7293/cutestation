@@ -5,7 +5,7 @@
 
 #include "data/time_series.h"
 
-namespace cute { namespace data {
+namespace cute::data {
 
 Node::Node(std::string name)
     : name_(name)
@@ -16,4 +16,4 @@ Node::~Node()
 {
 }
 
-}} // namespaces
+} // namespaces
