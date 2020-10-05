@@ -6,12 +6,14 @@
 #include "util.h"
 
 #include "data/series.h"
+#include "widgets/control_widget.h"
+#include "widgets/button_widget.h"
 #include "widgets/chart_widget.h"
 #include "widgets/single_value_widget.h"
 
-namespace cute { namespace widgets {
+namespace cute::widgets {
 
-Widget* WidgetFactory::build(data::SeriesSP& series, const json& config)
+Widget* WidgetFactory::build(data::SeriesSP& series, data::CommandSP& command, const json& config)
 {
     Widget* widget = nullptr;
 
@@ -32,16 +34,26 @@ Widget* WidgetFactory::build(data::SeriesSP& series, const json& config)
         widget = new ChartWidget(nullptr, name);
     } else if (type == "single") {
         widget = new SingleValueWidget(nullptr, name);
+    } else if (type == "button") {
+        widget = new ButtonWidget(nullptr, name);
     } else {
         Log::err("WidgetFactory", name + ": unknown widget type '" + type + "'");
     }
 
-    if (!widget->init(series, config)) {
-        delete widget;
-        return nullptr;
+    if (ControlWidget* cwidget = dynamic_cast<ControlWidget*>(widget)) {
+        if (!cwidget->init(series, command, config)) {
+            delete widget;
+            return nullptr;
+        }
+    }
+    else {
+        if (!widget->init(series, config)) {
+            delete widget;
+            return nullptr;
+        }
     }
 
     return widget;
 }
 
-}} // namespaces
+} // namespaces

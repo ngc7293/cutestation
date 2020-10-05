@@ -15,40 +15,33 @@ _sym_db = _symbol_database.Default()
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='proto/packet.proto',
-  package='',
+  package='cute.proto',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x12proto/packet.proto\":\n\x06Packet\x12\x11\n\ttimestamp\x18\x01 \x01(\x04\x12\x0e\n\x06source\x18\x02 \x01(\t\x12\r\n\x05value\x18\x03 \x01(\x01\x62\x06proto3'
+  serialized_pb=b'\n\x12proto/packet.proto\x12\ncute.proto\"+\n\tHandshake\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x10\n\x08\x63ommands\x18\n \x03(\t\"k\n\x0bMeasurement\x12\x11\n\ttimestamp\x18\x01 \x01(\x04\x12\x0e\n\x06source\x18\x02 \x01(\t\x12\x0f\n\x05\x66loat\x18\n \x01(\x01H\x00\x12\r\n\x03int\x18\x0b \x01(\x12H\x00\x12\x10\n\x06string\x18\x0c \x01(\tH\x00\x42\x07\n\x05value\"5\n\x04\x44\x61ta\x12-\n\x0cmeasurements\x18\x01 \x03(\x0b\x32\x17.cute.proto.Measurement\"a\n\x06Packet\x12*\n\thandshake\x18\x01 \x01(\x0b\x32\x15.cute.proto.HandshakeH\x00\x12 \n\x04\x64\x61ta\x18\x02 \x01(\x0b\x32\x10.cute.proto.DataH\x00\x42\t\n\x07payloadb\x06proto3'
 )
 
 
 
 
-_PACKET = _descriptor.Descriptor(
-  name='Packet',
-  full_name='Packet',
+_HANDSHAKE = _descriptor.Descriptor(
+  name='Handshake',
+  full_name='cute.proto.Handshake',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='timestamp', full_name='Packet.timestamp', index=0,
-      number=1, type=4, cpp_type=4, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='source', full_name='Packet.source', index=1,
-      number=2, type=9, cpp_type=9, label=1,
+      name='name', full_name='cute.proto.Handshake.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='value', full_name='Packet.value', index=2,
-      number=3, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=float(0),
+      name='commands', full_name='cute.proto.Handshake.commands', index=1,
+      number=10, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -64,17 +57,193 @@ _PACKET = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=22,
-  serialized_end=80,
+  serialized_start=34,
+  serialized_end=77,
 )
 
+
+_MEASUREMENT = _descriptor.Descriptor(
+  name='Measurement',
+  full_name='cute.proto.Measurement',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='timestamp', full_name='cute.proto.Measurement.timestamp', index=0,
+      number=1, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='source', full_name='cute.proto.Measurement.source', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='float', full_name='cute.proto.Measurement.float', index=2,
+      number=10, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='int', full_name='cute.proto.Measurement.int', index=3,
+      number=11, type=18, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='string', full_name='cute.proto.Measurement.string', index=4,
+      number=12, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='value', full_name='cute.proto.Measurement.value',
+      index=0, containing_type=None, fields=[]),
+  ],
+  serialized_start=79,
+  serialized_end=186,
+)
+
+
+_DATA = _descriptor.Descriptor(
+  name='Data',
+  full_name='cute.proto.Data',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='measurements', full_name='cute.proto.Data.measurements', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=188,
+  serialized_end=241,
+)
+
+
+_PACKET = _descriptor.Descriptor(
+  name='Packet',
+  full_name='cute.proto.Packet',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='handshake', full_name='cute.proto.Packet.handshake', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='data', full_name='cute.proto.Packet.data', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='payload', full_name='cute.proto.Packet.payload',
+      index=0, containing_type=None, fields=[]),
+  ],
+  serialized_start=243,
+  serialized_end=340,
+)
+
+_MEASUREMENT.oneofs_by_name['value'].fields.append(
+  _MEASUREMENT.fields_by_name['float'])
+_MEASUREMENT.fields_by_name['float'].containing_oneof = _MEASUREMENT.oneofs_by_name['value']
+_MEASUREMENT.oneofs_by_name['value'].fields.append(
+  _MEASUREMENT.fields_by_name['int'])
+_MEASUREMENT.fields_by_name['int'].containing_oneof = _MEASUREMENT.oneofs_by_name['value']
+_MEASUREMENT.oneofs_by_name['value'].fields.append(
+  _MEASUREMENT.fields_by_name['string'])
+_MEASUREMENT.fields_by_name['string'].containing_oneof = _MEASUREMENT.oneofs_by_name['value']
+_DATA.fields_by_name['measurements'].message_type = _MEASUREMENT
+_PACKET.fields_by_name['handshake'].message_type = _HANDSHAKE
+_PACKET.fields_by_name['data'].message_type = _DATA
+_PACKET.oneofs_by_name['payload'].fields.append(
+  _PACKET.fields_by_name['handshake'])
+_PACKET.fields_by_name['handshake'].containing_oneof = _PACKET.oneofs_by_name['payload']
+_PACKET.oneofs_by_name['payload'].fields.append(
+  _PACKET.fields_by_name['data'])
+_PACKET.fields_by_name['data'].containing_oneof = _PACKET.oneofs_by_name['payload']
+DESCRIPTOR.message_types_by_name['Handshake'] = _HANDSHAKE
+DESCRIPTOR.message_types_by_name['Measurement'] = _MEASUREMENT
+DESCRIPTOR.message_types_by_name['Data'] = _DATA
 DESCRIPTOR.message_types_by_name['Packet'] = _PACKET
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
+
+Handshake = _reflection.GeneratedProtocolMessageType('Handshake', (_message.Message,), {
+  'DESCRIPTOR' : _HANDSHAKE,
+  '__module__' : 'proto.packet_pb2'
+  # @@protoc_insertion_point(class_scope:cute.proto.Handshake)
+  })
+_sym_db.RegisterMessage(Handshake)
+
+Measurement = _reflection.GeneratedProtocolMessageType('Measurement', (_message.Message,), {
+  'DESCRIPTOR' : _MEASUREMENT,
+  '__module__' : 'proto.packet_pb2'
+  # @@protoc_insertion_point(class_scope:cute.proto.Measurement)
+  })
+_sym_db.RegisterMessage(Measurement)
+
+Data = _reflection.GeneratedProtocolMessageType('Data', (_message.Message,), {
+  'DESCRIPTOR' : _DATA,
+  '__module__' : 'proto.packet_pb2'
+  # @@protoc_insertion_point(class_scope:cute.proto.Data)
+  })
+_sym_db.RegisterMessage(Data)
 
 Packet = _reflection.GeneratedProtocolMessageType('Packet', (_message.Message,), {
   'DESCRIPTOR' : _PACKET,
   '__module__' : 'proto.packet_pb2'
-  # @@protoc_insertion_point(class_scope:Packet)
+  # @@protoc_insertion_point(class_scope:cute.proto.Packet)
   })
 _sym_db.RegisterMessage(Packet)
 

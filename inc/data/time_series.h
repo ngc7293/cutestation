@@ -1,5 +1,5 @@
-#ifndef TIME_SERIES_H_
-#define TIME_SERIES_H_
+#ifndef DATA_TIME_SERIES_H_
+#define DATA_TIME_SERIES_H_
 
 #include "series.h"
 
@@ -11,7 +11,7 @@
 #include <QVector>
 #include <QPointF>
 
-namespace cute { namespace data {
+namespace cute::data {
 
 template<typename T>
 class TimeSeries : public Series {
@@ -27,7 +27,7 @@ public:
 
     virtual bool init(SamplingPolicySP sampling_policy, const json& config) override;
 
-    void accept(const PacketSP) override;
+    void accept(const proto::Measurement& measurement) override;
 
     size_t size() const {
         const std::lock_guard<std::mutex> lock(mutex_);
@@ -67,12 +67,12 @@ private:
     /** TimeSeries::extractValue()
      * Extracts the template-appropriate value from the protobuf Packet
      */
-    T extractValue(const PacketSP& packet) const;
+    T extractValue(const proto::Measurement& measurement) const;
 };
 
 template<typename T>
 using TimeSeriesSP = std::shared_ptr<TimeSeries<T>>;
 
-}} // namespaces
+} // namespaces
 
 #endif

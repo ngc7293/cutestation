@@ -1,5 +1,5 @@
-#ifndef SERIES_H_
-#define SERIES_H_
+#ifndef DATA_SERIES_H_
+#define DATA_SERIES_H_
 
 #include <QObject>
 
@@ -12,7 +12,7 @@
 
 using json = nlohmann::json;
 
-namespace cute { namespace data {
+namespace cute::data {
 
 class Series : public QObject {
     Q_OBJECT
@@ -26,11 +26,11 @@ public:
 
     virtual bool init(SamplingPolicySP sampling_policy, const json& config);
 
-    virtual void accept(const PacketSP) = 0;
+    virtual void accept(const proto::Measurement& measurement) = 0;
 };
 
 using SeriesSP = std::shared_ptr<Series>;
 
-}} // namespaces
+} // namespaces
 
 #endif
