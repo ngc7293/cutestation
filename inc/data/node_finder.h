@@ -1,11 +1,11 @@
-#ifndef NODE_FINDER_H_
-#define NODE_FINDER_H_
+#ifndef DATA_NODE_FINDER_H_
+#define DATA_NODE_FINDER_H_
 
 #include <memory>
 #include <string>
 #include <vector>
 
-namespace cute { namespace data { 
+namespace cute::data { 
 
 class Node;
 typedef std::shared_ptr<Node> NodeSP;
@@ -27,6 +27,6 @@ public:
     NodeSP visit(NodeSP node);
 };
 
-}} // namespaces
+} // namespaces
 
 #endif

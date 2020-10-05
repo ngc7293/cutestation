@@ -5,25 +5,26 @@
 
 #include "proto/packet.h"
 
-namespace cute { namespace data {
+namespace cute::data {
 
-class Tree : public QObject, public PacketIngestor {
-    Q_OBJECT
-    Q_INTERFACES(PacketIngestor)
-
+class Tree {
 private:
     NodeSP root_;
 
-public:
+private:
     Tree();
+
+public:
+    Tree(Tree const&) = delete;
+    void operator=(Tree const&) = delete;
     ~Tree();
 
-    NodeSP root() const { return root_; }
-
-public slots:
-    void receivePacket(PacketSP packet) override;
+    static NodeSP root() { 
+        static Tree instance_;
+        return instance_.root_; 
+    }
 };
 
-}} // namespaces
+} // namespaces
 
 #endif

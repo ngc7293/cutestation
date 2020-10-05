@@ -5,7 +5,7 @@
 #include "log.h"
 #include "util.h"
 
-namespace cute { namespace widgets {
+namespace cute::widgets {
 
 SingleValueWidget::SingleValueWidget(QWidget* parent, std::string name)
     : Widget(parent, name)
@@ -43,4 +43,4 @@ void SingleValueWidget::refresh()
     }
 }
 
-}} // namespaces
+} // namespaces

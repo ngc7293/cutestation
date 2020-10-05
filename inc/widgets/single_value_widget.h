@@ -7,7 +7,7 @@
 
 #include "data/time_series.h"
 
-namespace cute { namespace widgets {
+namespace cute::widgets {
 
 class SingleValueWidget : public Widget {
     Q_OBJECT
@@ -29,6 +29,6 @@ protected slots:
     void refresh() override;
 };
 
-}} // namespaces
+} // namespaces
 
 #endif
