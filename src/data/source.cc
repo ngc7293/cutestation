@@ -54,13 +54,16 @@ void Source::receiveHandshake(proto::HandshakeSP handshake)
     _d.name = handshake->name();
     Log::info(_d.name, "Received handshake.");
 
-    for (const std::string& command : handshake->commands()) {
-        NodeFinder finder(command);
+    for (const proto::Handshake::Command command : handshake->commands()) {
+        NodeFinder finder(command.name());
         NodeSP node = finder.visit(Tree::root());
 
         if (node && node->command()) {
-            _d.commands.push_back(command);
+            Log::info(_d.name, "Registering command '" + command.name() + "'");
+            _d.commands.push_back(command.name());
             node->command()->registerDataSource(shared_from_this());
+        } else {
+            Log::warn(_d.name, "Failed to register command '" + command.name() + "'");
         }
     }
 }

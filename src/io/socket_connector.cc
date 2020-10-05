@@ -15,6 +15,7 @@ SocketConnector::SocketConnector(QLocalSocket* socket, QThread* thread)
     connect(socket_, &QObject::destroyed, thread, &QThread::terminate);
 
     connect(source_.get(), &data::Source::dataReady, this, &SocketConnector::receiveData);
+    readData();
 }
 
 SocketConnector::~SocketConnector()
