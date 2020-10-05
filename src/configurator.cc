@@ -96,7 +96,7 @@ bool Configurator::addToGrid(QGridLayout& layout, widgets::Widget* widget, const
         rowspan = config["rowspan"].get<int>();
     }
 
-    layout.addWidget(widget, config["y"].get<int>(), config["x"].get<int>(), colspan, rowspan);
+    layout.addWidget(widget, config["y"].get<int>(), config["x"].get<int>(), rowspan, colspan);
     return true;
 }
 

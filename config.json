@@ -1,28 +1,38 @@
 {
     "series": [
         {
-            "source": "anirniq.mission.charge",
+            "source": "anirniq.testbench.pressure_1",
             "length": 2000
         }
     ],
     "widgets": [
         {
             "type": "chart",
-            "source": "anirniq.mission.charge",
+            "source": "anirniq.testbench.pressure_1",
             "length": 2000,
-            "refresh_rate": 60,
+            "refresh_rate": 15,
             "range": [0, 2],
             "x": 0,
             "y": 0
         },
         {
+            "type": "single",
+            "source": "anirniq.testbench.pressure_1",
+            "format": "%1 units",
+            "refresh_rate": 2,
+            "x": 1,
+            "y": 0
+        },
+        {
             "type": "button",
+            "label": "Start",
             "command": "anirniq.remote_control.engine.sequence.start",
             "source": "anirniq.remote_control.engine.sequence.start",
             "length": 1,
             "refresh_rate": 1,
             "x": 0,
-            "y": 1
+            "y": 1,
+            "colspan": 2
         }
     ]
 }
