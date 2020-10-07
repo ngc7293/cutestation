@@ -10,6 +10,8 @@
 #include <sys/un.h>
 #include <sys/stat.h>
 
+#include <log/log.h>
+
 #include "net/tcp_socket.h"
 
 #ifndef __linux__
@@ -72,13 +74,16 @@ bool unix_server::listen(const std::string& path)
 
 void unix_server::close()
 {
+    Log::debug("unix_server/" + _d->name) << "Closing" << std::endl;
     if (_d->fd > 0) {
+        Log::debug("unix_server/" + _d->name) << "Closing FD" << std::endl;
         ::shutdown(_d->fd, SHUT_RDWR);
         ::close(_d->fd);
         _d->fd = -1;
     }
 
     if (_d->name != "") {
+        Log::debug("unix_server/" + _d->name) << "Removing socket file" << std::endl;
         ::unlink(_d->name.c_str());
         ::remove(_d->name.c_str());
         _d->name = "";

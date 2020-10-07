@@ -1,4 +1,4 @@
-#include "io/client.h"
+#include "io/client.hh"
 
 #include <log/log.h>
 #include <proto/packet.h>
@@ -6,20 +6,19 @@
 namespace cute::io {
 
 struct Client::Priv {
-    std::shared_ptr<net::socket> ios;
+    std::shared_ptr<std::iostream> stream;
     std::string name;
 };
 
-Client::Client(std::shared_ptr<net::socket> ios)
+Client::Client(std::shared_ptr<std::iostream> stream)
     : _d(new Priv)
 {
-    _d->ios = ios;
-    _d->name = "client/unamed";
+    _d->stream = stream;
+    _d->name = "unamed";
 }
 
 Client::~Client()
 {
-    _d->ios->close();
 }
 
 void Client::run()
@@ -27,27 +26,105 @@ void Client::run()
     proto::Packet packet;
     proto::DelimitedPacketStream stream(packet);
 
-    while (!(_d->ios->eof())) {
-        std::istream& is = *(_d->ios);
-        is >> stream;
+    while (!(_d->stream->eof())) {
+        *(_d->stream) >> stream;
 
         if (stream) {
-            Log::info(_d->name) << "Received message [handshake=" << packet.has_handshake() << "] [data=" << packet.has_data() << "]" << std::endl;
-            
             switch (packet.payload_case()) {
             case proto::Packet::PayloadCase::kData:
-                Log::info(_d->name) << "Received data" << std::endl;
+                onData(packet.data());
                 break;
 
             case proto::Packet::PayloadCase::kHandshake:
-                _d->name = "client/" + packet.handshake().name();
-                Log::info(_d->name) << "Received handshake" << std::endl;
+                onHandshake(packet.handshake());
                 break;
 
             default:
-                Log::warn(_d->name) << "Received empty message" << std::endl;
+                Log::warn("client/" + _d->name) << "Received empty message" << std::endl;
                 break;
-            }        
+            }
+        }
+    }
+}
+
+void Client::onData(const proto::Data& data)
+{
+    for (const proto::Measurement& measurement: data.measurements()) {
+        auto source = measurement.source();
+        auto timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::milliseconds(measurement.timestamp()));
+
+        switch (measurement.value_case()) {
+        case proto::Measurement::ValueCase::kBool:
+            publish<bool>(source, measurement.bool_(), timestamp);
+            break;
+
+        case proto::Measurement::ValueCase::kInt:
+            publish<int>(source, measurement.int_(), timestamp);
+            break;
+
+        case proto::Measurement::ValueCase::kFloat:
+            publish<double>(source, measurement.float_(), timestamp);
+            break;
+
+        case proto::Measurement::ValueCase::kString:
+            publish<std::string>(source, measurement.string(), timestamp);
+            break;
+
+        case proto::Measurement::ValueCase::VALUE_NOT_SET:
+            // Invalid data
+            break;
+        }
+    }
+}
+
+void Client::onHandshake(const proto::Handshake& handshake)
+{
+    _d->name = handshake.name();
+    Log::info("client/" + _d->name) << "Received handshake" << std::endl;
+
+    for (const proto::Handshake::Command& command : handshake.commands()) {
+        std::string name = command.name();
+
+        auto subscribed_lambda = [this, name]<typename T>(const auto& t, const T& v) {
+            proto::Packet packet;
+            proto::DelimitedPacketStream stream(packet);
+            packet.set_allocated_data(new proto::Data);
+            proto::makeData(*packet.mutable_data(), {{
+                name,
+                (uint64_t) std::chrono::duration_cast<std::chrono::milliseconds>(t).count(),
+                v
+            }});
+
+            *(_d->stream) << stream;
+        };
+
+        switch (command.type()) {
+        case proto::Handshake_Command_Type::Handshake_Command_Type_BOOL:
+            if (!subscribe<bool>(name, subscribed_lambda)) {
+                Log::warn("client/" + _d->name) << "Unable to subscribe to " << command.name() << " with type bool" << std::endl;
+            }
+            break;
+
+        case proto::Handshake_Command_Type_INT:
+            if (!subscribe<int>(name, subscribed_lambda)) {
+                Log::warn("client/" + _d->name) << "Unable to subscribe to " << command.name() << " with type int" << std::endl;
+            }
+            break;
+
+        case proto::Handshake_Command_Type_FLOAT:
+            if (!subscribe<double>(name, subscribed_lambda)) {
+                Log::warn("client/" + _d->name) << "Unable to subscribe to " << command.name() << " with type double" << std::endl;
+            }
+            break;
+
+        case proto::Handshake_Command_Type_STRING:
+            if (!subscribe<std::string>(name, subscribed_lambda)) {
+                Log::warn("client/" + _d->name) << "Unable to subscribe to " << command.name() << " with type string" << std::endl;
+            }
+            break;
+
+        default:
+            break;
         }
     }
 }
