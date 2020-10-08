@@ -20,6 +20,8 @@ void makeData(proto::Data& data, std::initializer_list<_measurement_initializer>
             measurement.set_float_(std::any_cast<double>(init.v));
         } else if (init.v.type() == typeid(std::string)) {
             measurement.set_string(std::any_cast<std::string>(init.v));
+        } else if (init.v.type() == typeid(const char*)) {
+            measurement.set_string(std::any_cast<const char*>(init.v));
         } else {
             assert(false);
         }

@@ -88,7 +88,7 @@ void Client::onHandshake(const proto::Handshake& handshake)
         auto subscribed_lambda = [this, name]<typename T>(const auto& t, const T& v) {
             proto::Packet packet;
             proto::DelimitedPacketStream stream(packet);
-            packet.set_allocated_data(new proto::Data);
+
             proto::makeData(*packet.mutable_data(), {{
                 name,
                 (uint64_t) std::chrono::duration_cast<std::chrono::milliseconds>(t).count(),
@@ -105,19 +105,19 @@ void Client::onHandshake(const proto::Handshake& handshake)
             }
             break;
 
-        case proto::Handshake_Command_Type_INT:
+        case proto::Handshake_Command_Type::Handshake_Command_Type_INT:
             if (!subscribe<int>(name, subscribed_lambda)) {
                 Log::warn("client/" + _d->name) << "Unable to subscribe to " << command.name() << " with type int" << std::endl;
             }
             break;
 
-        case proto::Handshake_Command_Type_FLOAT:
+        case proto::Handshake_Command_Type::Handshake_Command_Type_FLOAT:
             if (!subscribe<double>(name, subscribed_lambda)) {
                 Log::warn("client/" + _d->name) << "Unable to subscribe to " << command.name() << " with type double" << std::endl;
             }
             break;
 
-        case proto::Handshake_Command_Type_STRING:
+        case proto::Handshake_Command_Type::Handshake_Command_Type_STRING:
             if (!subscribe<std::string>(name, subscribed_lambda)) {
                 Log::warn("client/" + _d->name) << "Unable to subscribe to " << command.name() << " with type string" << std::endl;
             }
