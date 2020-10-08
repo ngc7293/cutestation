@@ -27,5 +27,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_subdirectory(src)
 
 if (UNIX)
+    add_custom_target(clean_gcda ALL COMMAND find -name "*.gcda" -delete COMMENT "Cleaning GCDA files")
     add_custom_target(coverage COMMAND gcovr -r ../src ./ -e ".*gtest.*" --html-details -o coverage.html)
 endif()
