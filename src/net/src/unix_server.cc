@@ -1,4 +1,4 @@
-#include "net/unix_server.h"
+#include "net/unix_server.hh"
 
 #include <iostream>
 #include <memory>
@@ -10,9 +10,9 @@
 #include <sys/un.h>
 #include <sys/stat.h>
 
-#include <log/log.h>
+#include <log/log.hh>
 
-#include "net/tcp_socket.h"
+#include "net/tcp_socket.hh"
 
 #ifndef __linux__
 #error This file should only be compiled on Linux! Check your CMakeLists.

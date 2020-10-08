@@ -7,7 +7,7 @@
 #include "packet.pb.h"
 #include <util/util.h>
 
-#include <log/log.h>
+#include <log/log.hh>
 
 namespace cute::data {
 

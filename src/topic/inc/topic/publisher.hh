@@ -1,5 +1,5 @@
-#ifndef PUBLISHER_HH_
-#define PUBLISHER_HH_
+#ifndef CUTE_TOPIC_PUBLISHER_HH_
+#define CUTE_TOPIC_PUBLISHER_HH_
 
 #include <any>
 #include <chrono>

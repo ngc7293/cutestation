@@ -1,5 +1,5 @@
-#ifndef NET_SOCKET_H_
-#define NET_SOCKET_H_
+#ifndef NET_SOCKET_HH_
+#define NET_SOCKET_HH_
 
 #include <iostream>
 

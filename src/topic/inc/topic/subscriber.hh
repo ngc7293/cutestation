@@ -1,5 +1,5 @@
-#ifndef SUBSCRIBER_HH_
-#define SUBSCRIBER_HH_
+#ifndef CUTE_TOPIC_SUBSCRIBER_HH_
+#define CUTE_TOPIC_SUBSCRIBER_HH_
 
 #include <functional>
 #include <memory>

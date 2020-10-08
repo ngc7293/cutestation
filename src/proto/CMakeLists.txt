@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.13)
 
 SET( HEADERS
-    inc/proto/packet.h
-    inc/proto/delimited_protobuf_stream.h
+    inc/proto/packet.hh
+    inc/proto/delimited_protobuf_stream.hh
 )
 
 set( SOURCES

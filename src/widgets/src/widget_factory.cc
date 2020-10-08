@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <log/log.h>
+#include <log/log.hh>
 #include <util/util.h>
 
 #include "data/series.h"

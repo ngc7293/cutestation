@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include <log/log.h>
+#include <log/log.hh>
 
 namespace cute::data {
 

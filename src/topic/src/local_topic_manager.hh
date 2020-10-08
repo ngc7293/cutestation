@@ -1,5 +1,5 @@
-#ifndef LOCAL_TOPIC_MANAGER_HH_
-#define LOCAL_TOPIC_MANAGER_HH_
+#ifndef CUTE_TOPIC_LOCAL_TOPIC_MANAGER_HH_
+#define CUTE_TOPIC_LOCAL_TOPIC_MANAGER_HH_
 
 #include "topic_manager.hh"
 

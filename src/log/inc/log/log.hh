@@ -1,11 +1,10 @@
-#ifndef LOG_H_
-#define LOG_H_
+#ifndef LOG_HH_
+#define LOG_HH_
 
 #include <mutex>
 #include <string>
 #include <ostream>
-
-// namespace cute {
+#include <iostream>
 
 class Log {
 public:
@@ -28,6 +27,8 @@ public:
     static std::ostream& warn(const std::string& component, const std::string& message = "");
     static std::ostream& err(const std::string& component, const std::string& message = "");
 
+    static void setStream(std::ostream* stream = &std::cout);
+
 public:
     ~Log();
 
@@ -38,8 +39,7 @@ private:
 
 private:
     std::mutex mutex;
+    std::ostream* stream;
 };
 
-// } // namespace
-
-#endif
+#endif // LOG_HH_

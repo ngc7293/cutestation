@@ -1,9 +1,9 @@
-#ifndef CUTE_IO_CLIENT_H_
-#define CUTE_IO_CLIENT_H_
+#ifndef CUTE_IO_CLIENT_HH_
+#define CUTE_IO_CLIENT_HH_
 
 #include <memory>
 
-#include <proto/packet.h>
+#include <proto/packet.hh>
 #include <topic/publisher.hh>
 #include <topic/subscriber.hh>
 

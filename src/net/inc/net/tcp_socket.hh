@@ -1,7 +1,7 @@
-#ifndef NET_TCP_SOCKET_H_
-#define NET_TCP_SOCKET_H_
+#ifndef NET_TCP_SOCKET_HH_
+#define NET_TCP_SOCKET_HH_
 
-#include "socket.h"
+#include "socket.hh"
 
 #include <iostream>
 #include <memory>

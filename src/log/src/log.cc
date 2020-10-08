@@ -1,4 +1,4 @@
-#include "log/log.h"
+#include "log/log.hh"
 
 #include <chrono>
 #include <iomanip>
@@ -46,7 +46,15 @@ std::ostream& Log::err(const std::string& component, const std::string& message)
     return Log::get().log(ERROR, component, message);
 }
 
-Log::Log() {}
+void Log::setStream(std::ostream* stream)
+{
+    Log::get().stream = stream;
+}
+
+Log::Log()
+{
+    stream = nullptr;
+}
 
 Log::~Log() {}
 
@@ -59,17 +67,18 @@ Log& Log::get()
 std::ostream& Log::log(Level level, const std::string& component, const std::string& message)
 {
     std::lock_guard<std::mutex> lock(mutex);
+    std::ostream* os = stream ? stream : &std::cout;
     std::thread::id thread = std::this_thread::get_id();
-    auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
-    std::cout << "[" << std::put_time(std::localtime(&now), LOG_TIME_FORMAT) << "] ";
-    std::cout << "(" << string_from_level(level) << ") ";
-    std::cout << "<thread " << std::hex << thread << std::dec << "> ";
-    std::cout << "[" << component << "] ";
+    *os << "[" << std::put_time(std::localtime(&now), LOG_TIME_FORMAT) << "] ";
+    *os << "(" << string_from_level(level) << ") ";
+    *os << "<thread " << std::hex << thread << std::dec << "> ";
+    *os << "[" << component << "] ";
 
     if (message != "") {
-        std::cout << message << std::endl;
+        *os << message << std::endl;
     }
 
-    return std::cout;
+    return *os;
 }

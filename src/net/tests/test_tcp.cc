@@ -3,8 +3,8 @@
 #include <future>
 #include <thread>
 
-#include <net/tcp_server.h>
-#include <net/tcp_socket.h>
+#include <net/tcp_server.hh>
+#include <net/tcp_socket.hh>
 
 TEST(tcp_server, listen_succeeds)
 {

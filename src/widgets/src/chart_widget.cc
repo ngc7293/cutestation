@@ -11,7 +11,7 @@
 #include <data/time_series.h>
 #include <data/series_factory.h>
 
-#include <log/log.h>
+#include <log/log.hh>
 #include <util/util.h>
 
 namespace cute::widgets {

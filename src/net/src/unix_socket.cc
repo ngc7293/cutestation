@@ -1,4 +1,4 @@
-#include "net/unix_socket.h"
+#include "net/unix_socket.hh"
 
 #include <unistd.h>
 
@@ -6,7 +6,7 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 
-#include "fdbuf.h"
+#include "fdbuf.hh"
 
 namespace net {
 

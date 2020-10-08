@@ -3,8 +3,8 @@
 #include <future>
 #include <thread>
 
-#include <net/unix_server.h>
-#include <net/unix_socket.h>
+#include <net/unix_server.hh>
+#include <net/unix_socket.hh>
 
 TEST(unix_server, listen_succeeds)
 {
