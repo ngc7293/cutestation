@@ -19,7 +19,7 @@ set(HEADERS
 add_library(net STATIC ${SOURCES} ${HEADERS})
 set_property(TARGET net PROPERTY CXX_STANDARD 20)
 target_include_directories(net PUBLIC inc/ PRIVATE src/)
-target_compile_options(net PRIVATE -Wall -Wpedantic -Werror )
+target_compile_options(net PRIVATE -Wall -Wpedantic -Werror --coverage)
 target_link_libraries(net PUBLIC cute.log)
 
 ## Tests
@@ -32,6 +32,6 @@ set( TESTS
 add_executable(net.test ${TESTS})
 add_test(NAME net COMMAND net.test)
 
-target_compile_options(net.test PUBLIC )
-target_link_options(net.test PUBLIC )
+target_compile_options(net.test PUBLIC --coverage)
+target_link_options(net.test PUBLIC --coverage)
 target_link_libraries(net.test PUBLIC net gcov gtest)
