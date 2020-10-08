@@ -9,11 +9,11 @@ set(SOURCES
 )
 
 set(HEADERS
-    inc/net/tcp_socket.h
-    inc/net/tcp_server.h
-    inc/net/unix_socket.h
-    inc/net/unix_server.h
-    src/fdbuf.h
+    inc/net/tcp_socket.hh
+    inc/net/tcp_server.hh
+    inc/net/unix_socket.hh
+    inc/net/unix_server.hh
+    src/fdbuf.hh
 )
 
 add_library(net STATIC ${SOURCES} ${HEADERS})

@@ -1,5 +1,5 @@
-#ifndef TOPIC_MANAGER_HH_
-#define TOPIC_MANAGER_HH_
+#ifndef CUTE_TOPIC_TOPIC_MANAGER_HH_
+#define CUTE_TOPIC_TOPIC_MANAGER_HH_
 
 #include <functional>
 #include <memory>

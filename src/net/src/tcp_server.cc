@@ -1,4 +1,4 @@
-#include "net/tcp_server.h"
+#include "net/tcp_server.hh"
 
 #include <iostream>
 #include <memory>
@@ -10,7 +10,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 
-#include "net/tcp_socket.h"
+#include "net/tcp_socket.hh"
 
 #ifndef __linux__
 #error This file should only be compiled on Linux! Check your CMakeLists.

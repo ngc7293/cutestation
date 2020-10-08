@@ -2,7 +2,7 @@
 
 #include <QLayout>
 
-#include <log/log.h>
+#include <log/log.hh>
 #include <util/util.h>
 
 namespace cute::widgets {

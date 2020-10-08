@@ -2,7 +2,7 @@
 
 #include <assert.h>
 
-#include <log/log.h>
+#include <log/log.hh>
 
 namespace cute::widgets {
 

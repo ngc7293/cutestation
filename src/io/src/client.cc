@@ -1,7 +1,7 @@
 #include "io/client.hh"
 
-#include <log/log.h>
-#include <proto/packet.h>
+#include <log/log.hh>
+#include <proto/packet.hh>
 
 namespace cute::io {
 

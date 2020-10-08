@@ -3,7 +3,7 @@
 #include <filesystem>
 #include <fstream>
 
-#include <log/log.h>
+#include <log/log.hh>
 #include <util/util.h>
 #include <widgets/widget_factory.h>
 

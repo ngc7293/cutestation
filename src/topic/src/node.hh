@@ -1,5 +1,5 @@
-#ifndef NODE_HH_
-#define NODE_HH_
+#ifndef CUTE_TOPIC_NODE_HH_
+#define CUTE_TOPIC_NODE_HH_
 
 #include "topic.hh"
 

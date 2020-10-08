@@ -6,7 +6,7 @@
 #include <functional>
 
 #include <io/client.hh>
-#include <proto/packet.h>
+#include <proto/packet.hh>
 #include <topic/subscriber.hh>
 
 class MockSubscriber: public Subscriber {

@@ -3,7 +3,7 @@
 #include <QLayout>
 
 #include <data/series_factory.h>
-#include <log/log.h>
+#include <log/log.hh>
 #include <util/util.h>
 
 namespace cute::widgets {

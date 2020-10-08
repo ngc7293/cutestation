@@ -5,7 +5,7 @@ set(SOURCES
 )
 
 set(HEADERS
-    inc/log/log.h
+    inc/log/log.hh
 )
 
 add_library(cute.log STATIC ${SOURCES} ${HEADERS})

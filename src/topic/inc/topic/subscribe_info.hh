@@ -1,5 +1,5 @@
-#ifndef SUBSCRIBE_INFO_HH_
-#define SUBSCRIBE_INFO_HH_
+#ifndef CUTE_TOPIC_SUBSCRIBE_INFO_HH_
+#define CUTE_TOPIC_SUBSCRIBE_INFO_HH_
 
 #include <chrono>
 #include <memory>

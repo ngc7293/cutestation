@@ -1,5 +1,5 @@
-#ifndef CALLBACK_HH_
-#define CALLBACK_HH_
+#ifndef CUTE_TOPIC_CALLBACK_HH_
+#define CUTE_TOPIC_CALLBACK_HH_
 
 #include <any>
 #include <chrono>

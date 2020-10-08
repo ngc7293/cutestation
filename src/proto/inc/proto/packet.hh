@@ -1,11 +1,11 @@
-#ifndef CUTE_PROTO_PACKET_H_
-#define CUTE_PROTO_PACKET_H_
+#ifndef CUTE_PROTO_PACKET_HH_
+#define CUTE_PROTO_PACKET_HH_
 
 #include <any>
 
 #include <packet.pb.h>
 
-#include "delimited_protobuf_stream.h"
+#include "delimited_protobuf_stream.hh"
 
 namespace cute::proto {
 

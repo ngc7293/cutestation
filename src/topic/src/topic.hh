@@ -1,5 +1,5 @@
-#ifndef TOPIC_HH_
-#define TOPIC_HH_
+#ifndef CUTE_TOPIC_TOPIC_HH_
+#define CUTE_TOPIC_TOPIC_HH_
 
 #include <any>
 #include <chrono>

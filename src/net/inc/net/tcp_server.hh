@@ -1,5 +1,5 @@
-#ifndef NET_TCP_SERVER_H_
-#define NET_TCP_SERVER_H_
+#ifndef NET_TCP_SERVER_HH_
+#define NET_TCP_SERVER_HH_
 
 #include <functional>
 #include <memory>
@@ -7,7 +7,7 @@
 
 #include <cstdint>
 
-#include "tcp_socket.h"
+#include "tcp_socket.hh"
 
 namespace net {
 

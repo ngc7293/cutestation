@@ -1,11 +1,11 @@
-#ifndef NET_UNIX_SERVER_H_
-#define NET_UNIX_SERVER_H_
+#ifndef NET_UNIX_SERVER_HH_
+#define NET_UNIX_SERVER_HH_
 
 #include <functional>
 #include <memory>
 #include <string>
 
-#include "unix_socket.h"
+#include "unix_socket.hh"
 
 namespace net {
 

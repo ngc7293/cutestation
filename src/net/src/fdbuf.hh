@@ -1,5 +1,5 @@
-#ifndef FDBUF_H_
-#define FDBUF_H_
+#ifndef FDBUF_HH_
+#define FDBUF_HH_
 
 #include <streambuf>
 
