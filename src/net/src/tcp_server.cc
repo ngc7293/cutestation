@@ -20,7 +20,7 @@ namespace net {
 
 struct tcp_server::priv {
     int fd = -1;
-    std::function<void(net::tcp_socket*)> callback = nullptr;
+    std::function<void(net::tcp_socket*)> callback = [](net::tcp_socket* s) { delete s; };
 };
 
 tcp_server::tcp_server()

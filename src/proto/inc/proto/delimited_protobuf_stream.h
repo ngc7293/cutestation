@@ -16,7 +16,7 @@ public:
     ~DelimitedProtobufStream()
     {
         if (buffer) {
-            delete buffer;
+            delete[] buffer;
         }
     }
 
@@ -41,17 +41,19 @@ std::istream& operator>>(std::istream& is, DelimitedProtobufStream<T>& stream)
     uint64_t size;
     is.read((char*)&size, sizeof(size));
 
-    if (size > stream.size) {
+    if (is.good() && size > stream.size) {
         if (stream.buffer) {
-            delete stream.buffer;
+            delete[] stream.buffer;
             stream.buffer = nullptr;
         }
 
         stream.buffer = new uint8_t[size];
-    }
 
-    is.read((char*)stream.buffer, size);
-    stream.valid = stream.message.ParseFromArray(stream.buffer, size);
+        is.read((char*)stream.buffer, size);
+        stream.valid = stream.message.ParseFromArray(stream.buffer, size);
+    } else {
+        stream.valid = false;
+    }
 
     return is;
 }
