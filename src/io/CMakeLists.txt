@@ -25,4 +25,4 @@ add_test(NAME cute.io COMMAND cute.io.test)
 
 target_compile_options(cute.io.test PUBLIC )
 target_link_options(cute.io.test PUBLIC )
-target_link_libraries(cute.io.test PUBLIC cute.io net gcov gtest)
+target_link_libraries(cute.io.test PUBLIC cute.io gcov gtest)

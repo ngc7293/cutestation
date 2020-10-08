@@ -6,9 +6,6 @@
 #include <functional>
 
 #include <io/client.hh>
-#include <log/log.h>
-#include <net/unix_socket.h>
-#include <net/unix_server.h>
 #include <proto/packet.h>
 #include <topic/subscriber.hh>
 
@@ -32,39 +29,12 @@ public:
 
 TEST(Client, publishes_data_when_receives_packet)
 {
-    net::unix_server server;
-    std::shared_ptr<net::socket> server_socket;
-
-    server.on_connection([&server_socket](net::unix_socket* s) {
-        std::shared_ptr<net::socket> ios(s);
-        server_socket = ios;
-
-        cute::io::Client client(ios);
-        client.run();
-    });
-
-    auto a = std::async(std::launch::async, [&server]() {
-        if (!server.listen("/tmp/cute.io.test")) {
-            EXPECT_TRUE(false);
-            return false;
-        }
-        return true;
-    });
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    std::shared_ptr<std::stringstream> ios = std::make_shared<std::stringstream>();
+    cute::io::Client client(ios);
 
     cute::proto::Packet packet;
-    cute::proto::Handshake handshake;
     cute::proto::Data data;
     cute::proto::DelimitedPacketStream stream(packet);
-
-    net::unix_socket client_socket;
-    EXPECT_TRUE(client_socket.connect("/tmp/cute.io.test"));
-
-    packet.set_allocated_handshake(&handshake);
-    cute::proto::makeHandshake(handshake, "test", {{"cute.io.test.command.bool", typeid(bool)}});
-    client_socket << stream << std::flush;
-    packet.release_handshake();
 
     int count = 0;
     MockSubscriber subscriber;
@@ -74,19 +44,33 @@ TEST(Client, publishes_data_when_receives_packet)
         count++;
     });
 
-    packet.set_allocated_data(&data);
-    cute::proto::makeData(data, {{"cute.io.test.bool", 1, true}});
-    client_socket << stream << std::flush;
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
-    packet.release_data();
+    cute::proto::makeData(*packet.mutable_data(), {{"cute.io.test.bool", 1, true}});
+    *ios << stream;
+    client.run();
 
     EXPECT_EQ(count, 1);
-
-    client_socket.close();
-    server.close();
-    a.wait();
 }
+
+TEST(Client, sends_commands_on_callback)
+{
+    std::shared_ptr<std::stringstream> ios = std::make_shared<std::stringstream>();
+    cute::io::Client client(ios);
+
+    cute::proto::Packet packet;
+    cute::proto::DelimitedPacketStream stream(packet);
+
+    cute::proto::makeHandshake(*packet.mutable_handshake(), "test", {{"cute.io.test.int.command", typeid(int)}});
+    *ios << stream;
+    client.run();
+    ios->clear(); // Reset EOF flag
+
+    MockPublisher publisher;
+    publisher.callPublish("cute.io.test.int.command", 57);
+
+    *ios >> stream;
+    EXPECT_EQ(packet.data().measurements(0).int_(), 57);
+}
+
 
 TEST(Client, is_type_safe)
 {
@@ -114,32 +98,4 @@ TEST(Client, is_type_safe)
     client.run();
 
     EXPECT_EQ(count, 1);
-}
-
-TEST(Client, server_closes)
-{
-    net::unix_server server;
-    std::shared_ptr<net::socket> server_socket;
-
-    server.on_connection([&server_socket](net::unix_socket* s) {
-        EXPECT_TRUE(false);
-        std::shared_ptr<net::socket> ios(s);
-        server_socket = ios;
-
-        cute::io::Client client(ios);
-        client.run();
-    });
-
-    auto a = std::async(std::launch::async, [&server]() {
-        if (!server.listen("/tmp/cute.io.test")) {
-            EXPECT_TRUE(false);
-            return false;
-        }
-        return true;
-    });
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
-
-    server.close();
-    a.wait();
 }

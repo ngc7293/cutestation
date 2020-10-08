@@ -18,8 +18,8 @@ fdbuf::fdbuf(int fd, std::size_t len)
 
 fdbuf::~fdbuf()
 {
-    delete _garea;
-    delete _parea;
+    delete[] _garea;
+    delete[] _parea;
 }
 
 int fdbuf::overflow(int c)

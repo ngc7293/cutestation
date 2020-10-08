@@ -23,7 +23,7 @@ namespace net {
 struct unix_server::priv {
     int fd = -1;
     std::string name;
-    std::function<void(net::unix_socket*)> callback = nullptr;
+    std::function<void(net::unix_socket*)> callback = [](net::unix_socket* s) { delete s; };
 };
 
 unix_server::unix_server()
