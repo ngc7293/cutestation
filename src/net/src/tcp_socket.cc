@@ -11,31 +11,19 @@
 
 namespace net {
 
-struct tcp_socket::priv {
-    int fd = -1;
-    fdbuf* buf = nullptr;
-};
-
 tcp_socket::tcp_socket()
-    : _d(new priv)
+    : socket(::socket(AF_INET, SOCK_STREAM, 0))
 {
-    _d->fd = ::socket(AF_INET, SOCK_STREAM, 0);
-    _d->buf = new fdbuf(_d->fd);
-    rdbuf(_d->buf);
+
 }
 
 tcp_socket::tcp_socket(int fd)
-    : _d(new priv)
+    : socket(fd)
 {
-    _d->fd = fd;
-    _d->buf = new fdbuf(_d->fd);
-    rdbuf(_d->buf);
 }
 
 tcp_socket::~tcp_socket()
 {
-    close();
-    delete _d->buf;
 }
 
 bool tcp_socket::connect(const std::string& host, uint16_t port)
@@ -49,19 +37,11 @@ bool tcp_socket::connect(const std::string& host, uint16_t port)
     }
     addr.sin_port = htons(port);
 
-    if (::connect(_d->fd, (struct sockaddr*)&addr, len) < 0) {
+    if (::connect(fd(), (struct sockaddr*)&addr, len) < 0) {
         return false;
     }
 
     return true;
-}
-
-void tcp_socket::close()
-{
-    if (_d->buf) {
-        ::shutdown(_d->fd, SHUT_RDWR);
-        _d->buf->close();
-    }
 }
 
 }

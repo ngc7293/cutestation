@@ -6,9 +6,11 @@ set(SOURCES
     src/tcp_socket.cc
     src/unix_server.cc
     src/unix_socket.cc
+    src/socket.cc
 )
 
 set(HEADERS
+    inc/net/socket.hh
     inc/net/tcp_socket.hh
     inc/net/tcp_server.hh
     inc/net/unix_socket.hh

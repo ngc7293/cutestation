@@ -26,11 +26,11 @@ TEST(tcp_server, sockets_can_connect)
     net::tcp_socket socket;
 
     auto a = std::async(std::launch::async, [&server]() {
-        return server.listen("0.0.0.0", 25000);
+        return server.listen("0.0.0.0", 25001);
     });
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-    EXPECT_TRUE(socket.connect("127.0.0.1", 25000));
+    EXPECT_TRUE(socket.connect("127.0.0.1", 25001));
 
     server.close();
     a.wait();
@@ -54,11 +54,11 @@ TEST(tcp_server, server_creates_new_socket)
     });
 
     auto a = std::async(std::launch::async, [&server]() {
-        return server.listen("0.0.0.0", 25000);
+        return server.listen("0.0.0.0", 25002);
     });
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-    socket.connect("127.0.0.1", 25000);
+    socket.connect("127.0.0.1", 25002);
 
     std::getline(socket, line);
     socket << "passed" << std::endl;
@@ -73,5 +73,5 @@ TEST(tcp_socket, socket_connect_fails_with_no_server)
 {
     net::tcp_socket socket;
 
-    EXPECT_FALSE(socket.connect("127.0.0.1", 25000));
+    EXPECT_FALSE(socket.connect("127.0.0.1", 25003));
 }
