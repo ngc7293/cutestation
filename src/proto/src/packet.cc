@@ -2,6 +2,9 @@
 
 namespace cute::proto {
 
+template<class... Ts> struct overloaded : Ts... { using Ts::operator()...; };
+template<class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
+
 void makeData(proto::Data& data, std::initializer_list<_measurement_initializer> list)
 {
     data.clear_measurements();
@@ -12,19 +15,14 @@ void makeData(proto::Data& data, std::initializer_list<_measurement_initializer>
         measurement.set_source(init.s);
         measurement.set_timestamp(init.t);
 
-        if (init.v.type() == typeid(bool)) {
-            measurement.set_bool_(std::any_cast<bool>(init.v));
-        } else if (init.v.type() == typeid(int)) {
-            measurement.set_int_(std::any_cast<int>(init.v));
-        } else if (init.v.type() == typeid(double)) {
-            measurement.set_float_(std::any_cast<double>(init.v));
-        } else if (init.v.type() == typeid(std::string)) {
-            measurement.set_string(std::any_cast<std::string>(init.v));
-        } else if (init.v.type() == typeid(const char*)) {
-            measurement.set_string(std::any_cast<const char*>(init.v));
-        } else {
-            assert(false);
-        }
+        std::visit(overloaded {
+            [&measurement](bool v) { measurement.set_bool_(v); },
+            [&measurement](int v) { measurement.set_int_(v); },
+            [&measurement](double v) { measurement.set_float_(v); },
+            [&measurement](const char* v) { measurement.set_string(v); },
+            [&measurement](const std::string& v) { measurement.set_string(v); },
+            [](auto v) { assert(false); }
+        }, init.v);
     }
 }
 

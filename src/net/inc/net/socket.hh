@@ -4,12 +4,14 @@
 #include <iostream>
 #include <memory>
 
+#include "stream.hh"
+
 namespace net {
 
-class socket : public std::iostream {
+class socket : public closeable {
 public:
     virtual ~socket();
-    virtual void close();
+    void close() override;
 
 protected:
     socket(int fd);
@@ -21,4 +23,5 @@ private:
 };
 
 }
+
 #endif

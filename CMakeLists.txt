@@ -10,7 +10,7 @@ find_package(Qt5 COMPONENTS Core Widgets Network Charts REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-set(CM   AKE_AUTOUIC ON)
+set(CMAKE_AUTOUIC ON)
 
 # Protobuf, for messages
 find_package(Protobuf REQUIRED)

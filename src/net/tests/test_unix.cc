@@ -6,6 +6,8 @@
 #include <net/unix_server.hh>
 #include <net/unix_socket.hh>
 
+#include <log/log.hh>
+
 TEST(unix_server, listen_succeeds)
 {
     net::unix_server server;
@@ -31,6 +33,25 @@ TEST(unix_server, sockets_can_connect)
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
     EXPECT_TRUE(socket.connect("/tmp/cute.net.test"));
+
+    server.close();
+    a.wait();
+}
+
+TEST(unix_socket, sockets_report_eof_after_closing)
+{
+    net::unix_server server;
+    net::unix_socket socket;
+
+    auto a = std::async(std::launch::async, [&server]() {
+        return server.listen("/tmp/cute.net.test");
+    });
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+
+    EXPECT_TRUE(socket.connect("/tmp/cute.net.test"));
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    socket.close();
+    EXPECT_TRUE(socket.eof());
 
     server.close();
     a.wait();
