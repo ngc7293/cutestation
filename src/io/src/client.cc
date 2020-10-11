@@ -1,16 +1,17 @@
 #include "io/client.hh"
 
+#include <net/stream.hh>
 #include <log/log.hh>
 #include <proto/packet.hh>
 
 namespace cute::io {
 
 struct Client::Priv {
-    std::shared_ptr<std::iostream> stream;
+    std::shared_ptr<net::closeable> stream;
     std::string name;
 };
 
-Client::Client(std::shared_ptr<std::iostream> stream)
+Client::Client(std::shared_ptr<net::closeable> stream)
     : _d(new Priv)
 {
     _d->stream = stream;
@@ -45,6 +46,11 @@ void Client::run()
             }
         }
     }
+}
+
+void Client::close()
+{
+    _d->stream->close();
 }
 
 void Client::onData(const proto::Data& data)

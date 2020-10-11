@@ -29,15 +29,16 @@ public:
 
 TEST(Client, publishes_data_when_receives_packet)
 {
-    std::shared_ptr<std::stringstream> ios = std::make_shared<std::stringstream>();
+    int count = 0;
+
+    MockSubscriber subscriber;
+
+    std::shared_ptr<net::closeable> ios = std::make_shared<net::stringstream>();
     cute::io::Client client(ios);
 
     cute::proto::Packet packet;
-    cute::proto::Data data;
     cute::proto::DelimitedPacketStream stream(packet);
 
-    int count = 0;
-    MockSubscriber subscriber;
     subscriber.callSubscribe<bool>("cute.io.test.bool", [&count](const auto& t, const auto& v) {
         EXPECT_TRUE(v);
         EXPECT_EQ(t.count(), 1000000);
@@ -53,7 +54,9 @@ TEST(Client, publishes_data_when_receives_packet)
 
 TEST(Client, sends_commands_on_callback)
 {
-    std::shared_ptr<std::stringstream> ios = std::make_shared<std::stringstream>();
+    MockPublisher publisher;
+
+    std::shared_ptr<net::closeable> ios = std::make_shared<net::stringstream>();
     cute::io::Client client(ios);
 
     cute::proto::Packet packet;
@@ -64,7 +67,6 @@ TEST(Client, sends_commands_on_callback)
     client.run();
     ios->clear(); // Reset EOF flag
 
-    MockPublisher publisher;
     publisher.callPublish("cute.io.test.int.command", 57);
 
     *ios >> stream;
@@ -85,7 +87,7 @@ TEST(Client, handles_receiving_multiple_types)
     cute::proto::Packet packet;
     cute::proto::DelimitedPacketStream stream(packet);
 
-    std::shared_ptr<std::stringstream> ios = std::make_shared<std::stringstream>();
+    std::shared_ptr<net::closeable> ios = std::make_shared<net::stringstream>();
     cute::io::Client client(ios);
 
     subscriber.callSubscribe<bool>("cute.io.test.bool", [&b](const auto& t, const auto& v) { b = v; });
@@ -116,7 +118,7 @@ TEST(Client, handles_sending_multiple_types)
     cute::proto::Packet packet;
     cute::proto::DelimitedPacketStream stream(packet);
 
-    std::shared_ptr<std::stringstream> ios = std::make_shared<std::stringstream>();
+    std::shared_ptr<net::closeable> ios = std::make_shared<net::stringstream>();
     cute::io::Client client(ios);
 
     cute::proto::makeHandshake(*packet.mutable_handshake(), "test", {
@@ -146,18 +148,20 @@ TEST(Client, handles_sending_multiple_types)
 
 TEST(Client, is_type_safe)
 {
-    std::shared_ptr<std::stringstream> ios = std::make_shared<std::stringstream>();
+    int count = 0;
+
+    MockSubscriber subscriber;
+
+    cute::proto::Packet packet;
+    cute::proto::DelimitedPacketStream stream(packet);
+
+    std::shared_ptr<net::closeable> ios = std::make_shared<net::stringstream>();
     cute::io::Client client(ios);
 
-    int count = 0;
-    MockSubscriber subscriber;
     subscriber.callSubscribe<bool>("cute.io.test.bool", [&count](const auto& t, const auto& v) {
         EXPECT_TRUE(v);
         count++;
     });
-
-    cute::proto::Packet packet;
-    cute::proto::DelimitedPacketStream stream(packet);
 
     cute::proto::makeData(*packet.mutable_data(), {{"cute.io.test.bool", 1, true}});
     *ios << stream;

@@ -1,7 +1,7 @@
 #ifndef CUTE_PROTO_PACKET_HH_
 #define CUTE_PROTO_PACKET_HH_
 
-#include <any>
+#include <variant>
 
 #include <packet.pb.h>
 
@@ -12,9 +12,9 @@ namespace cute::proto {
 struct _measurement_initializer {
     const std::string& s;
     const uint64_t t;
-    const std::any v;
+    std::variant<bool, int, double, const char*, std::string> v;
 
-    _measurement_initializer(const std::string& s, const uint64_t t, const std::any v)
+    _measurement_initializer(const std::string& s, const uint64_t t, const std::variant<bool, int, double, const char*, std::string>  v)
         : s(s)
         , t(t)
         , v(v)

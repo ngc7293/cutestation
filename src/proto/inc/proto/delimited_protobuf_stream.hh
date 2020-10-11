@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+const int DELIMITED_MESSAGE_MAX_SIZE = 4096;
+
 template <class T>
 class DelimitedProtobufStream {
 public:
@@ -10,7 +12,7 @@ public:
         : message(message)
     {
         buffer = nullptr;
-        size = 0;
+        valid = false;
     }
 
     ~DelimitedProtobufStream()
@@ -30,7 +32,8 @@ public:
 
 private:
     uint8_t* buffer;
-    uint64_t size;
+    size_t size;
+
     T& message;
     bool valid;
 };
@@ -41,13 +44,11 @@ std::istream& operator>>(std::istream& is, DelimitedProtobufStream<T>& stream)
     uint64_t size;
     is.read((char*)&size, sizeof(size));
 
-    if (is.good() && size > stream.size) {
-        if (stream.buffer) {
+    if (is.good() && size < DELIMITED_MESSAGE_MAX_SIZE) {
+        if (size > stream.size || stream.buffer == nullptr) {
             delete[] stream.buffer;
-            stream.buffer = nullptr;
+            stream.buffer = new uint8_t[size];
         }
-
-        stream.buffer = new uint8_t[size];
 
         is.read((char*)stream.buffer, size);
         stream.valid = stream.message.ParseFromArray(stream.buffer, size);
