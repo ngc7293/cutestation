@@ -3,7 +3,7 @@
 #include <thread>
 
 #include <net/unix_server.hh>
-#include <net/unix_socket.hh>
+#include <net/socket.hh>
 
 namespace cute::io {
 
@@ -27,8 +27,8 @@ UnixDispatcher::~UnixDispatcher()
 
 void UnixDispatcher::run()
 {
-    _d->server.on_connection([this](net::unix_socket* socket) {
-        std::shared_ptr<net::closeable> ios = std::shared_ptr<net::unix_socket>(socket);
+    _d->server.on_connection([this](net::socket* socket) {
+        std::shared_ptr<net::closeable> ios = std::shared_ptr<net::socket>(socket);
         add(ios);
         clean();
     });

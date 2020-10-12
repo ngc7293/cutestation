@@ -5,7 +5,7 @@
 #include <memory>
 #include <string>
 
-#include "unix_socket.hh"
+#include "socket.hh"
 
 namespace net {
 
@@ -26,7 +26,7 @@ public:
     bool listen(const std::string& path);
     void close();
 
-    void on_connection(std::function<void(net::unix_socket*)> callback);
+    void on_connection(std::function<void(net::socket*)> callback);
 
 private:
     struct priv;
