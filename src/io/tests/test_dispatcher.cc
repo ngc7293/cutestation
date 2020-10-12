@@ -5,7 +5,7 @@
 #include <thread>
 
 #include <io/dispatcher.hh>
-#include <net/unix_socket.hh>
+#include <net/socket.hh>
 #include <net/unix_server.hh>
 
 class MockDispatcher : public cute::io::Dispatcher {
@@ -23,10 +23,10 @@ TEST(Dispatcher, closes_doesnt_hang)
     // be closed : read() is a blocking operation for some streams (net::socket)
     MockDispatcher dispatcher;
     net::unix_server server;
-    net::unix_socket socket;
+    net::socket socket;
 
-    server.on_connection([&dispatcher](net::unix_socket* socket) {
-        std::shared_ptr<net::closeable> stream = std::shared_ptr<net::unix_socket>(socket);
+    server.on_connection([&dispatcher](net::socket* socket) {
+        std::shared_ptr<net::closeable> stream = std::shared_ptr<net::socket>(socket);
         dispatcher.callAdd(stream);
     });
 
@@ -35,7 +35,7 @@ TEST(Dispatcher, closes_doesnt_hang)
     });
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
-    EXPECT_TRUE(socket.connect("/tmp/cute.io.test"));
+    EXPECT_TRUE(socket.connect<net::unix>("/tmp/cute.io.test"));
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
     dispatcher.close();

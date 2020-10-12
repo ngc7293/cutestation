@@ -10,8 +10,6 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 
-#include "net/tcp_socket.hh"
-
 #ifndef __linux__
 #error This file should only be compiled on Linux! Check your CMakeLists.
 #endif
@@ -20,7 +18,7 @@ namespace net {
 
 struct tcp_server::priv {
     int fd = -1;
-    std::function<void(net::tcp_socket*)> callback = [](net::tcp_socket* s) { delete s; };
+    std::function<void(net::socket*)> callback = [](net::socket* s) { delete s; };
 };
 
 tcp_server::tcp_server()
@@ -61,7 +59,7 @@ bool tcp_server::listen(const std::string& address, uint16_t port)
 
     int connfd;
     while ((connfd = accept(_d->fd, (struct sockaddr*) &addr, &len)) > 0) {
-        _d->callback(new net::tcp_socket(connfd));
+        _d->callback(new net::socket(connfd, tcp));
     }
 
     return true;
@@ -75,7 +73,7 @@ void tcp_server::close()
     }
 }
 
-void tcp_server::on_connection(std::function<void(net::tcp_socket*)> callback)
+void tcp_server::on_connection(std::function<void(net::socket*)> callback)
 {
     _d->callback = callback;
 }

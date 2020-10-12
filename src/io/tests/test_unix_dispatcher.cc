@@ -3,7 +3,7 @@
 #include <thread>
 
 #include <io/unix_dispatcher.hh>
-#include <net/unix_socket.hh>
+#include <net/socket.hh>
 
 class MockSubscriber: public Subscriber {
 public:
@@ -21,8 +21,8 @@ TEST(UnixDispatcher, creates_a_valid_unix_socket)
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-    net::unix_socket socket;
-    EXPECT_TRUE(socket.connect("/tmp/cute.io.test.unix_dispatcher"));
+    net::socket socket;
+    EXPECT_TRUE(socket.connect<net::unix>("/tmp/cute.io.test.unix_dispatcher"));
 
     dispatcher.close();
 }
@@ -36,7 +36,7 @@ TEST(UnixDispatcher, creates_a_valid_client)
     cute::proto::DelimitedPacketStream stream(packet);
 
     cute::io::UnixDispatcher dispatcher("/tmp/cute.io.test.unix_dispatcher");
-    net::unix_socket socket;
+    net::socket socket;
 
     cute::proto::makeData(*packet.mutable_data(), {{"cute.io.test.topic", 1, true}});
     subscriber.callSubscribe<bool>("cute.io.test.topic", [&count](const auto& t, const bool& v) {
@@ -46,7 +46,7 @@ TEST(UnixDispatcher, creates_a_valid_client)
     dispatcher.run();
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-    EXPECT_TRUE(socket.connect("/tmp/cute.io.test.unix_dispatcher"));
+    EXPECT_TRUE(socket.connect<net::unix>("/tmp/cute.io.test.unix_dispatcher"));
     socket << stream << std::flush;
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1));

@@ -12,8 +12,6 @@
 
 #include <log/log.hh>
 
-#include "net/tcp_socket.hh"
-
 #ifndef __linux__
 #error This file should only be compiled on Linux! Check your CMakeLists.
 #endif
@@ -23,7 +21,7 @@ namespace net {
 struct unix_server::priv {
     int fd = -1;
     std::string name;
-    std::function<void(net::unix_socket*)> callback = [](net::unix_socket* s) { delete s; };
+    std::function<void(net::socket*)> callback = [](net::socket* s) { delete s; };
 };
 
 unix_server::unix_server()
@@ -66,7 +64,7 @@ bool unix_server::listen(const std::string& path)
 
     int connfd;
     while ((connfd = accept(_d->fd, (struct sockaddr*) &addr, &len)) > 0) {
-        _d->callback(new net::unix_socket(connfd));
+        _d->callback(new net::socket(connfd, unix));
     }
 
     return true;
@@ -89,7 +87,7 @@ void unix_server::close()
     }
 }
 
-void unix_server::on_connection(std::function<void(net::unix_socket*)> callback)
+void unix_server::on_connection(std::function<void(net::socket*)> callback)
 {
     _d->callback = callback;
 }

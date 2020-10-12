@@ -7,7 +7,7 @@
 
 #include <cstdint>
 
-#include "tcp_socket.hh"
+#include "socket.hh"
 
 namespace net {
 
@@ -28,7 +28,7 @@ public:
     bool listen(const std::string& address, uint16_t port);
     void close();
 
-    void on_connection(std::function<void(net::tcp_socket*)> callback);
+    void on_connection(std::function<void(net::socket*)> callback);
 
 private:
     struct priv;

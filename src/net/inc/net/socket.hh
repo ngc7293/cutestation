@@ -8,14 +8,29 @@
 
 namespace net {
 
+#undef unix
+enum socket_type {
+    tcp,
+    unix
+};
+
 class socket : public closeable {
 public:
-    virtual ~socket();
+    socket();
+    ~socket();
+
+    template<socket_type type>
+    bool connect(const std::string& host, uint16_t port = 0);
     void close() override;
 
 protected:
-    socket(int fd);
-    int fd() const;
+    friend class unix_server;
+    friend class tcp_server;
+    socket(int fd, socket_type type);
+
+private:
+    bool connect_tcp(const std::string& path, uint16_t port);
+    bool connect_unix(const std::string& path);
 
 private:
     struct priv;

@@ -4,18 +4,14 @@ set(SOURCES
     src/fdbuf.cc
     src/socket.cc
     src/tcp_server.cc
-    src/tcp_socket.cc
     src/unix_server.cc
-    src/unix_socket.cc
 )
 
 set(HEADERS
     inc/net/socket.hh
     inc/net/stream.hh
     inc/net/tcp_server.hh
-    inc/net/tcp_socket.hh
     inc/net/unix_server.hh
-    inc/net/unix_socket.hh
     src/fdbuf.hh
 )
 
