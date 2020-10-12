@@ -3,17 +3,17 @@
 #include <future>
 #include <thread>
 
-#include <net/unix_server.hh>
+#include <net/server.hh>
 #include <net/socket.hh>
 
 #include <log/log.hh>
 
 TEST(unix_server, listen_succeeds)
 {
-    net::unix_server server;
+    net::server server;
 
     std::future<bool> ret = std::async(std::launch::async, [&server]() {
-        return server.listen("/tmp/cute.net.test");
+        return server.listen<net::unix>("/tmp/cute.net.test");
     });
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -24,11 +24,11 @@ TEST(unix_server, listen_succeeds)
 
 TEST(unix_server, sockets_can_connect)
 {
-    net::unix_server server;
+    net::server server;
     net::socket socket;
 
     auto a = std::async(std::launch::async, [&server]() {
-        return server.listen("/tmp/cute.net.test");
+        return server.listen<net::unix>("/tmp/cute.net.test");
     });
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
@@ -40,11 +40,11 @@ TEST(unix_server, sockets_can_connect)
 
 TEST(unix_socket, sockets_report_eof_after_closing)
 {
-    net::unix_server server;
+    net::server server;
     net::socket socket;
 
     auto a = std::async(std::launch::async, [&server]() {
-        return server.listen("/tmp/cute.net.test");
+        return server.listen<net::unix>("/tmp/cute.net.test");
     });
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
@@ -59,7 +59,7 @@ TEST(unix_socket, sockets_report_eof_after_closing)
 
 TEST(unix_server, server_creates_new_socket)
 {
-    net::unix_server server;
+    net::server server;
     net::socket socket;
     std::string line;
 
@@ -75,7 +75,7 @@ TEST(unix_server, server_creates_new_socket)
     });
 
     auto a = std::async(std::launch::async, [&server]() {
-        return server.listen("/tmp/cute.net.test");
+        return server.listen<net::unix>("/tmp/cute.net.test");
     });
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
@@ -100,7 +100,7 @@ TEST(unix_socket, socket_connect_fails_with_no_server)
 TEST(unix_socket, socket_can_send_very_large_buffers)
 {
     // Confirm that fdbuf's overflow() method works
-    net::unix_server server;
+    net::server server;
     net::socket socket;
     char* buffer = new char[4096];
     int i = 0;
@@ -117,7 +117,7 @@ TEST(unix_socket, socket_can_send_very_large_buffers)
     });
 
     auto a = std::async(std::launch::async, [&server]() {
-        return server.listen("/tmp/cute.net.test");
+        return server.listen<net::unix>("/tmp/cute.net.test");
     });
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 

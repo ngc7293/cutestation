@@ -3,15 +3,13 @@ cmake_minimum_required(VERSION 3.13)
 set(SOURCES
     src/fdbuf.cc
     src/socket.cc
-    src/tcp_server.cc
-    src/unix_server.cc
+    src/server.cc
 )
 
 set(HEADERS
     inc/net/socket.hh
     inc/net/stream.hh
-    inc/net/tcp_server.hh
-    inc/net/unix_server.hh
+    inc/net/server.hh
     src/fdbuf.hh
 )
 
