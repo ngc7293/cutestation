@@ -6,6 +6,8 @@
 
 #include "topic/callback.hh"
 
+namespace topic {
+
 struct Topic::Priv {
     std::string name;
     const std::type_info& type;
@@ -80,4 +82,6 @@ void Topic::publish(const std::chrono::nanoseconds& time, const std::any& value)
             subscriber.callback->operator()(time, value);
         }
     }
+}
+
 }

@@ -6,6 +6,8 @@
 
 #include "node.hh"
 
+namespace topic {
+
 struct TopicManager::Priv {
     std::shared_ptr<Node> root;
     std::shared_mutex mutex;
@@ -69,4 +71,6 @@ std::shared_ptr<Topic> TopicManager::put(const std::shared_ptr<Topic>& topic)
     }
 
     return std::shared_ptr<Topic>();
+}
+
 }

@@ -22,7 +22,7 @@ TEST(UnixDispatcher, creates_a_valid_unix_socket)
 TEST(UnixDispatcher, creates_a_valid_client)
 {
     int count = 0;
-    MockSubscriber subscriber;
+    topic::MockSubscriber subscriber;
 
     cute::proto::Packet packet;
     cute::proto::DelimitedPacketStream stream(packet);

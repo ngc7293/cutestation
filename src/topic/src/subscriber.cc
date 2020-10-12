@@ -4,6 +4,8 @@
 
 #include "global_topic_manager.hh"
 
+namespace topic {
+
 struct Subscriber::Priv {
     std::vector<std::shared_ptr<Topic>> subscribed;
 };
@@ -45,4 +47,6 @@ bool Subscriber::unsubscribe_generic(const std::string& name, const std::type_in
     }
 
     return false;
+}
+
 }

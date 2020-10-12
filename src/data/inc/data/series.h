@@ -16,7 +16,7 @@ using json = nlohmann::json;
 
 namespace cute::data {
 
-class Series : public QObject, public Subscriber {
+class Series : public QObject, public topic::Subscriber {
     Q_OBJECT
 
 protected:

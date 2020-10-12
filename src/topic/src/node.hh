@@ -1,11 +1,13 @@
-#ifndef CUTE_TOPIC_NODE_HH_
-#define CUTE_TOPIC_NODE_HH_
+#ifndef TOPIC_NODE_HH_
+#define TOPIC_NODE_HH_
 
 #include "topic.hh"
 
 #include <memory>
 #include <vector>
 #include <unordered_map>
+
+namespace topic {
 
 class Node {
 public:
@@ -41,5 +43,7 @@ private:
     std::vector<std::string>::const_iterator _current;
     bool _create;
 };
+
+}
 
 #endif

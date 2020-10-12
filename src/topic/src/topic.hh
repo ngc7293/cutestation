@@ -1,5 +1,5 @@
-#ifndef CUTE_TOPIC_TOPIC_HH_
-#define CUTE_TOPIC_TOPIC_HH_
+#ifndef TOPIC_TOPIC_HH_
+#define TOPIC_TOPIC_HH_
 
 #include <any>
 #include <chrono>
@@ -8,6 +8,8 @@
 #include <vector>
 
 #include "topic/subscribe_info.hh"
+
+namespace topic {
 
 class Topic {
 public:
@@ -26,5 +28,7 @@ private:
     struct Priv;
     std::unique_ptr<Priv> d_;
 };
+
+}
 
 #endif

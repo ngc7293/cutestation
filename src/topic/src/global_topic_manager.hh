@@ -1,9 +1,11 @@
-#ifndef CUTE_TOPIC_GLOBAL_TOPIC_MANAGER_HH_
-#define CUTE_TOPIC_GLOBAL_TOPIC_MANAGER_HH_
+#ifndef TOPIC_GLOBAL_TOPIC_MANAGER_HH_
+#define TOPIC_GLOBAL_TOPIC_MANAGER_HH_
 
 #include "topic_manager.hh"
 
 #include <iostream>
+
+namespace topic {
 
 class GlobalTopicManager : public TopicManager {
 public:
@@ -23,5 +25,7 @@ private:
     GlobalTopicManager(GlobalTopicManager const&) = delete;
     void operator=(GlobalTopicManager const&)     = delete;
 };
+
+}
 
 #endif

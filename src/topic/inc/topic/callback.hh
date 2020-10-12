@@ -1,10 +1,12 @@
-#ifndef CUTE_TOPIC_CALLBACK_HH_
-#define CUTE_TOPIC_CALLBACK_HH_
+#ifndef TOPIC_CALLBACK_HH_
+#define TOPIC_CALLBACK_HH_
 
 #include <any>
 #include <chrono>
 #include <functional>
 #include <utility>
+
+namespace topic {
 
 class GenericCallback {
 public:
@@ -31,5 +33,7 @@ public:
 private:
     std::function<void(const std::chrono::nanoseconds&, const T&)> function_;
 };
+
+}
 
 #endif

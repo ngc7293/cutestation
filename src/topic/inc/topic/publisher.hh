@@ -1,11 +1,13 @@
-#ifndef CUTE_TOPIC_PUBLISHER_HH_
-#define CUTE_TOPIC_PUBLISHER_HH_
+#ifndef TOPIC_PUBLISHER_HH_
+#define TOPIC_PUBLISHER_HH_
 
 #include <any>
 #include <chrono>
 #include <memory>
 #include <string>
 #include <utility>
+
+namespace topic {
 
 class Publisher {
 public:
@@ -26,5 +28,7 @@ private:
     struct Priv;
     std::unique_ptr<Priv> d_;
 };
+
+}
 
 #endif

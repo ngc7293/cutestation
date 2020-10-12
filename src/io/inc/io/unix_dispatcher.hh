@@ -7,6 +7,9 @@
 
 namespace cute::io {
 
+// FIXME: Multiple dispatchers using net::server would differ only in the way
+// they call listen(). It seems bad design to use multiple classes for this,
+// when a simple option flag could be used.
 class UnixDispatcher : public Dispatcher {
 public:
     UnixDispatcher(const std::string& path);
