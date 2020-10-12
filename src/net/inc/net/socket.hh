@@ -24,8 +24,7 @@ public:
     void close() override;
 
 protected:
-    friend class unix_server;
-    friend class tcp_server;
+    friend class server;
     socket(int fd, socket_type type);
 
 private:

@@ -2,13 +2,13 @@
 
 #include <thread>
 
-#include <net/unix_server.hh>
+#include <net/server.hh>
 #include <net/socket.hh>
 
 namespace cute::io {
 
 struct UnixDispatcher::priv {
-    net::unix_server server;
+    net::server server;
     std::thread thread;
     std::string path;
 };
@@ -34,7 +34,7 @@ void UnixDispatcher::run()
     });
 
     _d->thread = std::thread([this]() {
-        assert(_d->server.listen(_d->path));
+        assert(_d->server.listen<net::unix>(_d->path));
     });
 }
 

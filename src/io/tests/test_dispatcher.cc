@@ -6,7 +6,7 @@
 
 #include <io/dispatcher.hh>
 #include <net/socket.hh>
-#include <net/unix_server.hh>
+#include <net/server.hh>
 
 class MockDispatcher : public cute::io::Dispatcher {
 public:
@@ -22,7 +22,7 @@ TEST(Dispatcher, closes_doesnt_hang)
     // We expect dispatcher.close() to hang if the net::closeable stream cannot
     // be closed : read() is a blocking operation for some streams (net::socket)
     MockDispatcher dispatcher;
-    net::unix_server server;
+    net::server server;
     net::socket socket;
 
     server.on_connection([&dispatcher](net::socket* socket) {
@@ -31,7 +31,7 @@ TEST(Dispatcher, closes_doesnt_hang)
     });
 
     auto a = std::async(std::launch::async, [&server]() {
-        return server.listen("/tmp/cute.io.test");
+        return server.listen<net::unix>("/tmp/cute.io.test");
     });
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1));

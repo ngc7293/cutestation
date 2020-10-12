@@ -3,15 +3,15 @@
 #include <future>
 #include <thread>
 
-#include <net/tcp_server.hh>
+#include <net/server.hh>
 #include <net/socket.hh>
 
 TEST(tcp_server, listen_succeeds)
 {
-    net::tcp_server server;
+    net::server server;
 
     std::future<bool> ret = std::async(std::launch::async, [&server]() {
-        return server.listen("0.0.0.0", 25000);
+        return server.listen<net::tcp>("0.0.0.0", 25000);
     });
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -22,11 +22,11 @@ TEST(tcp_server, listen_succeeds)
 
 TEST(tcp_server, sockets_can_connect)
 {
-    net::tcp_server server;
+    net::server server;
     net::socket socket;
 
     auto a = std::async(std::launch::async, [&server]() {
-        return server.listen("0.0.0.0", 25001);
+        return server.listen<net::tcp>("0.0.0.0", 25001);
     });
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
@@ -38,7 +38,7 @@ TEST(tcp_server, sockets_can_connect)
 
 TEST(tcp_server, server_creates_new_socket)
 {
-    net::tcp_server server;
+    net::server server;
     net::socket socket;
     std::string line;
 
@@ -54,7 +54,7 @@ TEST(tcp_server, server_creates_new_socket)
     });
 
     auto a = std::async(std::launch::async, [&server]() {
-        return server.listen("0.0.0.0", 25002);
+        return server.listen<net::tcp>("0.0.0.0", 25002);
     });
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
