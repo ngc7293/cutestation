@@ -74,7 +74,6 @@ bool unix_server::listen(const std::string& path)
 
 void unix_server::close()
 {
-    Log::debug("unix_server/" + _d->name) << "Closing" << std::endl;
     if (_d->fd > 0) {
         Log::debug("unix_server/" + _d->name) << "Closing FD" << std::endl;
         ::shutdown(_d->fd, SHUT_RDWR);

@@ -37,6 +37,16 @@ void Dispatcher::add(std::shared_ptr<net::closeable> stream)
     _d->clients.emplace_back(client);
 }
 
+void Dispatcher::clean()
+{
+    for (auto it = _d->clients.begin(); it != _d->clients.end(); it++) {
+        if (it->client->done()) {
+            it->thread.join();
+            _d->clients.erase(it);
+        }
+    }
+}
+
 void Dispatcher::close()
 {
     while (_d->clients.size()) {

@@ -20,7 +20,7 @@ message Handshake {
 }
 
 message Measurement {
-    uint64 timestamp = 1;
+    uint64 timestamp = 1; // In milliseconds
     string source = 2;
 
     oneof value {

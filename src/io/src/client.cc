@@ -48,6 +48,11 @@ void Client::run()
     }
 }
 
+bool Client::done()
+{
+    return _d->stream->eof();
+}
+
 void Client::close()
 {
     _d->stream->close();
@@ -58,6 +63,7 @@ void Client::onData(const proto::Data& data)
     for (const proto::Measurement& measurement: data.measurements()) {
         auto source = measurement.source();
         auto timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::milliseconds(measurement.timestamp()));
+        Log::debug("client/" + _d->name) << "Data received [source=" << source << "]" << std::endl;
 
         switch (measurement.value_case()) {
         case proto::Measurement::ValueCase::kBool:
