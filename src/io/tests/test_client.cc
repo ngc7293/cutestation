@@ -7,25 +7,7 @@
 
 #include <io/client.hh>
 #include <proto/packet.hh>
-#include <topic/subscriber.hh>
-
-class MockSubscriber: public Subscriber {
-public:
-    template <typename T>
-    bool callSubscribe(const std::string& name, std::function<void(const std::chrono::nanoseconds& t, const T& v)> callback)
-    {
-        return subscribe<T>(name, callback);
-    }
-};
-
-class MockPublisher: public Publisher {
-public:
-    template <typename T>
-    bool callPublish(const std::string& name, const T& v, const std::chrono::nanoseconds& t = std::chrono::high_resolution_clock::now().time_since_epoch())
-    {
-        return publish<T>(name, v, t);
-    }
-};
+#include <topic/mock.hh>
 
 TEST(Client, publishes_data_when_receives_packet)
 {

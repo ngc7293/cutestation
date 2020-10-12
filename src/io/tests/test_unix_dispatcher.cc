@@ -4,15 +4,7 @@
 
 #include <io/unix_dispatcher.hh>
 #include <net/socket.hh>
-
-class MockSubscriber: public Subscriber {
-public:
-    template <typename T>
-    bool callSubscribe(const std::string& name, std::function<void(const std::chrono::nanoseconds& t, const T& v)> callback)
-    {
-        return subscribe<T>(name, callback);
-    }
-};
+#include <topic/mock.hh>
 
 TEST(UnixDispatcher, creates_a_valid_unix_socket)
 {
