@@ -16,6 +16,7 @@ public:
     virtual ~Client();
 
     void run();
+    bool done(); // FIXME: Closed?
     void close();
 
 private:

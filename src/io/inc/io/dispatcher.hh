@@ -13,10 +13,11 @@ public:
     virtual ~Dispatcher();
 
     virtual void run() = 0;
-    void close();
+    virtual void close();
 
 protected:
     void add(std::shared_ptr<net::closeable> stream);
+    void clean();
 
 private:
     struct priv;

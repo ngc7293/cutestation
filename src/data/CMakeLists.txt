@@ -5,14 +5,12 @@ set(SOURCES
     src/sampling_policy.cc
     src/series_factory.cc
     src/series.cc
-    src/source.cc
     src/time_series.cc
 )
 
 set(HEADERS
     inc/data/series_factory.h
     inc/data/series.h
-    inc/data/source.h
     inc/data/time_series.h
     src/no_sampling_policy.h
     inc/data/sampling_policy.h
