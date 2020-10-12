@@ -13,7 +13,7 @@ TEST(Client, publishes_data_when_receives_packet)
 {
     int count = 0;
 
-    MockSubscriber subscriber;
+    topic::MockSubscriber subscriber;
 
     std::shared_ptr<net::closeable> ios = std::make_shared<net::stringstream>();
     cute::io::Client client(ios);
@@ -36,7 +36,7 @@ TEST(Client, publishes_data_when_receives_packet)
 
 TEST(Client, sends_commands_on_callback)
 {
-    MockPublisher publisher;
+    topic::MockPublisher publisher;
 
     std::shared_ptr<net::closeable> ios = std::make_shared<net::stringstream>();
     cute::io::Client client(ios);
@@ -64,7 +64,7 @@ TEST(Client, handles_receiving_multiple_types)
     double f = 0.0f;
     std::string s = "";
 
-    MockSubscriber subscriber;
+    topic::MockSubscriber subscriber;
 
     cute::proto::Packet packet;
     cute::proto::DelimitedPacketStream stream(packet);
@@ -95,7 +95,7 @@ TEST(Client, handles_receiving_multiple_types)
 
 TEST(Client, handles_sending_multiple_types)
 {
-    MockPublisher publisher;
+    topic::MockPublisher publisher;
 
     cute::proto::Packet packet;
     cute::proto::DelimitedPacketStream stream(packet);
@@ -132,7 +132,7 @@ TEST(Client, is_type_safe)
 {
     int count = 0;
 
-    MockSubscriber subscriber;
+    topic::MockSubscriber subscriber;
 
     cute::proto::Packet packet;
     cute::proto::DelimitedPacketStream stream(packet);

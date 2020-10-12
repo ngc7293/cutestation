@@ -1,5 +1,5 @@
-#ifndef CUTE_TOPIC_SUBSCRIBER_HH_
-#define CUTE_TOPIC_SUBSCRIBER_HH_
+#ifndef TOPIC_SUBSCRIBER_HH_
+#define TOPIC_SUBSCRIBER_HH_
 
 #include <functional>
 #include <memory>
@@ -7,6 +7,8 @@
 
 #include "callback.hh"
 #include "subscribe_info.hh"
+
+namespace topic {
 
 class Subscriber {
 public:
@@ -37,5 +39,7 @@ private:
     struct Priv;
     std::unique_ptr<Priv> d_;
 };
+
+}
 
 #endif

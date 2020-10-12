@@ -1,11 +1,13 @@
-#ifndef CUTE_TOPIC_TOPIC_MANAGER_HH_
-#define CUTE_TOPIC_TOPIC_MANAGER_HH_
+#ifndef TOPIC_TOPIC_MANAGER_HH_
+#define TOPIC_TOPIC_MANAGER_HH_
 
 #include <functional>
 #include <memory>
 #include <string>
 
 #include "topic.hh"
+
+namespace topic {
 
 class TopicManager {
 public:
@@ -78,5 +80,7 @@ private:
     struct Priv;
     std::unique_ptr<Priv> d_;
 };
+
+}
 
 #endif

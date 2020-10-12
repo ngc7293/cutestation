@@ -4,8 +4,8 @@
 
 TEST(Publisher, publishes_works)
 {
-    MockSubscriber sub;
-    MockPublisher pub;
+    topic::MockSubscriber sub;
+    topic::MockPublisher pub;
     int count = 0;
     bool ret;
 
@@ -22,7 +22,7 @@ TEST(Publisher, publishes_works)
 
 TEST(Publisher, publishes_works_on_multiple_types)
 {
-    MockPublisher pub;
+    topic::MockPublisher pub;
 
     EXPECT_TRUE(pub.callPublish("topic.test.publisher.publishes_works_on_multiple_types.double", 1.0));
     EXPECT_TRUE(pub.callPublish("topic.test.publisher.publishes_works_on_multiple_types.string", "string"));
@@ -32,8 +32,8 @@ TEST(Publisher, publishes_works_on_multiple_types)
 
 TEST(Publisher, publishes_works_on_user_defined_objects)
 {
-    MockPublisher pub;
-    MockSubscriber sub;
+    topic::MockPublisher pub;
+    topic::MockSubscriber sub;
     int value = 0;
 
     class Object {
@@ -55,8 +55,8 @@ TEST(Publisher, publishes_works_on_user_defined_objects)
 
 TEST(Publisher, publishes_fails_on_type_mismatch)
 {
-    MockSubscriber sub;
-    MockPublisher pub;
+    topic::MockSubscriber sub;
+    topic::MockPublisher pub;
     int count = 0;
     bool ret;
 
@@ -73,8 +73,8 @@ TEST(Publisher, publishes_fails_on_type_mismatch)
 
 TEST(Subscriber, unsubscribes_works)
 {
-    MockSubscriber sub;
-    MockPublisher pub;
+    topic::MockSubscriber sub;
+    topic::MockPublisher pub;
     int count = 0;
     bool ret;
 
@@ -94,8 +94,8 @@ TEST(Subscriber, unsubscribes_works)
 
 TEST(Subscriber, second_subscribe_fails)
 {
-    MockSubscriber sub;
-    MockPublisher pub;
+    topic::MockSubscriber sub;
+    topic::MockPublisher pub;
     int count = 0;
     bool ret;
 
@@ -117,8 +117,8 @@ TEST(Subscriber, second_subscribe_fails)
 
 TEST(Subscriber, subscribe_unsubscribe_subscribe)
 {
-    MockSubscriber sub;
-    MockPublisher pub;
+    topic::MockSubscriber sub;
+    topic::MockPublisher pub;
     int count = 0;
     bool ret;
 
@@ -143,8 +143,8 @@ TEST(Subscriber, subscribe_unsubscribe_subscribe)
 
 TEST(Subscriber, subscriber_unsubscribes_on_delete)
 {
-    MockSubscriber* sub = new MockSubscriber;
-    MockPublisher pub;
+    topic::MockSubscriber* sub = new topic::MockSubscriber;
+    topic::MockPublisher pub;
     bool ret;
 
     ret = sub->callSubscribe<double>("topic.test.subscriber.subscriber_unsubscribes_on_delete", [](const auto& t, const auto& v) {
@@ -159,8 +159,8 @@ TEST(Subscriber, subscriber_unsubscribes_on_delete)
 
 TEST(Subscriber, unsubscribe_fails_if_not_subscribed)
 {
-    MockSubscriber sub;
-    MockPublisher pub;
+    topic::MockSubscriber sub;
+    topic::MockPublisher pub;
     bool ret;
 
     ret = sub.callUnsubscribe<double>("topic.test.subscriber.subscriber_unsubscribes_on_delete");

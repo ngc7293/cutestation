@@ -7,7 +7,7 @@
 
 namespace cute::widgets {
 
-class ControlWidget : public Widget, public Publisher {
+class ControlWidget : public Widget, public topic::Publisher {
 
 public:
     ControlWidget(QWidget* parent, const std::string& name);

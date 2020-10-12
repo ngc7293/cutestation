@@ -4,6 +4,8 @@
 #include "publisher.hh"
 #include "subscriber.hh"
 
+namespace topic {
+
 class MockPublisher: public Publisher {
 public:
     template <typename T>
@@ -18,5 +20,7 @@ public:
     template<typename T>
     bool callUnsubscribe(const std::string& name) { return unsubscribe<T>(name); }
 };
+
+}
 
 #endif

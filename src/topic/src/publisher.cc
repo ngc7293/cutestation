@@ -3,6 +3,8 @@
 #include "local_topic_manager.hh"
 #include "global_topic_manager.hh"
 
+namespace topic {
+
 struct Publisher::Priv {
     LocalTopicManager topicmgr;
 };
@@ -24,4 +26,6 @@ bool Publisher::publish_generic(const std::string& name, const std::chrono::nano
     }
 
     return false;
+}
+
 }

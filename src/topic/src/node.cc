@@ -1,5 +1,7 @@
 #include "node.hh"
 
+namespace topic {
+
 Node::Node(const std::string& name)
     : _name(name)
 {
@@ -70,4 +72,6 @@ std::shared_ptr<Node> NodeFinder::visit(std::shared_ptr<Node>& node)
     }
 
     return std::shared_ptr<Node>();
+}
+
 }
