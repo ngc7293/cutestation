@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 
+#include "type.hh"
 #include "callback.hh"
 #include "subscribe_info.hh"
 
@@ -17,7 +18,7 @@ public:
 
 protected:
     template <typename T>
-    bool subscribe(const std::string& name, std::function<void(const std::chrono::nanoseconds&, const T&)> callback)
+    bool subscribe(const std::string& name, std::function<void(const topic::time&, const T&)> callback)
     {
         SubscribeInfo info;
         info.subscriber = this;

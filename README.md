@@ -43,9 +43,9 @@ a Google Test-driven unit test executable named `<target>.test` (e.g.:
 
 - `net` : Socket communication using iostreams. Currently only works for Unix
           and TCP sockets on Unix.
-- `cute.topic` : Topic-based publish-subscribe system. Should be thread-safe,
-                 but makes no attempt at multi-threading optimization, that is
-                 left to the user.
+- `topic` : Topic-based publish-subscribe system. Should be thread-safe,
+            but makes no attempt at multi-threading optimization, that is
+            left to the user.
 - `cute.io` : Handles IPC with external data sources for CuteStation.
 
 ## Depends
@@ -82,7 +82,7 @@ Note that the current CMakeLists assumes Qt to be installed in
 
 ## Testing
 
-There are currently 3 test executables : `cute.io.test`, `cute.topic.test` and
+There are currently 3 test executables : `cute.io.test`, `topic.test` and
 `net.test`. All output binaries can be found in `build/bin`.
 
 After running tests, you can generate the coverage report with `ninja coverage`.

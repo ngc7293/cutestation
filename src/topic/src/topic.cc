@@ -73,7 +73,7 @@ bool Topic::unsubscribe(Subscriber* subscriber)
     return false;
 }
 
-void Topic::publish(const std::chrono::nanoseconds& time, const std::any& value)
+void Topic::publish(const topic::time& time, const std::any& value)
 {
     std::shared_lock (d_->mutex);
 

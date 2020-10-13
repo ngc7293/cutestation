@@ -25,11 +25,11 @@ set( SOURCES
 )
 
 ## Target
-add_library(cute.topic STATIC ${SOURCES} ${HEADERS})
+add_library(topic STATIC ${SOURCES} ${HEADERS})
 
-target_compile_features(cute.topic PUBLIC cxx_std_17)
-target_include_directories(cute.topic PUBLIC inc PRIVATE src)
-target_compile_options(cute.topic PRIVATE -Wall -Werror -Wpedantic)
+target_compile_features(topic PUBLIC cxx_std_17)
+target_include_directories(topic PUBLIC inc PRIVATE src)
+target_compile_options(topic PRIVATE -Wall -Werror -Wpedantic)
 
 ## Tests
 set( TESTS
@@ -37,9 +37,9 @@ set( TESTS
     tests/test_pubsub.cc
 )
 
-add_executable(cute.topic.test ${TESTS})
-add_test(NAME cute.topic COMMAND cute.topic.test)
+add_executable(topic.test ${TESTS})
+add_test(NAME topic COMMAND topic.test)
 
-target_compile_options(cute.topic.test PUBLIC )
-target_link_options(cute.topic.test PUBLIC )
-target_link_libraries(cute.topic.test PUBLIC cute.topic gcov gtest)
+target_compile_options(topic.test PUBLIC )
+target_link_options(topic.test PUBLIC )
+target_link_libraries(topic.test PUBLIC topic gcov gtest)

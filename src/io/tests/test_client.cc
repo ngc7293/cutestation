@@ -23,7 +23,7 @@ TEST(Client, publishes_data_when_receives_packet)
 
     subscriber.callSubscribe<bool>("cute.io.test.bool", [&count](const auto& t, const auto& v) {
         EXPECT_TRUE(v);
-        EXPECT_EQ(t.count(), 1000000);
+        EXPECT_EQ(std::chrono::duration_cast<std::chrono::milliseconds>(t).count(), 1);
         count++;
     });
 
