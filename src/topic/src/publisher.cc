@@ -18,7 +18,7 @@ Publisher::~Publisher()
 {
 }
 
-bool Publisher::publish_generic(const std::string& name, const std::chrono::nanoseconds& time, const std::any& value) const
+bool Publisher::publish_generic(const std::string& name, const topic::time& time, const std::any& value) const
 {
     if (std::shared_ptr<Topic> topic = GlobalTopicManager::get().retrieve(name, value.type())) {//d_->topicmgr.retrieve(name, value.type())) {
         topic->publish(time, value);

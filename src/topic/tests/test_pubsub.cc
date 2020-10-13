@@ -26,7 +26,7 @@ TEST(Publisher, publishes_works_on_multiple_types)
 
     EXPECT_TRUE(pub.callPublish("topic.test.publisher.publishes_works_on_multiple_types.double", 1.0));
     EXPECT_TRUE(pub.callPublish("topic.test.publisher.publishes_works_on_multiple_types.string", "string"));
-    EXPECT_TRUE(pub.callPublish("topic.test.publisher.publishes_works_on_multiple_types.nanoseconds", std::chrono::nanoseconds(0)));
+    EXPECT_TRUE(pub.callPublish("topic.test.publisher.publishes_works_on_multiple_types.nanoseconds", topic::time(0)));
     EXPECT_TRUE(pub.callPublish("topic.test.publisher.publishes_works_on_multiple_types.int", 1));
 }
 

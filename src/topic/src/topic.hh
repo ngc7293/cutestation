@@ -7,6 +7,7 @@
 #include <memory>
 #include <vector>
 
+#include "topic/type.hh"
 #include "topic/subscribe_info.hh"
 
 namespace topic {
@@ -22,7 +23,7 @@ public:
     bool subscribe(const SubscribeInfo& subscribeinfo);
     bool unsubscribe(Subscriber* subscriber);
 
-    void publish(const std::chrono::nanoseconds& time, const std::any& value);
+    void publish(const topic::time& time, const std::any& value);
 
 private:
     struct Priv;

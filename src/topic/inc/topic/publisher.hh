@@ -7,6 +7,8 @@
 #include <string>
 #include <utility>
 
+#include "type.hh"
+
 namespace topic {
 
 class Publisher {
@@ -16,13 +18,13 @@ public:
 
 protected:
     template <typename T>
-    bool publish(const std::string& name, const T& value, const std::chrono::nanoseconds& time = std::chrono::high_resolution_clock::now().time_since_epoch())
+    bool publish(const std::string& name, const T& value, const topic::time& time = std::chrono::duration_cast<topic::time>(std::chrono::high_resolution_clock::now().time_since_epoch()))
     {
         return publish_generic(name, time, std::any(value));
     }
 
 private:
-    bool publish_generic(const std::string& name, const std::chrono::nanoseconds& time, const std::any& value) const;
+    bool publish_generic(const std::string& name, const topic::time& time, const std::any& value) const;
 
 private:
     struct Priv;

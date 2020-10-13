@@ -3,6 +3,7 @@
 
 #include "publisher.hh"
 #include "subscriber.hh"
+#include "type.hh"
 
 namespace topic {
 
@@ -15,7 +16,7 @@ public:
 class MockSubscriber: public Subscriber {
 public:
     template<typename T>
-    bool callSubscribe(const std::string& name, std::function<void(const std::chrono::nanoseconds&, const T& value)> method) { return subscribe(name, method); }
+    bool callSubscribe(const std::string& name, std::function<void(const topic::time&, const T& value)> method) { return subscribe(name, method); }
 
     template<typename T>
     bool callUnsubscribe(const std::string& name) { return unsubscribe<T>(name); }
