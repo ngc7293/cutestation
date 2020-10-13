@@ -17,7 +17,7 @@ const std::string string_from_level(Log::Level level)
     static const std::map<const Log::Level, const std::string> LOG_LEVEL_STRING = {
         { Log::DEBUG, "debug" },
         { Log::INFO, "info" },
-        { Log::WARNING, "warning" },
+        { Log::WARNING, "warn" },
         { Log::ERROR, "error" },
     };
 
