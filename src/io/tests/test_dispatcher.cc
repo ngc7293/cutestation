@@ -10,7 +10,7 @@
 
 class MockDispatcher : public cute::io::Dispatcher {
 public:
-    void run() override { }
+    void start() override { }
 
     void callAdd(std::shared_ptr<net::closeable> ios) {
         add(ios);

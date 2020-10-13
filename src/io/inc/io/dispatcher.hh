@@ -12,7 +12,7 @@ public:
     Dispatcher();
     virtual ~Dispatcher();
 
-    virtual void run() = 0;
+    virtual void start() = 0;
     virtual void close();
 
 protected:

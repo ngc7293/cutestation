@@ -3,13 +3,13 @@ cmake_minimum_required(VERSION 3.13)
 set(HEADERS
     inc/io/client.hh
     inc/io/dispatcher.hh
-    inc/io/unix_dispatcher.hh
+    inc/io/socket_dispatcher.hh
 )
 
 set(SOURCES
     src/client.cc
     src/dispatcher.cc
-    src/unix_dispatcher.cc
+    src/socket_dispatcher.cc
 )
 
 add_library(cute.io STATIC ${SOURCES} ${HEADERS})
@@ -23,7 +23,7 @@ set( TESTS
     tests/main.cc
     tests/test_client.cc
     tests/test_dispatcher.cc
-    tests/test_unix_dispatcher.cc
+    tests/test_socket_dispatcher.cc
 )
 
 add_executable(cute.io.test ${TESTS})
