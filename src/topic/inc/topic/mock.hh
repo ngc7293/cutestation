@@ -11,6 +11,9 @@ class MockPublisher: public Publisher {
 public:
     template <typename T>
     bool callPublish(const std::string& name, const T& value) { return publish(name, value); }
+
+    template <typename T>
+    bool callPublish(const std::string& name, const T& value, const topic::time& when) { return publish(name, value, when); }
 };
 
 class MockSubscriber: public Subscriber {

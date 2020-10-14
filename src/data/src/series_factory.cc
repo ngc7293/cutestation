@@ -1,33 +1,30 @@
-#include "data/series_factory.h"
+#include "data/series_factory.hh"
 
 #include <log/log.hh>
-#include <util/util.h>
+#include <util/json.hh>
 
-#include "data/time_series.h"
-
-#include "no_sampling_policy.h"
+#include "data/time_series.hh"
 
 namespace cute::data {
 
-template <typename T>
-std::shared_ptr<Series> SeriesFactory::build(const json& config)
+template<>
+std::shared_ptr<TimeSeries<double>> SeriesFactory::build(const json& config)
 {
-    std::shared_ptr<Series> series;
+    std::shared_ptr<TimeSeries<double>> series;
+    std::string source, name;
+    uint64_t length;
 
-    if (!has<std::string>(config, "source")) {
-        Log::err("SeriesFactory", "missing or invalid configuration 'source'");
-        return std::shared_ptr<Series>();
+    bool result = util::json::validate(config,
+        util::json::required(source, "source"),
+        util::json::required(length, "length")
+    );
+
+    if (result) {
+        return series;
     }
 
-    series = std::make_shared<TimeSeries<T>>();
-    if (!series->init(std::make_shared<NoSamplingPolicy>(), config)) {
-        return std::shared_ptr<Series>();
-    }
-
+    series = std::make_shared<TimeSeries<double>>(source, length);
     return series;
 }
-
-template std::shared_ptr<Series> SeriesFactory::build<double>(const json& config);
-template std::shared_ptr<Series> SeriesFactory::build<bool>(const json& config);
 
 } // namespaces

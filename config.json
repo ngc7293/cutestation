@@ -1,40 +1,56 @@
 {
-    "series": [
+    "io" : [
         {
-            "source": "anirniq.aquisition.gps.lat",
-            "length": 2000
+            "type": "unix",
+            "path": "/tmp/cute"
+        },
+        {
+            "type": "tcp",
+            "host": "0.0.0.0",
+            "port": 25000
         }
     ],
-    "widgets": [
+    "windows": [
         {
-            "type": "chart",
-            "source": "anirniq.acquisition.gps.lat",
-            "length": 2000,
-            "refresh_rate": 60,
-            "range": [0, 2],
-            "x": 0,
-            "y": 0,
-            "rowspan": 2
-        },
-        {
-            "type": "button",
-            "command": "anirniq.remote_control.engine.sequence.start",
-            "source": "anirniq.remote_control.engine.sequence.start",
-            "label": "Start",
-            "length": 1,
-            "refresh_rate": 1,
-            "x": 0,
-            "y": 1
-        },
-        {
-            "type": "button",
-            "command": "anirniq.remote_control.engine.sequence.stop",
-            "source": "anirniq.remote_control.engine.sequence.stop",
-            "label": "Stop",
-            "length": 1,
-            "refresh_rate": 1,
-            "x": 1,
-            "y": 1
+            "name": "CuteStation [WIP]",
+            "widgets": [
+                {
+                    "type": "chart",
+        
+                    "source": "anirniq.acquisition.gps.lat",
+                    "length": 2000,
+        
+                    "refresh_rate": 60,
+                    "range": [0, 2],
+                    "x": 0,
+                    "y": 0,
+                    "rowspan": 2
+                },
+                {
+                    "type": "button",
+        
+                    "command": "anirniq.remote_control.engine.sequence.start",
+                    "source": "anirniq.remote_control.engine.sequence.start",
+                    "length": 1,
+        
+                    "label": "Start",
+                    "refresh_rate": 1,
+                    "x": 0,
+                    "y": 1
+                },
+                {
+                    "type": "button",
+        
+                    "command": "anirniq.remote_control.engine.sequence.stop",
+                    "source": "anirniq.remote_control.engine.sequence.stop",
+                    "length": 1,
+        
+                    "label": "Stop",
+                    "refresh_rate": 1,
+                    "x": 1,
+                    "y": 1
+                }
+            ]
         }
     ]
 }

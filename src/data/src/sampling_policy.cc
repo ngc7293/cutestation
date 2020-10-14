@@ -1,5 +1,9 @@
-#include "data/sampling_policy.h"
+#include "data/sampling_policy.hh"
+
+namespace cute::data {
 
 SamplingPolicy::SamplingPolicy() {}
 
 SamplingPolicy::~SamplingPolicy() {}
+
+}

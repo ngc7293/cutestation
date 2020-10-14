@@ -28,5 +28,5 @@ add_subdirectory(src)
 
 if (UNIX)
     add_custom_target(clean_gcda ALL COMMAND find -name "*.gcda" -delete COMMENT "Cleaning GCDA files")
-    add_custom_target(coverage COMMAND gcovr -r ../src ./ -e ".*gtest.*" --html-details -o coverage.html)
+    add_custom_target(coverage COMMAND gcovr -r ../src ./ -e ".*gtest.*" -e ".*/tests/.*" --html-details -o coverage.html)
 endif()
