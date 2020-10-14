@@ -12,6 +12,9 @@ public:
     Dispatcher();
     virtual ~Dispatcher();
 
+    // FIXME: This should definitely return bool (success/fail). This would
+    //        however require splitting non-blocking bind/listen from accept()
+    //        in net::socket (used by SocketDispatcher)
     virtual void start() = 0;
     virtual void close();
 

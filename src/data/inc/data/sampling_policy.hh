@@ -1,10 +1,11 @@
-#ifndef SAMPLING_POLICY_H_
-#define SAMPLING_POLICY_H_
+#ifndef CUTE_DATA_SAMPLING_POLICY_HH_
+#define CUTE_DATA_SAMPLING_POLICY_HH_
 
 #include <memory>
 
-class SamplingPolicy {
+namespace cute::data {
 
+class SamplingPolicy {
 public:
     SamplingPolicy();
     virtual ~SamplingPolicy();
@@ -12,6 +13,6 @@ public:
     virtual bool accept(std::uint64_t timestamp, double* value) = 0;
 };
 
-typedef std::shared_ptr<SamplingPolicy> SamplingPolicySP;
+}
 
 #endif
