@@ -19,17 +19,6 @@ namespace util::json {
 template <typename T>
 bool has(const nlohmann::json& j, const std::string& key);
 
-/** has_array
- * Checks if JSON contains an array for a given key
- *
- * @param j    json to check
- * @param key  key to look for
- * @param size expected size of array, -1 for any (default)
- *
- * @return true/false
- */
-bool has_array(const nlohmann::json& j, const std::string& key, int size = -1);
-
 struct _json_constraint {
     virtual ~_json_constraint() {}
     virtual bool check(const std::string& context, const nlohmann::json& j) = 0;

@@ -21,22 +21,25 @@ ChartWidget* WidgetFactory::build(const json& config, QWidget* parent)
 
     std::string name;
     unsigned length;
+    std::vector<int> range;
 
     std::shared_ptr<data::TimeSeries<double>> series = data::SeriesFactory::build<data::TimeSeries<double>>(config);
     if (!series) {
         return widget;
     }
 
-    if (!util::json::validate("ChartWidget", config,
+    if (!(util::json::validate("ChartWidget", config,
         util::json::required(name, "name"),
-        util::json::required(length, "length")
-    )) {
+        util::json::required(length, "length"),
+        util::json::required(range, "range")
+    ) && range.size() == 2)) {
         return widget;
     }
 
-    std::array<int, 2> range = { 0, 2};
-
-    widget = new ChartWidget(parent, name, series, length, std::min(range[0], range[1]), std::max(range[0], range[1]));
+    widget = new ChartWidget(parent, name);
+    widget->set_series(series);
+    widget->set_range(std::min(range[0], range[1]), std::max(range[0], range[1]));
+    widget->set_length(length);
     return widget;
 }
 
