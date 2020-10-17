@@ -1,5 +1,5 @@
-#ifndef CONTROL_WIDGET_H_
-#define CONTROL_WIDGET_H_
+#ifndef CUTE_WIDGETS_CONTROL_WIDGET_H_
+#define CUTE_WIDGETS_CONTROL_WIDGET_H_
 
 #include "widget.h"
 
@@ -12,8 +12,6 @@ class ControlWidget : public Widget, public topic::Publisher {
 public:
     ControlWidget(QWidget* parent, const std::string& name);
     ~ControlWidget() override;
-
-    bool init(const json& config) override;
 };
 
 }

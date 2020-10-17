@@ -2,11 +2,11 @@ cmake_minimum_required(VERSION 3.13)
 
 set(SOURCES
     src/button_widget.cc
-    src/chart_widget.cc
     src/control_widget.cc
     src/single_value_widget.cc
     src/widget_factory.cc
     src/widget.cc
+    src/chart_widget.cc
 )
 
 set(HEADERS

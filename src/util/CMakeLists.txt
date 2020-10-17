@@ -12,8 +12,8 @@ set(SOURCES
 add_library(cute.util STATIC ${SOURCES} ${HEADERS})
 set_property(TARGET cute.util PROPERTY CXX_STANDARD 20)
 target_include_directories(cute.util PUBLIC inc/ PRIVATE src/)
-target_compile_options(cute.util PRIVATE -Wall -Wpedantic -Werror)
-target_link_libraries(cute.util PUBLIC Qt5::Core)
+target_compile_options(cute.util PRIVATE -Wall -Wpedantic -Werror --coverage)
+target_link_libraries(cute.util PUBLIC cute.log Qt5::Core)
 
 ## Tests
 set( TESTS

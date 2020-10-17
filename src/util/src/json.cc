@@ -27,6 +27,12 @@ bool has<unsigned>(const nlohmann::json& j, const std::string& key)
 }
 
 template <>
+bool has<unsigned long> (const nlohmann::json& j, const std::string& key)
+{
+    return j.count(key) && j[key].is_number_unsigned();
+}
+
+template <>
 bool has<bool>(const nlohmann::json& j, const std::string& key)
 {
     return j.count(key) && j[key].is_boolean();

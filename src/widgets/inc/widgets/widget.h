@@ -1,5 +1,5 @@
-#ifndef WIDGET_H_
-#define WIDGET_H_
+#ifndef CUTE_WIDGETS_WIDGET_HH_
+#define CUTE_WIDGETS_WIDGET_HH_
 
 #include <memory>
 #include <string>
@@ -8,7 +8,7 @@
 #include <QLabel>
 #include <QTimer>
 
-#include "data/series.h"
+#include "data/series.hh"
 
 #include "nlohmann/json.hpp"
 
@@ -22,17 +22,16 @@ class Widget : public QWidget {
 protected:
     QLabel* label_;
     std::string name_;
-    data::SeriesSP series_;
 
     QTimer* timer_;
 
 public:
     Widget(QWidget* parent, const std::string& name);
-    ~Widget() override;
-
-    virtual bool init(const json& config);
+    virtual ~Widget();
 
     std::string name() { return name_; }
+
+    void start(unsigned refreshRate);
 
 protected slots:
     virtual void refresh() = 0;

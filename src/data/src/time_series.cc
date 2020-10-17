@@ -15,7 +15,7 @@ TimeSeries<T>::TimeSeries(const std::string& source, uint64_t length)
 {
     now_ = util::now<std::milli>;
 
-    if (!subscribe<T>(source, [this](const auto& t, const T& v) {
+    if (!subscribe<T>(source, [this](const topic::time& t, const T& v) {
         accept(
             std::chrono::duration_cast<std::chrono::milliseconds>(t),
             v
@@ -23,6 +23,8 @@ TimeSeries<T>::TimeSeries(const std::string& source, uint64_t length)
     })) {
         int status;
         Log::err("TimeSeries") << "Could not subscribe to topic '" << source << "' with type " << abi::__cxa_demangle(typeid(T).name(), 0, 0, &status) << std::endl;
+    } else {
+        Log::info("TimeSeries") << "Series at " << this << " subscribed to " << source << std::endl;
     }
 
     length_ = length;
@@ -38,9 +40,9 @@ void TimeSeries<T>::accept(const std::chrono::milliseconds& when, const T& what)
     const std::lock_guard<std::mutex> lock(mutex_);
     data_.push_back(std::make_pair(when.count(), what));
 
-    if (data_.front().first < now_() - length_) {
-        data_.erase(data_.begin());
-    }
+    // if (data_.front().first < now_() - length_) {
+        // data_.erase(data_.begin());
+    // }
     // }
 }
 

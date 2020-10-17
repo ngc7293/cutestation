@@ -2,9 +2,6 @@
 
 #include <QLayout>
 
-#include <log/log.hh>
-#include <util/util.h>
-
 namespace cute::widgets {
 
 SingleValueWidget::SingleValueWidget(QWidget* parent, const std::string& name)
@@ -14,27 +11,27 @@ SingleValueWidget::SingleValueWidget(QWidget* parent, const std::string& name)
 
 SingleValueWidget::~SingleValueWidget() {}
 
-bool SingleValueWidget::init(const json& config)
-{
-    if (!Widget::init(config)) {
-        return false;
-    }
+// bool SingleValueWidget::init(const json& config)
+// {
+//     if (!Widget::init(config)) {
+//         return false;
+//     }
 
-    if (!(timeseries_ = std::dynamic_pointer_cast<data::TimeSeries<double>>(series_))) {
-        Log::err("SingleValueWidget", name_ + ": error obtaining TimeSeries");
-        return false;
-    }
+//     if (!(timeseries_ = std::dynamic_pointer_cast<data::TimeSeries<double>>(series_))) {
+//         Log::err("SingleValueWidget", name_ + ": error obtaining TimeSeries");
+//         return false;
+//     }
 
-    if (!has<std::string>(config, "format")) {
-        Log::err("SingleValueWidget", name_ + ": missing or invalid mandatory configuration 'format'");
-        return false;
-    }
-    format_ = config["format"].get<std::string>();
+//     if (!has<std::string>(config, "format")) {
+//         Log::err("SingleValueWidget", name_ + ": missing or invalid mandatory configuration 'format'");
+//         return false;
+//     }
+//     format_ = config["format"].get<std::string>();
 
-    label_ = new QLabel(QString::fromStdString(format_).arg(0));
-    layout()->addWidget(label_);
-    return true;
-}
+//     label_ = new QLabel(QString::fromStdString(format_).arg(0));
+//     layout()->addWidget(label_);
+//     return true;
+// }
 
 void SingleValueWidget::refresh()
 {
