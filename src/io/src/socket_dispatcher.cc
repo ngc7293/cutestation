@@ -42,6 +42,8 @@ void SocketDispatcher::start()
     });
 
     _d->thread = std::thread([this]() {
+        pthread_setname_np(pthread_self(), "dispatcher");
+
         switch (_d->type) {
         case net::unix:
             assert(_d->server.listen<net::unix>(_d->host));

@@ -13,13 +13,13 @@ ControlWidget::ControlWidget(QWidget* parent, const std::string& name)
 
 ControlWidget::~ControlWidget() {}
 
-bool ControlWidget::init(const json& config)
-{
-    if (!Widget::init(config)) {
-        return false;
-    }
+// bool ControlWidget::init(const json& config)
+// {
+//     if (!Widget::init(config)) {
+//         return false;
+//     }
 
-    return true;
-}
+//     return true;
+// }
 
 } // namespaces

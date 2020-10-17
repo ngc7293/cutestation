@@ -30,5 +30,6 @@ tests/test_time_series.cc
 add_executable(cute.data.test ${TESTS})
 add_test(NAME cute.data COMMAND cute.data.test)
 
+target_compile_options(cute.data.test PRIVATE --coverage)
 target_link_options(cute.data.test PRIVATE --coverage)
 target_link_libraries(cute.data.test PUBLIC cute.data topic gcov gtest)

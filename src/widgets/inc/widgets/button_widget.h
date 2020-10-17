@@ -1,5 +1,5 @@
-#ifndef BUTTON_WIDGET_H_
-#define BUTTON_WIDGET_H_
+#ifndef CUTE_WIDGETS_BUTTON_WIDGET_H_
+#define CUTE_WIDGETS_BUTTON_WIDGET_H_
 
 #include "control_widget.h"
 
@@ -16,8 +16,6 @@ private:
 public:
     ButtonWidget(QWidget* parent, const std::string& name);
     ~ButtonWidget() override;
-
-    bool init(const json& config) override;
 
 public slots:
     void clicked();

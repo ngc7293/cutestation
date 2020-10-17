@@ -1,33 +1,50 @@
-#include "app.h"
+#include "app.hh"
 
-#include <iostream>
+#include <fstream>
 
-#include <QLayout>
-#include <QThread>
+#include <nlohmann/json.hpp>
 
-#include "nlohmann/json.hpp"
+#include <io/dispatcher.hh>
+#include <io/dispatcher_factory.hh>
 
-#include "../ui/ui_app.h"
-#include "configurator.h"
+#include "window.hh"
+#include "window_factory.hh"
 
-App::App(QWidget* parent)
-    : QMainWindow(parent)
-    , ui_(new Ui::App())
+using json = nlohmann::json;
+
+namespace cute {
+
+struct App::priv {
+    std::vector<std::shared_ptr<ui::Window>> windows;
+    std::vector<std::shared_ptr<io::Dispatcher>> dispatchers;
+};
+
+App::App()
+    : QObject(nullptr)
+    , _d(new priv)
 {
-    ui_->setupUi(this);
-    // socket_ = std::make_shared<cute::io::SocketDispatcher>();
+    std::ifstream ifs("config.json");
+    json config = json::parse(ifs);
+    _d->windows = ui::WindowFactory::buildAll<ui::Window>(config.at("windows"), this);
+    _d->dispatchers = io::DispatcherFactory::buildAll<io::Dispatcher>(config.at("io"));
 
-    // dispatcher.enableUnix();
-
-    cute::Configurator configurator;
-    configurator.load("config.json");
-    configurator.configure(*ui_->gridLayout_2);
-
-    // FIXME: Find a real icon. This only works on my machine
-    setWindowIcon(QIcon("/usr/share/icons/Numix-Circle/48/apps/boostnote.svg"));
+    for (auto& dispatcher: _d->dispatchers) {
+        dispatcher->start();
+    }
 }
 
 App::~App()
 {
-    delete ui_;
+    for (auto& dispatcher: _d->dispatchers) {
+        dispatcher->close();
+    }
+}
+
+void App::show()
+{
+    for (std::shared_ptr<ui::Window>& window: _d->windows) {
+        window->show();
+    }
+}
+
 }

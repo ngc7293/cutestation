@@ -14,12 +14,12 @@ std::shared_ptr<TimeSeries<double>> SeriesFactory::build(const json& config)
     std::string source, name;
     uint64_t length;
 
-    bool result = util::json::validate(config,
+    bool result = util::json::validate("TimeSeries<double>", config,
         util::json::required(source, "source"),
         util::json::required(length, "length")
     );
 
-    if (result) {
+    if (!result) {
         return series;
     }
 

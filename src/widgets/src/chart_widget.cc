@@ -8,44 +8,21 @@
 #include <QLineSeries>
 #include <QValueAxis>
 
-#include <data/time_series.h>
-#include <data/series_factory.h>
-
+#include <data/time_series.hh>
 #include <log/log.hh>
-#include <util/util.h>
+#include <util/time.hh>
 
 namespace cute::widgets {
 
-ChartWidget::ChartWidget(QWidget* parent, const std::string& name)
+ChartWidget::ChartWidget(QWidget* parent, const std::string& name, std::shared_ptr<data::TimeSeries<double>> series, unsigned length, double min, double max)
     : Widget(parent, name)
 {
+    timeseries_ = series;
+    length = length;
+    min_ = min;
+    max_ = max;
+
     last_update_ = 0;
-}
-
-ChartWidget::~ChartWidget() {}
-
-bool ChartWidget::init(const json& config)
-{
-    series_ = data::SeriesFactory::build<double>(config);
-    Widget::init(config);
-
-    if (!(timeseries_ = std::dynamic_pointer_cast<data::TimeSeries<double>>(series_))) {
-        Log::err("ChartWidget", name_ + ": error obtaining TimeSeries");
-        return false;
-    }
-
-    if (!has<unsigned>(config, "length")) {
-        Log::err("ChartWidget", name_ + ": missing or invalid configuration 'length'");
-        return false;
-    }
-    length_ = config["length"].get<int>();
-
-    if (!(has_array(config, "range", 2) && config["range"][0].is_number() && config["range"][1].is_number())) {
-        Log::err("ChartWidget", name_ + ": missing or invalid configuration 'length'");
-        return false;
-    }
-    min_ = std::min(config["range"][0].get<double>(), config["range"][1].get<double>());
-    max_ = std::max(config["range"][0].get<double>(), config["range"][1].get<double>());
 
     chartview_ = new QtCharts::QChartView(this);
 
@@ -66,37 +43,39 @@ bool ChartWidget::init(const json& config)
     lineseries->attachAxis(yaxis);
 
     // UI tweaks
-    // chartview_->chart()->setBackgroundVisible(false);
-    // xaxis->setLabelsColor(QApplication::palette().text().color());
-    // yaxis->setLabelsColor(QApplication::palette().text().color());
     chartview_->setRenderHint(QPainter::Antialiasing);
 
     layout()->addWidget(chartview_);
-
-    return true;
 }
+
+ChartWidget::~ChartWidget() {}
 
 void ChartWidget::refresh()
 {
     QVector<QPointF> data;
 
     timeseries_->data<QVector, QPointF>(data);
+    // Log::debug("ChartWidget/" + name_) << "refresh(), data.size()=" << timeseries_->size() << std::endl;
 
-    if (data.size() && data.back().x() > last_update_) {
+
+    if (data.size()) {
+        auto now = util::now<std::milli>();
         ((QtCharts::QLineSeries*)chartview_->chart()->series()[0])->replace(data);
-        ((QtCharts::QDateTimeAxis*)chartview_->chart()->axes(Qt::Horizontal)[0])->setRange(QDateTime::fromMSecsSinceEpoch(now<std::milli>() - length_), QDateTime::fromMSecsSinceEpoch(now<std::milli>()));
+        ((QtCharts::QDateTimeAxis*)chartview_->chart()->axes(Qt::Horizontal)[0])->setRange(QDateTime::fromMSecsSinceEpoch(now - 5000), QDateTime::fromMSecsSinceEpoch(now));
 
-        if (now<std::milli>() - data.back().x() > 10) {
-            QPen pen(QRgb(0xff0000));
-            pen.setWidth(2);
-            ((QtCharts::QLineSeries*)chartview_->chart()->series()[0])->setPen(pen);
-        } else {
-            QPen pen(QRgb(0x0000ff));
-            pen.setWidth(2);
-            ((QtCharts::QLineSeries*)chartview_->chart()->series()[0])->setPen(pen);
-        }
+// #ifndef NDEBUG
+//         if (now - data.back().x() > 10) {
+//             QPen pen(QRgb(0xff0000));
+//             pen.setWidth(2);
+//             ((QtCharts::QLineSeries*)chartview_->chart()->series()[0])->setPen(pen);
+//         } else {
+//             QPen pen(QRgb(0x0000ff));
+//             pen.setWidth(2);
+//             ((QtCharts::QLineSeries*)chartview_->chart()->series()[0])->setPen(pen);
+//         }
+// #endif
 
-        last_update_ = now<std::milli>();
+        last_update_ = now;
     }
 }
 

@@ -94,7 +94,7 @@ bool server::listen_unix(const std::string& path)
     struct sockaddr_un addr;
     socklen_t len = sizeof(addr);
 
-    if ((sockfd = ::socket(AF_UNIX, SOCK_SEQPACKET, 0)) < 0) {
+    if ((sockfd = ::socket(AF_UNIX, SOCK_STREAM, 0)) < 0) {
         return false;
     }
     _d->fd = sockfd;

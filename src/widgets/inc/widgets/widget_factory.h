@@ -11,7 +11,11 @@ namespace cute::widgets {
 
 class WidgetFactory {
 public:
-    static Widget* build(const json& config);
+    // Note that unlike other build() functions in this project, WidgetFactory
+    // uses a non-smart pointer to return the value, this is to have easier
+    // integration with Qt.
+    template<class T>
+    static T* build(const json& config, QWidget* parent = nullptr);
 };
 
 } // namespaces

@@ -13,17 +13,17 @@ const json TEST_JSON = R"(
 
 TEST(util, validates_returns_correct_values_on_success)
 {
-    std::string name;
+    std::string name, option;
     bool required;
-    int life, universe;
+    int life;
     double phi;
 
     bool success = util::json::validate(TEST_JSON,
-        util::json::required(name, "name"),
-        util::json::required(required, "required"),
-        util::json::required(life, "life"),
-        util::json::optionnal(phi, "phi", 3.1415),
-        util::json::optionnal(universe, "universe", 2)
+        util::json::required { name, "name" },
+        util::json::required { required, "required" },
+        util::json::required { life, "life" },
+        util::json::optionnal { phi, "phi", 3.1415 },
+        util::json::optionnal { option, "option", "facultative" }
     );
 
     EXPECT_TRUE(success);
@@ -31,7 +31,7 @@ TEST(util, validates_returns_correct_values_on_success)
     EXPECT_EQ(required, true);
     EXPECT_EQ(life, 40);
     EXPECT_EQ(phi, 1.618);
-    EXPECT_EQ(universe, 2);
+    EXPECT_EQ(option, "facultative");
 }
 
 TEST(util, validates_returns_false_on_failure)

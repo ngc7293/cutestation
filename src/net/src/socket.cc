@@ -51,7 +51,7 @@ bool socket::connect(const std::string& host, uint16_t port)
         _d->fd = ::socket(AF_INET, SOCK_STREAM, 0);
         break;
     case unix:
-        _d->fd = ::socket(AF_UNIX, SOCK_SEQPACKET, 0);
+        _d->fd = ::socket(AF_UNIX, SOCK_STREAM, 0);
         break;
     }
 

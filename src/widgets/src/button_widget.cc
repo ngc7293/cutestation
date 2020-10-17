@@ -2,10 +2,6 @@
 
 #include <QLayout>
 
-#include <data/series_factory.h>
-#include <log/log.hh>
-#include <util/util.h>
-
 namespace cute::widgets {
 
 ButtonWidget::ButtonWidget(QWidget* parent, const std::string& name)
@@ -15,25 +11,25 @@ ButtonWidget::ButtonWidget(QWidget* parent, const std::string& name)
 
 ButtonWidget::~ButtonWidget() {}
 
-bool ButtonWidget::init(const json& config)
-{
-    series_ = data::SeriesFactory::build<bool>(config);
-    command_ = config["source"].get<std::string>();
+// bool ButtonWidget::init(const json& config)
+// {
+//     series_ = data::SeriesFactory::build<bool>(config);
+//     command_ = config["source"].get<std::string>();
 
-    if (!ControlWidget::init(config)) {
-        return false;
-    }
+//     if (!ControlWidget::init(config)) {
+//         return false;
+//     }
 
-    button_ = new QPushButton(this);
+//     button_ = new QPushButton(this);
 
-    if (has<std::string>(config, "label")) {
-        button_->setText(QString::fromStdString(config["label"].get<std::string>()));
-    }
+//     if (has<std::string>(config, "label")) {
+//         button_->setText(QString::fromStdString(config["label"].get<std::string>()));
+//     }
 
-    layout()->addWidget(button_);
-    connect(button_, &QPushButton::clicked, this, &ButtonWidget::clicked);
-    return true;
-}
+//     layout()->addWidget(button_);
+//     connect(button_, &QPushButton::clicked, this, &ButtonWidget::clicked);
+//     return true;
+// }
 
 void ButtonWidget::clicked()
 {

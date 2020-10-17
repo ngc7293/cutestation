@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>App</class>
- <widget class="QMainWindow" name="App">
+ <class>Window</class>
+ <widget class="QMainWindow" name="Window">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -26,7 +26,7 @@
          <x>0</x>
          <y>0</y>
          <width>780</width>
-         <height>536</height>
+         <height>539</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
@@ -78,7 +78,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>19</height>
     </rect>
    </property>
   </widget>
