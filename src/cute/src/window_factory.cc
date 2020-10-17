@@ -26,7 +26,7 @@ std::shared_ptr<Window> WindowFactory::build<Window>(const json& config, QObject
     window = std::make_shared<Window>(parent);
     window->setWindowTitle(QString::fromStdString(name));
 
-    if (util::json::has_array(config, "widgets")) {
+    if (true) {//util::json::has_array(config, "widgets")) {
         for (const json& el : config.at("widgets")) {
             widgets::Widget* widget = widgets::WidgetFactory::build<widgets::Widget>(el, window.get());
 

@@ -11,7 +11,10 @@ struct ClientThread {
     std::shared_ptr<Client> client;
 
     ClientThread(std::shared_ptr<Client> client)
-        : thread(&Client::run, client.get())
+        : thread([client]() { 
+            pthread_setname_np(pthread_self(), "client");
+            client->run();
+        })
         , client(client)
     {
     }
