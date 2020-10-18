@@ -3,7 +3,7 @@
 
 #include "nlohmann/json.hpp"
 
-#include "widget.h"
+#include "widget.hh"
 
 using json = nlohmann::json;
 

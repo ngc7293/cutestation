@@ -1,4 +1,4 @@
-#include "widgets/widget_factory.h"
+#include "widgets/widget_factory.hh"
 
 #include <memory>
 
@@ -7,10 +7,10 @@
 #include <data/series.hh>
 #include <data/series_factory.hh>
 
-#include "widgets/control_widget.h"
-#include "widgets/button_widget.h"
-#include "widgets/chart_widget.h"
-#include "widgets/single_value_widget.h"
+#include "widgets/control_widget.hh"
+#include "widgets/button_widget.hh"
+#include "widgets/chart_widget.hh"
+#include "widgets/single_value_widget.hh"
 
 namespace cute::widgets {
 

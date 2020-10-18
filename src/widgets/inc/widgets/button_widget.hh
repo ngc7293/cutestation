@@ -1,7 +1,7 @@
 #ifndef CUTE_WIDGETS_BUTTON_WIDGET_H_
 #define CUTE_WIDGETS_BUTTON_WIDGET_H_
 
-#include "control_widget.h"
+#include "control_widget.hh"
 
 #include <QPushButton>
 

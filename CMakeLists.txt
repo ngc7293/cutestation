@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7.0)
+cmake_minimum_required(VERSION 3.17)
 project(cute)
 
 add_subdirectory(libs)
@@ -7,10 +7,6 @@ add_subdirectory(libs)
 # Qt5
 set(CMAKE_PREFIX_PATH /opt/Qt/5.14.1/gcc_64/)
 find_package(Qt5 COMPONENTS Core Widgets Network Charts REQUIRED)
-
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
 
 # Protobuf, for messages
 find_package(Protobuf REQUIRED)
