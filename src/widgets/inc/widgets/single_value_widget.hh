@@ -1,7 +1,7 @@
 #ifndef CUTE_WIDGETS_SINGLE_VALUE_WIDGET_H_
 #define CUTE_WIDGETS_SINGLE_VALUE_WIDGET_H_
 
-#include "widget.h"
+#include "widget.hh"
 
 #include <QLabel>
 

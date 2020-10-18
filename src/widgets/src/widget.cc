@@ -1,4 +1,4 @@
-#include "widgets/widget.h"
+#include "widgets/widget.hh"
 
 #include <QLayout>
 #include <QTimer>

@@ -1,7 +1,7 @@
 #ifndef CUTE_WIDGETS_CHART_WIDGET_H_
 #define CUTE_WIDGETS_CHART_WIDGET_H_
 
-#include "widget.h"
+#include "widget.hh"
 
 #include <QChartView>
 

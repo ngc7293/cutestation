@@ -1,4 +1,10 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.17)
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
+cmake_policy(SET CMP0100 NEW)
 
 set(SOURCES
     src/button_widget.cc
@@ -10,12 +16,12 @@ set(SOURCES
 )
 
 set(HEADERS
-    inc/widgets/button_widget.h
-    inc/widgets/chart_widget.h
-    inc/widgets/control_widget.h
-    inc/widgets/single_value_widget.h
-    inc/widgets/widget_factory.h
-    inc/widgets/widget.h
+    inc/widgets/button_widget.hh
+    inc/widgets/chart_widget.hh
+    inc/widgets/control_widget.hh
+    inc/widgets/single_value_widget.hh
+    inc/widgets/widget_factory.hh
+    inc/widgets/widget.hh
 )
 
 add_library(cute.widgets STATIC ${SOURCES} ${HEADERS})

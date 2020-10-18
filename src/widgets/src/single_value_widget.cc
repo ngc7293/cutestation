@@ -1,4 +1,4 @@
-#include "widgets/single_value_widget.h"
+#include "widgets/single_value_widget.hh"
 
 #include <QLayout>
 

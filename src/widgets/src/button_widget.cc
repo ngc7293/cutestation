@@ -1,4 +1,4 @@
-#include "widgets/button_widget.h"
+#include "widgets/button_widget.hh"
 
 #include <QLayout>
 

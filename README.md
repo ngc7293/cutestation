@@ -20,7 +20,7 @@ writing all that data handling and UI code.
 
 The GUI itself aims to be ultra-configurable with various widget you could match
 to different data sources, and layout to your desires. Think of it as a native
-Grafana that does not rely on a database.
+Grafana that does not rely on an external database.
 
 Daemons (the processes pushing data to CuteStation) can also register Commands
 which are matched to UI controls. This enables you to send back commands from
@@ -41,33 +41,38 @@ reusable modules by defining clear boundaries. Each (most) libraries come with
 a Google Test-driven unit test executable named `<target>.test` (e.g.:
 `cute.io.test`).
 
-- `net` : Socket communication using iostreams. Currently only works for Unix
-          and TCP sockets on Unix.
-- `topic` : Topic-based publish-subscribe system. Should be thread-safe,
-            but makes no attempt at multi-threading optimization, that is
-            left to the user.
-- `cute.io` : Handles IPC with external data sources for CuteStation.
+| Module        | Description
+|:--------------|:--------------------------------------------------------------
+| `net`         | Socket communication using iostreams. Currently only works for Unix and TCP sockets on Unix.
+| `topic`       | Topic-based publish-subscribe system. Should be thread-safe, but makes no attempt at multi-threading optimization, that is left to the user.
+| `cute.io`     | Handles IPC with external data sources for CuteStation.
+| `cute.data`   | Containers for real-time data.
+| `cute.widgets`| Widgets to display real-time data (contained in cute.data containers)
+| `cute`        | The actual application (main, App(), etc.)
 
 ## Depends
 
 - [Protobuf 3.11](https://github.com/protocolbuffers/protobuf/)
 - [nlohmann::json](https://github.com/nlohmann/json)
 - Qt 5.14.1
-- CMake 3.17
+- CMake 3.17 (for [CMP0100](https://cmake.org/cmake/help/v3.17/policy/CMP0100.html))
 - Ninja (recommended)
 - gcovr (recommended)
 
-On Ubuntu, all of these except Qt5 can be installed from the repositories. Qt5's
-installer can be found on their website. I recommend installing in `/opt/Qt`.
-
-Alternatively, you might want to install Protobuf from source. The process is
-quite simple can be found [here](https://github.com/protocolbuffers/protobuf/blob/master/src/README.md).
-This is likely to be necessary in the future to ensure a speficic, stable
-version is used.
-
-CuteStation uses C++20 features and syntax; a modern compiler is required.
+CuteStation uses C++20 features and syntax; a modern compiler is required. The
+officially supported compiler is GCC 9.3.0.
 
 ## Building
+
+To clone:
+
+```bash
+git clone https://github.com/ngc7293/cutestation
+cd cutestation
+git submodule update --init --recursive # For Google Test
+```
+
+To build
 
 ```bash
 mkdir build; cd build;
@@ -75,15 +80,14 @@ cmake .. -G Ninja
 ninja
 ```
 
-Clazy is not technically required for the project to work, but all code written for this project is expected to compile without warnings from clang or clazy.
-
 Note that the current CMakeLists assumes Qt to be installed in
 `/opt/Qt/5.14.1/`, you might need to update it to match your install path.
 
 ## Testing
 
-There are currently 3 test executables : `cute.io.test`, `topic.test` and
-`net.test`. All output binaries can be found in `build/bin`.
+Most modules have unit tests. These are built with Google Test into one
+executable per module, using the syntax `<module>.test`. They can be found in
+the `build/bin` directory.
 
 After running tests, you can generate the coverage report with `ninja coverage`.
 Detailed coverage information will be written to `build/coverage.html`.

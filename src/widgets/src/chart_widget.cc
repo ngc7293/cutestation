@@ -1,4 +1,4 @@
-#include "widgets/chart_widget.h"
+#include "widgets/chart_widget.hh"
 
 #include <QApplication>
 #include <QColor>

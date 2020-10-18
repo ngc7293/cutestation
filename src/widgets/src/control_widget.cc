@@ -1,4 +1,4 @@
-#include "widgets/control_widget.h"
+#include "widgets/control_widget.hh"
 
 #include <assert.h>
 

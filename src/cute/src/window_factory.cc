@@ -4,7 +4,7 @@
 #include <QString>
 
 #include <util/json.hh>
-#include <widgets/widget_factory.h>
+#include <widgets/widget_factory.hh>
 
 #include "window.hh"
 

@@ -1,4 +1,10 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.17)
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
+cmake_policy(SET CMP0100 NEW)
 
 set(HEADERS
     src/app.hh
