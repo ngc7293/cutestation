@@ -2,43 +2,39 @@
 
 #include <QLayout>
 
+#include <log/log.hh>
+
 namespace cute::widgets {
 
 ButtonWidget::ButtonWidget(QWidget* parent, const std::string& name)
     : ControlWidget(parent, name)
 {
+    command_ = "";
+    button_ = new QPushButton(this);
+    button_->setText(QString::fromStdString(name));
+    
+    connect(button_, &QPushButton::clicked, this, &ButtonWidget::clicked);
+    layout()->addWidget(button_);
 }
 
 ButtonWidget::~ButtonWidget() {}
 
-// bool ButtonWidget::init(const json& config)
-// {
-//     series_ = data::SeriesFactory::build<bool>(config);
-//     command_ = config["source"].get<std::string>();
-
-//     if (!ControlWidget::init(config)) {
-//         return false;
-//     }
-
-//     button_ = new QPushButton(this);
-
-//     if (has<std::string>(config, "label")) {
-//         button_->setText(QString::fromStdString(config["label"].get<std::string>()));
-//     }
-
-//     layout()->addWidget(button_);
-//     connect(button_, &QPushButton::clicked, this, &ButtonWidget::clicked);
-//     return true;
-// }
+void ButtonWidget::set_command(const std::string& command)
+{
+    command_ = command;
+}
 
 void ButtonWidget::clicked()
 {
-    publish<bool>(command_, true);
+    if (!publish<bool>(command_, 1)) {
+        Log::warn("button/" + name_) << "Failed to publish command '" << command_ << "'" << std::endl;
+    } else {
+        Log::debug("button/" + name_) << "Published command '" << command_ << "'" << std::endl;
+    }
 }
 
 void ButtonWidget::refresh()
 {
-    // button_->setEnabled(command_->hasRegisteredDataSources());
 }
 
 } // namespaces

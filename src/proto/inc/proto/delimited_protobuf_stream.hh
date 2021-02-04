@@ -2,6 +2,7 @@
 #define CUTE_PROTO_DELIMITED_PROTOBUF_STREAM_HH_
 
 #include <iostream>
+#include <thread>
 
 const int DELIMITED_MESSAGE_MAX_SIZE = 4096;
 
@@ -13,6 +14,7 @@ public:
     {
         buffer = nullptr;
         valid = false;
+        size = 0;
     }
 
     ~DelimitedProtobufStream()
@@ -41,11 +43,11 @@ private:
 template <class T>
 std::istream& operator>>(std::istream& is, DelimitedProtobufStream<T>& stream)
 {
-    uint64_t size;
+    uint64_t size = 0;
     is.read((char*)&size, sizeof(size));
 
     if (is.good() && size < DELIMITED_MESSAGE_MAX_SIZE) {
-        if (size > stream.size || stream.buffer == nullptr) {
+        if (size > stream.size) {
             delete[] stream.buffer;
             stream.buffer = new uint8_t[size];
         }

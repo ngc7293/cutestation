@@ -100,14 +100,17 @@ void Client::onHandshake(const proto::Handshake& handshake)
             proto::Packet packet;
             proto::DelimitedPacketStream stream(packet);
 
+            Log::debug("client/" + _d->name) << "Sending command " << name << std::endl;
             proto::makeData(*packet.mutable_data(), {{
                 name,
                 (uint64_t) std::chrono::duration_cast<std::chrono::milliseconds>(t).count(),
                 v
             }});
 
-            *(_d->stream) << stream;
+            *(_d->stream) << stream << std::flush;
         };
+
+        Log::debug("client/" + _d->name) << "Subscribed to " << command.name() << std::endl;
 
         switch (command.type()) {
         case proto::Handshake_Command_Type::Handshake_Command_Type_BOOL:
