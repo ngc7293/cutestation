@@ -7,7 +7,8 @@ from math import sin
 from socket import socket, AF_UNIX, SOCK_STREAM
 from time import sleep, time
 
-from proto.packet_pb2 import Packet, Measurement, Handshake
+from proto.packet_pb2 import Packet, Handshake, Measurement
+import google.protobuf.json_format as json_format
 
 
 def create_measurement(source, value):
@@ -26,7 +27,11 @@ def main(args):
 
     packet = Packet()
     packet.handshake.name = "python_testing"
-    packet.handshake.commands.append("anirniq.remote_control.engine.sequence.start")
+    # packet.handshake.commands.append(Handshake.Command(name="anirniq.remote_control.engine.sequence.start", type=Handshake.Command.Type.BOOL))
+    print(packet.IsInitialized())
+    print(json_format.MessageToJson(packet))
+
+    sock.send(packet.ByteSize().to_bytes(8, byteorder='little'))
     sock.send(packet.SerializeToString())
     sleep(0.001)
 
@@ -36,6 +41,7 @@ def main(args):
         packet.data.measurements.append(
             create_measurement(args.source, 2 * sin(n / 1.42857))
         )
+        sock.send(packet.ByteSize().to_bytes(8, byteorder='little'))
         sock.send(packet.SerializeToString())
         n += 0.1
         sleep(0.001)

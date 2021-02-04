@@ -52,7 +52,21 @@ SingleValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
 template<>
 ButtonWidget* WidgetFactory::build(const json& config, QWidget* parent)
 {
-    return nullptr;
+    ButtonWidget* widget = nullptr;
+
+    std::string name, command;
+
+    if (!(util::json::validate("ButtonWidget", config,
+        util::json::required(name, "name"),
+        util::json::required(command, "command")
+    ))) {
+        return widget;
+    }
+
+    widget = new ButtonWidget(parent, name);
+    widget->set_command(command);
+
+    return widget;
 }
 
 template<>

@@ -58,12 +58,12 @@ void SocketDispatcher::start()
 
 void SocketDispatcher::close()
 {
-    Dispatcher::close();
-
     _d->server.close();
     if (_d->thread.joinable()) {
         _d->thread.join();
     }
+
+    Dispatcher::close();
 }
 
 void SocketDispatcher::set_socket_path(const std::string& path)

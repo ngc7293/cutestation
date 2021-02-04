@@ -7,25 +7,6 @@
     ],
     "windows": [
         {
-            "name": "CuteStation [WIP]",
-            "widgets": [
-                {
-                    "type": "chart",
-        
-                    "name": "GPS Latitude on primary Window",
-                    "source": "anirniq.acquisition.gps.lat",
-                    "length": 2000,
-        
-                    "refresh_rate": 60,
-                    "range": [0, 2],
-                    "x": 0,
-                    "y": 0,
-                    "rowspan": 2,
-                    "height": 400
-                }
-            ]
-        },
-        {
             "name": "Window 1",
             "widgets": [
                 {
@@ -38,9 +19,19 @@
                     "refresh_rate": 60,
                     "range": [0, 2],
                     "x": 0,
-                    "y": 0,
+                    "y": 1,
                     "rowspan": 2,
                     "height": 400
+                },
+                {
+                    "type": "button",
+                    "name": "AZ-3",
+
+                    "command": "anirniq.remote_control.engine.sequence.stop",
+                    "refresh_rate": 60,
+
+                    "x": 0,
+                    "y": 0
                 }
             ]
         }

@@ -17,6 +17,8 @@ public:
     ButtonWidget(QWidget* parent, const std::string& name);
     ~ButtonWidget() override;
 
+    void set_command(const std::string& command);
+
 public slots:
     void clicked();
     void refresh() override;
