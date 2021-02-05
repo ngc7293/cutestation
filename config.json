@@ -1,38 +1,39 @@
 {
-    "series": [
+    "io" : [
         {
-            "source": "anirniq.testbench.pressure_1",
-            "length": 2000
+            "type": "unix",
+            "path": "/tmp/cute"
         }
     ],
-    "widgets": [
+    "windows": [
         {
-            "type": "chart",
-            "source": "anirniq.testbench.pressure_1",
-            "length": 2000,
-            "refresh_rate": 15,
-            "range": [0, 2],
-            "x": 0,
-            "y": 0
-        },
-        {
-            "type": "single",
-            "source": "anirniq.testbench.pressure_1",
-            "format": "%1 units",
-            "refresh_rate": 2,
-            "x": 1,
-            "y": 0
-        },
-        {
-            "type": "button",
-            "label": "Start",
-            "command": "anirniq.remote_control.engine.sequence.start",
-            "source": "anirniq.remote_control.engine.sequence.start",
-            "length": 1,
-            "refresh_rate": 1,
-            "x": 0,
-            "y": 1,
-            "colspan": 2
+            "name": "Window 1",
+            "widgets": [
+                {
+                    "type": "chart",
+                    "name": "GPS Latitude on secondary Window",
+        
+                    "source": "anirniq.acquisition.gps.lat",
+                    "length": 2000,
+        
+                    "refresh_rate": 60,
+                    "range": [0, 2],
+                    "x": 0,
+                    "y": 1,
+                    "rowspan": 2,
+                    "height": 400
+                },
+                {
+                    "type": "button",
+                    "name": "AZ-3",
+
+                    "command": "anirniq.remote_control.engine.sequence.stop",
+                    "refresh_rate": 60,
+
+                    "x": 0,
+                    "y": 0
+                }
+            ]
         }
     ]
 }
