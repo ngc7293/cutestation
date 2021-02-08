@@ -10,6 +10,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.3.4
 
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v2.1.4
+        with:
+          path: /opt/Qt
+          key: ${{ runner.os }}-qt-compiled
+
+      - name: Install Qt5
+       uses: jurplel/install-qt-action@v2
+       with:
+         version: '5.14.1'
+         dir: '/opt/Qt'
+         install-deps: 'true'
+         modules: 'qtcharts qtwebengine'
+         cached: ${{ steps.cache-qt.outputs.cache-hit }}
+
       - name: Cache Protobuf
         id: cache-protobuf
         uses: actions/cache@v2.1.4
