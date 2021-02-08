@@ -36,7 +36,9 @@ jobs:
 
       - name: Install Protobuf
         working-directory: /opt/protobuf
-        run: make install
+        run: |
+          sudo make install
+          sudo ldconfig
 
       - name: Configure
         run: |
