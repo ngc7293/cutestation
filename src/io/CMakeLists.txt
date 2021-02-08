@@ -29,7 +29,7 @@ set( TESTS
 )
 
 add_executable(cute.io.test ${TESTS})
-add_test(NAME cute.io COMMAND cute.io.test)
+gtest_discover_tests(cute.io.test)
 
 target_compile_options(cute.io.test PUBLIC --coverage)
 target_link_options(cute.io.test PUBLIC --coverage)

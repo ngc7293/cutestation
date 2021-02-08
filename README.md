@@ -1,6 +1,8 @@
 # CuteStation
 
-Contents
+![C/C++ CI](https://github.com/ngc7293/cutestation/workflows/C/C++%20CI/badge.svg)
+
+## Contents
 
 - [Goals](#Goals)
 - [Structure](#Structure)

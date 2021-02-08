@@ -28,7 +28,7 @@ set( TESTS
 )
 
 add_executable(net.test ${TESTS})
-add_test(NAME net COMMAND net.test)
+gtest_discover_tests(net.test)
 
 target_compile_options(net.test PUBLIC --coverage)
 target_link_options(net.test PUBLIC --coverage)

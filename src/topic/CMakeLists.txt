@@ -38,7 +38,7 @@ set( TESTS
 )
 
 add_executable(topic.test ${TESTS})
-add_test(NAME topic COMMAND topic.test)
+gtest_discover_tests(topic.test)
 
 target_compile_options(topic.test PUBLIC )
 target_link_options(topic.test PUBLIC )

@@ -15,6 +15,7 @@ find_package(Protobuf REQUIRED)
 find_package(nlohmann_json 3.7.0 REQUIRED)
 
 # Google Tests
+include(GoogleTest)
 enable_testing()
 
 # Uh
