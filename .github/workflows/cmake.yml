@@ -4,33 +4,41 @@ on: push
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Download Protobuf
         working-directory: /opt/
-        run: 'git clone -b 3.11.x https://github.com/protocolbuffers/protobuf protobuf'
+        run: 'git clone -b 3.11.x --recurse-submodules --remote-submodules https://github.com/protocolbuffers/protobuf protobuf'
 
       - name: Build Protobuf
         working-directory: /opt/protobuf
-        run: './autogen.sh && ./configure && make -j`nproc` && make -j`nproc` check'
+        run: |
+          ./autogen.sh
+          ./configure
+          make -j`nproc`
+          make -j`nproc` check
 
       - name: Cache
         uses: actions/cache@v2.1.4
         with:
           path: /opt/protobuf
+          key: ${{ runner.os }}-protobuf-compiled
 
       - name: Install Protobuf
         working-directory: /opt/protobuf
-        run: 'make install'
+        run: make install
 
       - name: Configure
-        run: 'mkdir build && cd build && cmake .. -GNinja'
+        run: |
+          mkdir build
+          cd build
+          cmake .. -GNinja
         
       - name: Build
         working-directory: build
-        run: ninja
+        run: make
         
       - name: Test
         working-directory: build
-        run: ninja test
+        run: make test
