@@ -83,7 +83,7 @@ TEST(Subscriber, unsubscribes_works)
     });
     EXPECT_TRUE(ret);
 
-    ret = sub.callUnsubscribe<double>("topic.test.subscriber.unsubscribe_works");
+    ret = sub.callUnsubscribe("topic.test.subscriber.unsubscribe_works");
     EXPECT_TRUE(ret);
 
     ret = pub.callPublish<double>("topic.test.subscriber.unsubscribe_works", 1.0);
@@ -127,7 +127,7 @@ TEST(Subscriber, subscribe_unsubscribe_subscribe)
     });
     EXPECT_TRUE(ret);
 
-    ret = sub.callUnsubscribe<double>("topic.test.subscriber.subscribe_unsubscribe_subscribe");
+    ret = sub.callUnsubscribe("topic.test.subscriber.subscribe_unsubscribe_subscribe");
     EXPECT_TRUE(ret);
 
     ret = sub.callSubscribe<double>("topic.test.subscriber.subscribe_unsubscribe_subscribe", [&count](const auto& t, const auto& v) {
@@ -163,6 +163,47 @@ TEST(Subscriber, unsubscribe_fails_if_not_subscribed)
     topic::MockPublisher pub;
     bool ret;
 
-    ret = sub.callUnsubscribe<double>("topic.test.subscriber.subscriber_unsubscribes_on_delete");
+    ret = sub.callUnsubscribe("topic.test.subscriber.subscriber_unsubscribes_on_delete");
     EXPECT_FALSE(ret);
+}
+
+TEST(Subscriber, cannot_subscribe_on_type_mistmatch)
+{
+    topic::MockSubscriber sub;
+    topic::MockPublisher pub;
+    bool ret;
+    int count = 0;
+
+    ret = sub.callSubscribe<bool>("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers", [&count](const auto& t, const auto& v) {
+        count++;
+    });
+
+    ret = sub.callSubscribe<int>("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers", [](const auto& t, const auto& v) {
+        EXPECT_TRUE(false);
+    });
+    EXPECT_FALSE(ret);
+
+    pub.callPublish<bool>("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers", 1);
+    EXPECT_EQ(count, 1);
+}
+
+TEST(TopicManager, topics_can_be_replaced_if_no_subscribers)
+{
+    topic::MockSubscriber sub;
+    topic::MockPublisher pub;
+    bool ret;
+    int count = 0;
+
+    ret = sub.callSubscribe<bool>("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers", [](const auto& t, const auto& v) {
+        EXPECT_TRUE(false);
+    });
+
+    ret = sub.callUnsubscribe("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers");
+
+    ret = sub.callSubscribe<int>("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers", [&count](const auto& t, const auto& v) {
+        count++;
+    });
+
+    pub.callPublish<int>("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers", 1);
+    EXPECT_EQ(count, 1);
 }

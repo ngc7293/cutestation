@@ -4,19 +4,16 @@
 
 #include <assert.h>
 
-#include "node.hh"
-
 namespace topic {
 
 struct TopicManager::Priv {
-    std::shared_ptr<Node> root;
+    std::unordered_map<std::string, std::shared_ptr<topic::Topic>> topics;
     std::shared_mutex mutex;
 };
 
 TopicManager::TopicManager()
     : d_(new Priv)
 {
-    d_->root = std::make_shared<Node>("");
 }
 
 TopicManager::~TopicManager()
@@ -52,25 +49,32 @@ std::shared_ptr<Topic> TopicManager::retrieve(const std::string& name, const std
 
 std::shared_ptr<Topic> TopicManager::find(const std::string& name) const
 {
-    if (std::shared_ptr<Node> node = NodeFinder::find(d_->root, name)) {
-        return node->topic();
+    auto it = d_->topics.find(name);
+    std::shared_ptr<Topic> topic;
+
+    if (it != d_->topics.end()) {
+        if (it->second->subscribers() == 0) {
+            assert(it->second.use_count() == 1);
+            it->second.reset();
+            d_->topics.erase(it);
+        } else {
+            topic = it->second;
+        }
     }
 
-    return std::shared_ptr<Topic>();
+    return topic;
 }
 
 std::shared_ptr<Topic> TopicManager::put(const std::shared_ptr<Topic>& topic)
 {
-    if (std::shared_ptr<Node> node = NodeFinder::find(d_->root, topic->name(), true)) {
-        if (std::shared_ptr<Topic> ntopic = node->topic()) {
-            assert(false);
-        } else {
-            node->setTopic(topic);
-            return node->topic();
-        }
-    }
+    std::shared_ptr<Topic> other = find(topic->name());
 
-    return std::shared_ptr<Topic>();
+    if (other) {
+        return std::shared_ptr<Topic>();
+    } else {
+        d_->topics.insert({topic->name(), topic});
+        return topic;
+    }
 }
 
 }
