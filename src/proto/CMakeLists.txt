@@ -31,7 +31,7 @@ set( TESTS
 )
 
 add_executable(cute.proto.test ${TESTS})
-add_test(NAME cute.proto COMMAND cute.proto.test)
+gtest_discover_tests(cute.proto.test)
 
 target_compile_options(cute.proto.test PUBLIC --coverage)
 target_link_options(cute.proto.test PUBLIC --coverage)

@@ -22,7 +22,7 @@ set( TESTS
 )
 
 add_executable(cute.util.test ${TESTS})
-add_test(NAME cute.util COMMAND cute.util.test)
+gtest_discover_tests(cute.util.test)
 
 set_property(TARGET cute.util.test PROPERTY CXX_STANDARD 20)
 target_compile_options(cute.util.test PUBLIC --coverage)
