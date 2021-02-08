@@ -52,8 +52,10 @@ jobs:
           sudo ldconfig
 
       - name: Install Ninja
-        run: |
-          sudo apt-get install ninja-build
+        run: sudo apt-get install ninja-build
+
+      - name: Install nlohmann::json
+        run: sudo apt-get install nlohmann-json3-dev 
 
       - name: Configure
         run: |
