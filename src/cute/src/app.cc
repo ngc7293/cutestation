@@ -24,7 +24,7 @@ App::App()
     , _d(new priv)
 {
     std::ifstream ifs("config.json");
-    json config = json::parse(ifs);
+    json config = json::parse(ifs, nullptr, true, true);
     _d->windows = ui::WindowFactory::buildAll<ui::Window>(config.at("windows"), this);
     _d->dispatchers = io::DispatcherFactory::buildAll<io::Dispatcher>(config.at("io"));
 
