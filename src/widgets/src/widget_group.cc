@@ -12,7 +12,7 @@ WidgetGroup::WidgetGroup(QWidget* parent, const std::string& name)
 {
     box_ = new QGroupBox(QString::fromStdString(name), this);
 
-    grid_ = new QGridLayout();
+    grid_ = new WidgetGrid();
     box_->setLayout(grid_);
     layout()->addWidget(box_);
 }

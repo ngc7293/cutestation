@@ -45,11 +45,7 @@
         <item row="0" column="0">
          <layout class="QVBoxLayout" name="chart_vbox">
           <item>
-           <layout class="QHBoxLayout" name="chart_hbox">
-            <item>
-             <layout class="QGridLayout" name="chart_grid"/>
-            </item>
-           </layout>
+           <layout class="QHBoxLayout" name="chart_hbox"/>
           </item>
           <item>
            <spacer name="verticalSpacer">
