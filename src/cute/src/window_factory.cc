@@ -1,6 +1,7 @@
 #include "window_factory.hh"
 
 #include <QMainWindow>
+#include <QGridLayout>
 #include <QString>
 
 #include <util/json.hh>
@@ -26,33 +27,7 @@ std::shared_ptr<Window> WindowFactory::build<Window>(const json& config, QObject
     window = std::make_shared<Window>(parent);
     window->setWindowTitle(QString::fromStdString(name));
 
-    if (true) {//util::json::has_array(config, "widgets")) {
-        for (const json& el : config.at("widgets")) {
-            widgets::Widget* widget = widgets::WidgetFactory::build<widgets::Widget>(el, window.get());
-
-            unsigned x, y, rowspan, colspan;
-            int width, height;
-
-            if (widget && util::json::validate("Widget", el,
-                util::json::required {x, "x"},
-                util::json::required {y, "y"},
-                util::json::optionnal {rowspan, "rowspan", 1u},
-                util::json::optionnal {colspan, "colspan", 1u},
-                util::json::optionnal {width, "width", -1},
-                util::json::optionnal {height, "height", -1}
-            )) {
-                window->addWidget(widget, x, y, rowspan, colspan);
-
-                if (width > 0) {
-                    widget->setFixedWidth(width);
-                }
-
-                if (height > 0) {
-                    widget->setFixedHeight(height);
-                }
-            }
-        }
-    }
+    widgets::WidgetFactory::buildAll(config["widgets"], window->grid(), window.get());
 
     return window;
 }

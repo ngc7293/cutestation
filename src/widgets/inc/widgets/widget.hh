@@ -30,6 +30,7 @@ public:
     virtual ~Widget();
 
     std::string name() { return name_; }
+    void set_name(const std::string& name) { name_ = name; }
 
     void start(unsigned refreshRate);
 
