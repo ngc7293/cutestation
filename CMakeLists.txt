@@ -11,9 +11,6 @@ find_package(Qt5 COMPONENTS Core Widgets Network Charts REQUIRED)
 # Protobuf, for messages
 find_package(Protobuf REQUIRED)
 
-# Nlohmann JSON, for config
-find_package(nlohmann_json 3.9.0 REQUIRED)
-
 # Google Tests
 include(GoogleTest)
 enable_testing()
