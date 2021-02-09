@@ -19,7 +19,7 @@ add_library(cute.data STATIC ${SOURCES} ${HEADERS})
 set_property(TARGET cute.data PROPERTY CXX_STANDARD 20)
 target_include_directories(cute.data PUBLIC inc/ PRIVATE src/)
 target_compile_options(cute.data PRIVATE -Wall -Wpedantic -Werror --coverage)
-target_link_libraries(cute.data PUBLIC cute.log cute.proto topic cute.util Qt5::Core Qt5::Widgets Qt5::Charts)
+target_link_libraries(cute.data PUBLIC cute.log cute.proto topic cute.util nlohmann_json::nlohmann_json Qt5::Core Qt5::Widgets Qt5::Charts)
 
 ## Tests
 set( TESTS
