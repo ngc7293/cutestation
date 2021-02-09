@@ -2,15 +2,18 @@
 
 #include <memory>
 
+#include <QGridLayout>
+
 #include <log/log.hh>
 #include <util/json.hh>
+#include <util/switch.hh>
 #include <data/series.hh>
 #include <data/series_factory.hh>
 
 #include "widgets/control_widget.hh"
 #include "widgets/button_widget.hh"
 #include "widgets/chart_widget.hh"
-#include "widgets/single_value_widget.hh"
+#include "widgets/widget_group.hh"
 
 namespace cute::widgets {
 
@@ -44,12 +47,6 @@ ChartWidget* WidgetFactory::build(const json& config, QWidget* parent)
 }
 
 template<>
-SingleValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
-{
-    return nullptr;
-}
-
-template<>
 ButtonWidget* WidgetFactory::build(const json& config, QWidget* parent)
 {
     ButtonWidget* widget = nullptr;
@@ -70,6 +67,26 @@ ButtonWidget* WidgetFactory::build(const json& config, QWidget* parent)
 }
 
 template<>
+WidgetGroup* WidgetFactory::build(const json& config, QWidget* parent)
+{
+    WidgetGroup* widget = nullptr;
+
+    std::string name, command;
+
+    if (!(util::json::validate("WidgetGroup", config,
+        util::json::required(name, "name")
+    ))) {
+        return widget;
+    }
+
+    widget = new WidgetGroup(parent, name);
+    widgets::WidgetFactory::buildAll(config["widgets"], widget->grid(), widget);
+
+    return widget;
+}
+
+
+template<>
 Widget* WidgetFactory::build(const json& config, QWidget* parent)
 {
     Widget* widget = nullptr;
@@ -84,22 +101,48 @@ Widget* WidgetFactory::build(const json& config, QWidget* parent)
         return widget;
     }
 
-    if (type == "chart") {
-        widget = build<ChartWidget>(config, parent);
-    } else if (type == "single") {
-        widget = build<SingleValueWidget>(config, parent);
-    } else if (type == "button") {
-        widget = build<ButtonWidget>(config, parent);
-    } else {
+    util::switcher::string(type, {
+        {"chart", [&widget, config, parent]() { widget = build<ChartWidget>(config, parent); }},
+        {"button", [&widget, config, parent]() { widget = build<ButtonWidget>(config, parent); }},
+        {"group",  [&widget, config, parent]() { widget = build<WidgetGroup>(config, parent); }}
+    }, [&type]() {
         Log::err("WidgetFactory", "Unknown widget type '" + type + "'");
-        return widget;
-    }
+    });
 
     if (widget) {
         widget->start(refresh_rate);
     }
 
     return widget;
+}
+
+void WidgetFactory::buildAll(const json& configs, QGridLayout* layout, QWidget* parent)
+{
+    for (const json& el : configs) {
+        widgets::Widget* widget = widgets::WidgetFactory::build<widgets::Widget>(el, parent);
+
+        unsigned x, y, rowspan, colspan;
+        int width, height;
+
+        if (widget && util::json::validate("Widget", el,
+            util::json::required {x, "x"},
+            util::json::required {y, "y"},
+            util::json::optionnal {rowspan, "rowspan", 1u},
+            util::json::optionnal {colspan, "colspan", 1u},
+            util::json::optionnal {width, "width", -1},
+            util::json::optionnal {height, "height", -1}
+        )) {
+            layout->addWidget((QWidget*) widget, y, x, rowspan, colspan);
+
+            if (width > 0) {
+                widget->setFixedWidth(width);
+            }
+
+            if (height > 0) {
+                widget->setFixedHeight(height);
+            }
+        }
+    }
 }
 
 } // namespaces

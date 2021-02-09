@@ -1,5 +1,7 @@
-#ifndef WIDGET_FACTORY_H_
-#define WIDGET_FACTORY_H_
+#ifndef WIDGET_FACTORY_HH_
+#define WIDGET_FACTORY_HH_
+
+#include <QGridLayout>
 
 #include "nlohmann/json.hpp"
 
@@ -16,6 +18,8 @@ public:
     // integration with Qt.
     template<class T>
     static T* build(const json& config, QWidget* parent = nullptr);
+
+    static void buildAll(const json& configs, QGridLayout* layout, QWidget* parent = nullptr);
 };
 
 } // namespaces

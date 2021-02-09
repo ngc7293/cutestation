@@ -15,11 +15,9 @@ Window::~Window()
     delete ui_;
 }
 
-void Window::addWidget(widgets::Widget* widget, unsigned x, unsigned y, unsigned rowspan, unsigned colspan)
+QGridLayout* Window::grid()
 {
-    if (widget) {
-        ui_->chart_grid->addWidget((QWidget*)widget, x, y, rowspan, colspan);
-    }
+    return ui_->chart_grid;
 }
 
 }
