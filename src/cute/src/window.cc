@@ -7,7 +7,10 @@ namespace cute::ui {
 Window::Window(QObject* parent)
     : ui_(new Ui::Window())
 {
-    ui_->setupUi(this); 
+    ui_->setupUi(this);
+
+    grid_ = new widgets::WidgetGrid(this);
+    ui_->chart_hbox->addLayout(grid_);
 }
 
 Window::~Window()
@@ -15,9 +18,9 @@ Window::~Window()
     delete ui_;
 }
 
-QGridLayout* Window::grid()
+widgets::WidgetGrid* Window::grid()
 {
-    return ui_->chart_grid;
+    return grid_;
 }
 
 }

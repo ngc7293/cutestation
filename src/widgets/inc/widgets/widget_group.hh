@@ -1,5 +1,5 @@
-#ifndef WIDGET_GROUP_HH_
-#define WIDGET_GROUP_HH_
+#ifndef CUTE_WIDGETS_WIDGET_GROUP_HH_
+#define CUTE_WIDGETS_WIDGET_GROUP_HH_
 
 #include "widget.hh"
 
@@ -10,22 +10,24 @@
 
 #include <log/log.hh>
 
+#include "widget_grid.hh"
+
 namespace cute::widgets {
 
 class WidgetGroup : public Widget {
+    Q_OBJECT
+
 private:
     QGroupBox* box_;
-    QGridLayout* grid_;
+    WidgetGrid* grid_;
 
 public:
     WidgetGroup(QWidget* parent = nullptr, const std::string& name = "");
     virtual ~WidgetGroup();
 
-    QGridLayout* grid() { return grid_; }
+    WidgetGrid* grid() { return grid_; }
 
     void set_name(const std::string& name);
-
-    void refresh() override { };
 };
 
 }
