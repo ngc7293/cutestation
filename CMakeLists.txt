@@ -12,7 +12,7 @@ find_package(Qt5 COMPONENTS Core Widgets Network Charts REQUIRED)
 find_package(Protobuf REQUIRED)
 
 # Nlohmann JSON, for config
-find_package(nlohmann_json 3.7.0 REQUIRED)
+find_package(nlohmann_json 3.9.0 REQUIRED)
 
 # Google Tests
 include(GoogleTest)
