@@ -11,12 +11,12 @@
 
 namespace topic {
 
-class Publisher {
+class Publisher final {
 public:
     Publisher();
     virtual ~Publisher();
 
-protected:
+public:
     template <typename T>
     bool publish(const std::string& name, const T& value, const topic::time& time = std::chrono::duration_cast<topic::time>(std::chrono::high_resolution_clock::now().time_since_epoch()))
     {

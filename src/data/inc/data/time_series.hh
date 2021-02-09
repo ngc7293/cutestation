@@ -11,6 +11,8 @@
 #include <QVector>
 #include <QPointF>
 
+#include <topic/subscriber.hh>
+
 namespace cute::data {
 
 template<typename T>
@@ -18,6 +20,7 @@ class TimeSeries : public Series {
 private:
     std::deque<std::pair<std::uint64_t, T>> data_;
     mutable std::mutex mutex_;
+    topic::Subscriber subscriber_;
 
     std::function<uint64_t(void)> now_;
     std::uint64_t length_;

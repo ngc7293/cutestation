@@ -4,7 +4,7 @@
 
 #include <io/socket_dispatcher.hh>
 #include <net/socket.hh>
-#include <topic/mock.hh>
+#include <topic/subscriber.hh>
 
 TEST(SocketDispatcher, creates_a_valid_unix_socket)
 {
@@ -56,7 +56,7 @@ TEST(SocketDispatcher, wont_start_if_already_running)
 TEST(SocketDispatcher, creates_a_valid_client)
 {
     int count = 0;
-    topic::MockSubscriber subscriber;
+    topic::Subscriber subscriber;
 
     cute::proto::Packet packet;
     cute::proto::DelimitedPacketStream stream(packet);
@@ -65,7 +65,7 @@ TEST(SocketDispatcher, creates_a_valid_client)
     net::socket socket;
 
     cute::proto::makeData(*packet.mutable_data(), {{"cute.io.test.topic", 1, true}});
-    subscriber.callSubscribe<bool>("cute.io.test.topic", [&count](const auto& t, const bool& v) {
+    subscriber.subscribe<bool>("cute.io.test.topic", [&count](const auto& t, const bool& v) {
         count = std::chrono::duration_cast<std::chrono::milliseconds>(t).count();
     });
 
