@@ -9,6 +9,9 @@ namespace cute::io {
 struct Client::Priv {
     std::shared_ptr<net::closeable> stream;
     std::string name;
+
+    topic::Subscriber subscriber;
+    topic::Publisher publisher;
 };
 
 Client::Client(std::shared_ptr<net::closeable> stream)
@@ -66,19 +69,19 @@ void Client::onData(const proto::Data& data)
 
         switch (measurement.value_case()) {
         case proto::Measurement::ValueCase::kBool:
-            publish<bool>(source, measurement.bool_(), timestamp);
+            _d->publisher.publish<bool>(source, measurement.bool_(), timestamp);
             break;
 
         case proto::Measurement::ValueCase::kInt:
-            publish<int>(source, measurement.int_(), timestamp);
+            _d->publisher.publish<int>(source, measurement.int_(), timestamp);
             break;
 
         case proto::Measurement::ValueCase::kFloat:
-            publish<double>(source, measurement.float_(), timestamp);
+            _d->publisher.publish<double>(source, measurement.float_(), timestamp);
             break;
 
         case proto::Measurement::ValueCase::kString:
-            publish<std::string>(source, measurement.string(), timestamp);
+            _d->publisher.publish<std::string>(source, measurement.string(), timestamp);
             break;
 
         case proto::Measurement::ValueCase::VALUE_NOT_SET:
@@ -114,25 +117,25 @@ void Client::onHandshake(const proto::Handshake& handshake)
 
         switch (command.type()) {
         case proto::Handshake_Command_Type::Handshake_Command_Type_BOOL:
-            if (!subscribe<bool>(name, subscribed_lambda)) {
+            if (!_d->subscriber.subscribe<bool>(name, subscribed_lambda)) {
                 Log::warn("client/" + _d->name) << "Unable to subscribe to " << command.name() << " with type bool" << std::endl;
             }
             break;
 
         case proto::Handshake_Command_Type::Handshake_Command_Type_INT:
-            if (!subscribe<int>(name, subscribed_lambda)) {
+            if (!_d->subscriber.subscribe<int>(name, subscribed_lambda)) {
                 Log::warn("client/" + _d->name) << "Unable to subscribe to " << command.name() << " with type int" << std::endl;
             }
             break;
 
         case proto::Handshake_Command_Type::Handshake_Command_Type_FLOAT:
-            if (!subscribe<double>(name, subscribed_lambda)) {
+            if (!_d->subscriber.subscribe<double>(name, subscribed_lambda)) {
                 Log::warn("client/" + _d->name) << "Unable to subscribe to " << command.name() << " with type double" << std::endl;
             }
             break;
 
         case proto::Handshake_Command_Type::Handshake_Command_Type_STRING:
-            if (!subscribe<std::string>(name, subscribed_lambda)) {
+            if (!_d->subscriber.subscribe<std::string>(name, subscribed_lambda)) {
                 Log::warn("client/" + _d->name) << "Unable to subscribe to " << command.name() << " with type string" << std::endl;
             }
             break;

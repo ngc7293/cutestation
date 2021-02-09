@@ -11,12 +11,12 @@
 
 namespace topic {
 
-class Subscriber {
+class Subscriber final {
 public:
     Subscriber();
     virtual ~Subscriber();
 
-protected:
+public:
     template <typename T>
     bool subscribe(const std::string& name, std::function<void(const topic::time&, const T&)> callback)
     {

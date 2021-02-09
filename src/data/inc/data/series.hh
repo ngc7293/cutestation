@@ -9,7 +9,7 @@
 
 namespace cute::data {
 
-class Series : public topic::Subscriber {
+class Series {
 protected:
     std::shared_ptr<SamplingPolicy> sampling_policy_;
 
