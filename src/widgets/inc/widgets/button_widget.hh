@@ -1,17 +1,19 @@
 #ifndef CUTE_WIDGETS_BUTTON_WIDGET_H_
 #define CUTE_WIDGETS_BUTTON_WIDGET_H_
 
-#include "control_widget.hh"
+#include "view_widget.hh"
 
 #include <QPushButton>
 
+#include <topic/publisher.hh>
+
 namespace cute::widgets {
 
-class ButtonWidget : public ControlWidget {
-
+class ButtonWidget : public ViewWidget {
 private:
     QPushButton* button_;
     std::string command_;
+    topic::Publisher publisher_;
 
 public:
     ButtonWidget(QWidget* parent, const std::string& name);

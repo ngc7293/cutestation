@@ -79,6 +79,7 @@ bool server::listen_tcp(const std::string& address, uint16_t port)
         return false;
     }
 
+    Log::info("net::server/" + _d->name) << "Listening" << std::endl;
 
     int connfd;
     while ((connfd = accept(_d->fd, (struct sockaddr*) &addr, &len)) > 0) {
@@ -115,6 +116,8 @@ bool server::listen_unix(const std::string& path)
     if (::listen(sockfd, 5) < 0) {
         return false;
     }
+
+    Log::info("net::server/" + _d->name) << "Listening" << std::endl;
 
     int connfd;
     while ((connfd = accept(_d->fd, (struct sockaddr*) &addr, &len)) > 0) {

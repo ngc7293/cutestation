@@ -11,7 +11,6 @@ SET( HEADERS
     src/local_topic_manager.hh
     src/topic_manager.hh
     src/topic.hh
-    src/node.hh
 )
 
 set( SOURCES
@@ -21,7 +20,6 @@ set( SOURCES
     src/global_topic_manager.cc
     src/topic_manager.cc
     src/topic.cc
-    src/node.cc
 )
 
 ## Target

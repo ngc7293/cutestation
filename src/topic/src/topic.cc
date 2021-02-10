@@ -43,6 +43,11 @@ const std::type_info& Topic::type() const
     return d_->type;
 }
 
+unsigned int Topic::subscribers() const
+{
+    return d_->subscribers.size();
+}
+
 bool Topic::subscribe(const SubscribeInfo& incoming)
 {
     std::lock_guard guard(d_->mutex);

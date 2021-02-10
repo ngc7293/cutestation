@@ -15,7 +15,7 @@
 namespace cute::widgets {
 
 ChartWidget::ChartWidget(QWidget* parent, const std::string& name)
-    : Widget(parent, name)
+    : ViewWidget(parent, name)
 {
     length_ = 1;
     min_ = 0;

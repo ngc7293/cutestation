@@ -3,10 +3,12 @@ cmake_minimum_required(VERSION 3.17)
 set(HEADERS
     inc/util/json.hh
     inc/util/time.hh
+    inc/util/switch.hh
 )
 
 set(SOURCES
     src/json.cc
+    src/switch.cc
 )
 
 add_library(cute.util STATIC ${SOURCES} ${HEADERS})
@@ -19,6 +21,7 @@ target_link_libraries(cute.util PUBLIC cute.log nlohmann_json::nlohmann_json Qt5
 set( TESTS
     tests/main.cc
     tests/test_json.cc
+    tests/test_switch.cc
 )
 
 add_executable(cute.util.test ${TESTS})
