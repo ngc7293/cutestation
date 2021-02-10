@@ -11,12 +11,12 @@
 
 namespace topic {
 
-class Subscriber {
+class Subscriber final {
 public:
     Subscriber();
     virtual ~Subscriber();
 
-protected:
+public:
     template <typename T>
     bool subscribe(const std::string& name, std::function<void(const topic::time&, const T&)> callback)
     {
@@ -26,15 +26,10 @@ protected:
         return subscribe_generic(name, typeid(T), info);
     }
     
-    template <typename T>
-    bool unsubscribe(const std::string& name)
-    {
-        return unsubscribe_generic(name, typeid(T));
-    }
+    bool unsubscribe(const std::string& name);
 
 private:
     bool subscribe_generic(const std::string& name, const std::type_info& type, SubscribeInfo& info);
-    bool unsubscribe_generic(const std::string& name, const std::type_info& type);
 
 private:
     struct Priv;

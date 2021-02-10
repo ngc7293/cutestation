@@ -10,7 +10,7 @@
 
 namespace cute::io {
 
-class Client : public topic::Subscriber, public topic::Publisher {
+class Client {
 public:
     Client(std::shared_ptr<net::closeable> socket);
     virtual ~Client();

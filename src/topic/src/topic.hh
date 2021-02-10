@@ -19,6 +19,7 @@ public:
 
     std::string name() const;
     const std::type_info& type() const;
+    unsigned int subscribers() const;
 
     bool subscribe(const SubscribeInfo& subscribeinfo);
     bool unsubscribe(Subscriber* subscriber);

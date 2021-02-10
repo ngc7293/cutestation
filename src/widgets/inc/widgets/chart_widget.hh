@@ -1,7 +1,7 @@
 #ifndef CUTE_WIDGETS_CHART_WIDGET_H_
 #define CUTE_WIDGETS_CHART_WIDGET_H_
 
-#include "widget.hh"
+#include "view_widget.hh"
 
 #include <QChartView>
 
@@ -9,7 +9,7 @@
 
 namespace cute::widgets {
 
-class ChartWidget : public Widget {
+class ChartWidget : public ViewWidget {
     Q_OBJECT
 
 private:
