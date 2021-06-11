@@ -6,7 +6,7 @@
 #include <net/server.hh>
 #include <net/socket.hh>
 
-TEST(tcp_server, listen_succeeds)
+TEST(tcp_server, DISABLED_listen_succeeds)
 {
     net::server server;
 
@@ -20,7 +20,7 @@ TEST(tcp_server, listen_succeeds)
     EXPECT_TRUE(ret.get());
 }
 
-TEST(tcp_server, sockets_can_connect)
+TEST(tcp_server, DISABLED_sockets_can_connect)
 {
     net::server server;
     net::socket socket;
@@ -36,7 +36,7 @@ TEST(tcp_server, sockets_can_connect)
     a.wait();
 }
 
-TEST(tcp_server, server_creates_new_socket)
+TEST(tcp_server, DISABLED_server_creates_new_socket)
 {
     net::server server;
     net::socket socket;
@@ -69,7 +69,7 @@ TEST(tcp_server, server_creates_new_socket)
     a.wait();
 }
 
-TEST(tcp_socket, socket_connect_fails_with_no_server)
+TEST(tcp_socket, DISABLED_socket_connect_fails_with_no_server)
 {
     net::socket socket;
 

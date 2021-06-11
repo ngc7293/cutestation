@@ -22,7 +22,7 @@ ChartWidget* WidgetFactory::build(const json& config, QWidget* parent)
     ChartWidget* widget = nullptr;
 
     std::string name;
-    unsigned length, refresh_rate;;
+    unsigned length, refresh_rate;
     std::vector<int> range;
 
     std::shared_ptr<data::TimeSeries<double>> series = data::SeriesFactory::build<data::TimeSeries<double>>(config);
@@ -43,6 +43,7 @@ ChartWidget* WidgetFactory::build(const json& config, QWidget* parent)
     widget->set_series(series);
     widget->set_range(std::min(range[0], range[1]), std::max(range[0], range[1]));
     widget->set_length(length);
+    widget->start(refresh_rate);
     return widget;
 }
 

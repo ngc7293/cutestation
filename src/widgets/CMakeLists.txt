@@ -27,8 +27,8 @@ set(HEADERS
     inc/widgets/widget.hh
 )
 
-add_library(cute.widgets STATIC ${SOURCES} ${HEADERS})
+add_library(cute.widgets STATIC ${SOURCES} ${HEADERS} ${QT_SOURCES})
 set_property(TARGET cute.widgets PROPERTY CXX_STANDARD 20)
 target_include_directories(cute.widgets PUBLIC inc/ PRIVATE src/)
-target_compile_options(cute.widgets PRIVATE -Wall -Wpedantic -Werror)
-target_link_libraries(cute.widgets PUBLIC cute.data cute.log cute.util nlohmann_json::nlohmann_json Qt5::Core Qt5::Widgets Qt5::Charts)
+target_compile_options(cute.widgets PUBLIC -fPIC PRIVATE -Wall -Wpedantic -Werror)
+target_link_libraries(cute.widgets PUBLIC cute.data cute.log cute.util CONAN_PKG::nlohmann_json CONAN_PKG::qt)

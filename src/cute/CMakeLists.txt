@@ -23,9 +23,8 @@ SET(UI
     ui/window.ui
 )
 
-add_executable(cute ${SOURCES} ${HEADERS} ${UI})
+add_executable(cute ${SOURCES} ${HEADERS} ${QT_SOURCES} ${UI_SOURCES})
 set_property(TARGET cute PROPERTY CXX_STANDARD 20)
 target_include_directories(cute PRIVATE src/)
-target_compile_options(cute PRIVATE -Wall -Wpedantic -Werror --coverage)
-target_link_options(cute PRIVATE --coverage)
-target_link_libraries(cute PUBLIC cute.widgets cute.data cute.io cute.log cute.util nlohmann_json::nlohmann_json Qt5::Core Qt5::Network Qt5::Widgets)
+target_compile_options(cute PUBLIC -fPIC PRIVATE -Wall -Wpedantic -Werror)
+target_link_libraries(cute PUBLIC cute.widgets cute.data cute.io cute.log cute.util CONAN_PKG::nlohmann_json CONAN_PKG::qt)
