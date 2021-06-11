@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.17)
 
-SET( HEADERS
+SET(HEADERS
     inc/proto/packet.hh
     inc/proto/delimited_protobuf_stream.hh
 )
 
-set( SOURCES
+set(SOURCES
     src/packet.cc
 )
 
-SET( PROTO
+SET(PROTO
     packet.proto
 )
 
@@ -21,18 +21,15 @@ set_property(SOURCE ${PROTO_SOURCES} PROPERTY SKIP_AUTOGEN ON)
 add_library(cute.proto STATIC ${HEADERS} ${SOURCES} ${PROTO_SOURCES} ${PROTO_HEADERS})
 target_compile_features(cute.proto PUBLIC cxx_std_20)
 target_include_directories(cute.proto PUBLIC inc/ ${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(cute.proto PUBLIC protobuf::libprotobuf)
+target_link_libraries(cute.proto PUBLIC CONAN_PKG::protobuf)
 
-## Tests
-set( TESTS
+# Tests
+set(TESTS
     tests/main.cc
     tests/test_packet.cc
     tests/test_stream.cc
 )
 
 add_executable(cute.proto.test ${TESTS})
+target_link_libraries(cute.proto.test PUBLIC cute.proto CONAN_PKG::gtest)
 gtest_discover_tests(cute.proto.test)
-
-target_compile_options(cute.proto.test PUBLIC --coverage)
-target_link_options(cute.proto.test PUBLIC --coverage)
-target_link_libraries(cute.proto.test PUBLIC cute.proto gcov gtest)
