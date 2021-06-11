@@ -6,15 +6,13 @@ include("${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
 conan_basic_setup(TARGETS)
 
 ## Libraries
-enable_testing()
 include(conan_qt_executables_variables)
 include(Qt5CoreMacros)
 include(Qt5WidgetsMacros)
 
 find_package(GTest)
+enable_testing()
 
-
-# Uh
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_subdirectory(src)
