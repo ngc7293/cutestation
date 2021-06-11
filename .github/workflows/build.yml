@@ -13,16 +13,23 @@ jobs:
           submodules: true
 
       - name: Install tools
-        run: sudo apt-get install ninja-build python3-pip && pip install conan
+        run: sudo apt-get install ninja-build python3-pip libgl-dev && pip install conan
 
       - name: Create directories
         run: |
           mkdir build
           cd build
 
+      - name: Setup Conan profile
+        run: |
+          conan profile new release
+          conan profile update settings.build_type=Release release
+          conan profile update settings.compiler.libcxx=libstdc++11 release
+          conan profile update settings.cppstd=20 release
+
       - name: Install 3rd parties
         working-directory: build
-        run: conan install .. -s compiler.libcxx=libstdc++11 -s cppstd=20 -s build_type=Release --build=missing
+        run: conan install .. -p release
         
       - name: Configure
         working-directory: build
