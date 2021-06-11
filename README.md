@@ -4,11 +4,13 @@
 
 ## Contents
 
-- [Goals](#Goals)
-- [Structure](#Structure)
-- [Depends](#Depends)
-- [Building](#Building)
-- [Testing](#Testing)
+- [CuteStation](#cutestation)
+  - [Contents](#contents)
+  - [Goals](#goals)
+  - [Structure](#structure)
+  - [Depends](#depends)
+  - [Building](#building)
+  - [Testing](#testing)
 
 ## Goals
 
@@ -54,12 +56,9 @@ a Google Test-driven unit test executable named `<target>.test` (e.g.:
 
 ## Depends
 
-- [Protobuf 3.11](https://github.com/protocolbuffers/protobuf/)
-- [nlohmann::json](https://github.com/nlohmann/json)
-- Qt 5.14.1
+- Conan
 - CMake 3.17 (for [CMP0100](https://cmake.org/cmake/help/v3.17/policy/CMP0100.html))
 - Ninja (recommended)
-- gcovr (recommended)
 
 CuteStation uses C++20 features and syntax; a modern compiler is required. The
 officially supported compiler is GCC 9.3.0.
@@ -71,19 +70,16 @@ To clone:
 ```bash
 git clone https://github.com/ngc7293/cutestation
 cd cutestation
-git submodule update --init --recursive # For Google Test
 ```
 
 To build
 
 ```bash
 mkdir build; cd build;
+conan install .. -s compiler.libcxx=libstdc++11 -s cppstd=20 -s build_type=Debug --build=missing
 cmake .. -G Ninja
 ninja
 ```
-
-Note that the current CMakeLists assumes Qt to be installed in
-`/opt/Qt/5.14.1/`, you might need to update it to match your install path.
 
 ## Testing
 
@@ -91,9 +87,11 @@ Most modules have unit tests. These are built with Google Test into one
 executable per module, using the syntax `<module>.test`. They can be found in
 the `build/bin` directory.
 
+**Coverage is currently disabled. We'll be back soon.**
+
 After running tests, you can generate the coverage report with `ninja coverage`.
 Detailed coverage information will be written to `build/coverage.html`.
 
 **Note**: Linux will purposefully keep TCP sockets alive for a certain time
 after they are closed. This will cause the TCP Server tests to fail if called
-repeatedly. These failures can be ignored.
+repeatedly. These failures can be ignored (the tests are DISABLED in gtest)

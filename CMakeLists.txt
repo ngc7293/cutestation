@@ -1,26 +1,25 @@
 cmake_minimum_required(VERSION 3.17)
 project(cute)
 
-add_subdirectory(libs)
+include("${CMAKE_BINARY_DIR}/conan_paths.cmake")
+include("${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
+conan_basic_setup(TARGETS)
 
 ## Libraries
-# Qt5
-set(CMAKE_PREFIX_PATH /opt/Qt/5.14.1/gcc_64/)
-find_package(Qt5 COMPONENTS Core Widgets Network Charts REQUIRED)
-
-# Protobuf, for messages
-find_package(Protobuf REQUIRED)
-
-# Google Tests
-include(GoogleTest)
 enable_testing()
+include(conan_qt_executables_variables)
+include(Qt5CoreMacros)
+include(Qt5WidgetsMacros)
+
+find_package(GTest)
+
 
 # Uh
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_subdirectory(src)
 
-if (UNIX)
-    add_custom_target(clean_gcda ALL COMMAND find -name "*.gcda" -delete COMMENT "Cleaning GCDA files")
-    add_custom_target(coverage COMMAND gcovr -r ../src ./ -e ".*gtest.*" -e ".*/tests/.*" --html-details -o coverage.html)
-endif()
+# if (UNIX)
+#     add_custom_target(clean_gcda ALL COMMAND find -name "*.gcda" -delete COMMENT "Cleaning GCDA files")
+#     add_custom_target(coverage COMMAND r -r ../src ./ -e ".*gtest.*" -e ".*/tests/.*" --html-details -o coverage.html)
+# endif()
