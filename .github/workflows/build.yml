@@ -27,7 +27,6 @@ jobs:
 
       - name: Install 3rd parties
         working-directory: build
-        if: steps.cache-conan.outputs.cache-hit != 'true'
         run: conan install .. -s compiler.libcxx=libstdc++11 -s cppstd=20 -s build_type=Release --build=missing
         
       - name: Configure
