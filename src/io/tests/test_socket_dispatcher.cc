@@ -21,7 +21,7 @@ TEST(SocketDispatcher, creates_a_valid_unix_socket)
     dispatcher.close();
 }
 
-TEST(SocketDispatcher, creates_a_valid_tcp_socket)
+TEST(SocketDispatcher, DISABLED_creates_a_valid_tcp_socket)
 {
     cute::io::SocketDispatcher dispatcher;
 

@@ -1,6 +1,0 @@
-[submodule "libs/googletest"]
-	path = libs/googletest
-	url = git@github.com:google/googletest.git
-[submodule "libs/nlohmann-json"]
-	path = libs/nlohmann-json
-	url = git@github.com:nlohmann/json.git
