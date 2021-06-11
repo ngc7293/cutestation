@@ -20,16 +20,9 @@ jobs:
           mkdir build
           cd build
 
-      - name: Setup Conan profile
-        run: |
-          conan profile new release
-          conan profile update settings.build_type=Release release
-          conan profile update settings.compiler.libcxx=libstdc++11 release
-          conan profile update settings.cppstd=20 release
-
       - name: Install 3rd parties
         working-directory: build
-        run: conan install .. --profile release
+        run: conan install .. -s compiler.libcxx=libstdc++11 -s cppstd=20 -s build_type=Release --build=missing
         
       - name: Configure
         working-directory: build
