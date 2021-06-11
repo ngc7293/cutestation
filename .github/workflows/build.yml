@@ -23,6 +23,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /home/runner/.conan
+          key: '{{ runner.os }}-conan'
 
       - name: Install 3rd parties
         working-directory: build
