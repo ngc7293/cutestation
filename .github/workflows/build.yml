@@ -22,7 +22,7 @@ jobs:
         working-directory: build
         run: |
           conan remote add davidbourgault https://artifactory.davidbourgault.ca/artifactory/api/conan/conan
-          conan install .. -s compiler.libcxx=libstdc++11 -s cppstd=20 -s build_type=Release
+          conan install .. -s compiler.libcxx=libstdc++11 -s cppstd=20 -s build_type=Release -r davidbourgault
         
       - name: Configure
         working-directory: build
