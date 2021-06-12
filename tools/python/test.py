@@ -27,7 +27,7 @@ def main(args):
 
     packet = Packet()
     packet.handshake.name = "python_testing"
-    packet.handshake.commands.append(Handshake.Command(name="anirniq.remote_control.engine.sequence.stop", type=Handshake.Command.Type.BOOL))
+    # packet.handshake.commands.append(Handshake.Command(name="anirniq.remote_control.engine.sequence.stop", type=Handshake.Command.Type.BOOL))
     print(json_format.MessageToJson(packet))
 
     sock.send(packet.ByteSize().to_bytes(8, byteorder='little'))

@@ -8,8 +8,6 @@
 #include <QGroupBox>
 #include <QGridLayout>
 
-#include <log/log.hh>
-
 #include "widget_grid.hh"
 
 namespace cute::widgets {

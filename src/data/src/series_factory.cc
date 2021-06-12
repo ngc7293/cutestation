@@ -1,6 +1,5 @@
 #include "data/series_factory.hh"
 
-#include <log/log.hh>
 #include <util/json.hh>
 
 #include "data/time_series.hh"
