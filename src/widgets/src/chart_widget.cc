@@ -9,7 +9,6 @@
 #include <QValueAxis>
 
 #include <data/time_series.hh>
-#include <log/log.hh>
 #include <util/time.hh>
 
 namespace cute::widgets {

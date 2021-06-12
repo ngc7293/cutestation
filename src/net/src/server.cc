@@ -23,7 +23,7 @@ namespace net {
 struct server::priv {
     int fd = -1;
     std::function<void(net::socket*)> callback = [](net::socket* s) { delete s; };
-    std::string name = "";
+    std::string path = "";
 };
 
 server::server()
@@ -79,7 +79,7 @@ bool server::listen_tcp(const std::string& address, uint16_t port)
         return false;
     }
 
-    Log::info("net::server/" + _d->name) << "Listening" << std::endl;
+    logging::info("net::server") << logging::tag{"addr", address} << "Listening" << logging::endl;
 
     int connfd;
     while ((connfd = accept(_d->fd, (struct sockaddr*) &addr, &len)) > 0) {
@@ -111,13 +111,13 @@ bool server::listen_unix(const std::string& path)
     if (bind(sockfd, (struct sockaddr*)&addr, len) < 0) {
         return false;
     }
-    _d->name = path;
+    _d->path = path;
 
     if (::listen(sockfd, 5) < 0) {
         return false;
     }
 
-    Log::info("net::server/" + _d->name) << "Listening" << std::endl;
+    logging::info("net::server") << logging::tag{"path", path} << "Listening" << logging::endl;
 
     int connfd;
     while ((connfd = accept(_d->fd, (struct sockaddr*) &addr, &len)) > 0) {
@@ -130,17 +130,17 @@ bool server::listen_unix(const std::string& path)
 void server::close()
 {
     if (_d->fd > 0) {
-        Log::debug("net::server/" + _d->name) << "Closing FD" << std::endl;
+        logging::debug("net::server") << "Closing FD" << logging::endl;
         ::shutdown(_d->fd, SHUT_RDWR);
         ::close(_d->fd);
         _d->fd = -1;
     }
 
-    if (_d->name != "") {
-        Log::debug("net::server/" + _d->name) << "Removing socket file" << std::endl;
-        ::unlink(_d->name.c_str());
-        ::remove(_d->name.c_str());
-        _d->name = "";
+    if (_d->path != "") {
+        logging::debug("net::server") << logging::tag{"path", _d->path} << "Removing socket file" << logging::endl;
+        ::unlink(_d->path.c_str());
+        ::remove(_d->path.c_str());
+        _d->path = "";
     }
 }
 

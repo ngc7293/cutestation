@@ -108,7 +108,7 @@ Widget* WidgetFactory::build(const json& config, QWidget* parent)
         {"button", [&widget, config, parent]() { widget = build<ButtonWidget>(config, parent); }},
         {"group",  [&widget, config, parent]() { widget = build<WidgetGroup>(config, parent); }}
     }, [&type]() {
-        Log::err("WidgetFactory", "Unknown widget type '" + type + "'");
+        logging::err("WidgetFactory") << "Unknown widget type '" << type << "'" << logging::endl;
     });
 
     return widget;
