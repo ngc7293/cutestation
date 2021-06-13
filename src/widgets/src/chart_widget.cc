@@ -13,82 +13,78 @@
 
 namespace cute::widgets {
 
+struct ChartWidget::ChartWidgetPriv {
+    QtCharts::QChartView* chartview;
+    double min, max;
+    int length;
+ 
+    std::vector<std::pair<QtCharts::QLineSeries*, std::shared_ptr<data::TimeSeries<double>>>> series;
+    std::uint64_t last_update;
+};
+
 ChartWidget::ChartWidget(QWidget* parent, const std::string& name)
     : ViewWidget(parent, name)
+    , _d(new ChartWidgetPriv)
 {
-    length_ = 1;
-    min_ = 0;
-    max_ = 1;
+    _d->length = 1;
+    _d->min = 0;
+    _d->max = 1;
 
-    last_update_ = 0;
+    _d->last_update = 0;
+    _d->chartview = new QtCharts::QChartView(this);
 
-    chartview_ = new QtCharts::QChartView(this);
+    QtCharts::QValueAxis* yaxis = new QtCharts::QValueAxis(_d->chartview);
+    yaxis->setRange(_d->min, _d->max);
 
-    QtCharts::QLineSeries* lineseries = new QtCharts::QLineSeries(chartview_);
-    lineseries->setUseOpenGL(true);
-
-    QtCharts::QValueAxis* yaxis = new QtCharts::QValueAxis(chartview_);
-    yaxis->setRange(min_, max_);
-
-    QtCharts::QDateTimeAxis* xaxis = new QtCharts::QDateTimeAxis(chartview_);
+    QtCharts::QDateTimeAxis* xaxis = new QtCharts::QDateTimeAxis(_d->chartview);
     xaxis->setTickCount(2);
 
-    chartview_->chart()->addSeries(lineseries);
-    chartview_->chart()->addAxis(xaxis, Qt::AlignBottom);
-    chartview_->chart()->addAxis(yaxis, Qt::AlignLeft);
-
-    lineseries->attachAxis(xaxis);
-    lineseries->attachAxis(yaxis);
+    _d->chartview->chart()->addAxis(xaxis, Qt::AlignBottom);
+    _d->chartview->chart()->addAxis(yaxis, Qt::AlignLeft);
 
     // UI tweaks
-    chartview_->setRenderHint(QPainter::Antialiasing);
+    _d->chartview->setRenderHint(QPainter::Antialiasing);
 
-    layout()->addWidget(chartview_);
+    layout()->addWidget(_d->chartview);
 }
 
 ChartWidget::~ChartWidget() {}
 
-void ChartWidget::set_series(std::shared_ptr<data::TimeSeries<double>> series)
+void ChartWidget::add_series(std::shared_ptr<data::TimeSeries<double>> series)
 {
-    series_ = series;
+    QtCharts::QLineSeries* lineseries = new QtCharts::QLineSeries(_d->chartview);
+    _d->chartview->chart()->addSeries(lineseries);
+    lineseries->setUseOpenGL(true);
+    lineseries->attachAxis(_d->chartview->chart()->axes()[0]);
+    lineseries->attachAxis(_d->chartview->chart()->axes()[1]);
+    _d->series.emplace_back(lineseries, series);
 }
 
 void ChartWidget::set_length(unsigned length)
 {
-    length_ = length;
+    _d->length = length;
 }
 
 void ChartWidget::set_range(double min, double max)
 {
-    min_ = min;
-    max_ = max;
-    ((QtCharts::QValueAxis*)chartview_->chart()->axes(Qt::Vertical)[0])->setRange(min_, max_);
+    _d->min = min;
+    _d->max = max;
+    ((QtCharts::QValueAxis*)_d->chartview->chart()->axes(Qt::Vertical)[0])->setRange(_d->min, _d->max);
 }
 
 void ChartWidget::refresh()
 {
-    QVector<QPointF> points;
+    for (auto& series: _d->series) {
+        QVector<QPointF> points;
+        series.second->data<QVector, QPointF>(points);
 
-    series_->data<QVector, QPointF>(points);
+        if (points.size()) {
+            auto now = util::now<std::milli>();
+            series.first->replace(data);
+            _d->last_update = std::max(_d->last_update, now);
 
-    if (points.size()) {
-        auto now = util::time::now<std::milli>();
-        ((QtCharts::QLineSeries*)chartview_->chart()->series()[0])->replace(points);
-        ((QtCharts::QDateTimeAxis*)chartview_->chart()->axes(Qt::Horizontal)[0])->setRange(QDateTime::fromMSecsSinceEpoch(now - length_), QDateTime::fromMSecsSinceEpoch(now));
-
-#ifndef NDEBUG
-        if (now - points.back().x() > 10) {
-            QPen pen(QRgb(0xff0000));
-            pen.setWidth(2);
-            ((QtCharts::QLineSeries*)chartview_->chart()->series()[0])->setPen(pen);
-        } else {
-            QPen pen(QRgb(0x0000ff));
-            pen.setWidth(2);
-            ((QtCharts::QLineSeries*)chartview_->chart()->series()[0])->setPen(pen);
+            ((QtCharts::QDateTimeAxis*)_d->chartview->chart()->axes(Qt::Horizontal)[0])->setRange(QDateTime::fromMSecsSinceEpoch(_d->last_update - _d->length), QDateTime::fromMSecsSinceEpoch(_d->last_update));
         }
-#endif
-
-        last_update_ = now;
     }
 }
 

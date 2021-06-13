@@ -23,6 +23,9 @@ target_include_directories(cute.proto PUBLIC inc/ ${CMAKE_CURRENT_BINARY_DIR})
 target_compile_features(cute.proto PUBLIC cxx_std_20)
 target_link_libraries(cute.proto PUBLIC CONAN_PKG::protobuf)
 
+protobuf_generate_python(PROTO_PYTHON ${PROTO})
+add_custom_target(cute.proto.python DEPENDS ${PROTO_PYTHON})
+
 # Tests
 set(TESTS
     tests/main.cc

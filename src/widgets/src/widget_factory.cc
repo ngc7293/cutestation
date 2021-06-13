@@ -24,25 +24,26 @@ ChartWidget* WidgetFactory::build(const json& config, QWidget* parent)
     std::string name;
     unsigned length, refresh_rate;
     std::vector<int> range;
-
-    std::shared_ptr<data::TimeSeries<double>> series = data::SeriesFactory::build<data::TimeSeries<double>>(config);
-    if (!series) {
-        return widget;
-    }
+    std::vector<std::string> sources;
 
     if (!(util::json::validate("ChartWidget", config,
         util::json::required(name, "name"),
         util::json::required(length, "length"),
         util::json::required(range, "range"),
-        util::json::required(refresh_rate, "refresh_rate")
+        util::json::required(refresh_rate, "refresh_rate"),
+        util::json::required(sources, "sources")
     ) && range.size() == 2)) {
         return widget;
     }
 
     widget = new ChartWidget(parent, name);
-    widget->set_series(series);
     widget->set_range(std::min(range[0], range[1]), std::max(range[0], range[1]));
     widget->set_length(length);
+
+    for (auto source: sources) {
+        widget->add_series(std::make_shared<data::TimeSeries<double>>(source, length));
+    }
+
     widget->start(refresh_rate);
     return widget;
 }
