@@ -19,7 +19,7 @@ TimeSeries<T>::TimeSeries(const std::string& source, uint64_t length)
         accept(std::chrono::duration_cast<std::chrono::milliseconds>(t), v);
     })) {
         int status;
-        Log::err("TimeSeries") << "Could not subscribe to topic '" << source << "' with type " << abi::__cxa_demangle(typeid(T).name(), 0, 0, &status) << std::endl;
+        logging::err("TimeSeries") << "Could not subscribe to topic '" << source << "' with type " << abi::__cxa_demangle(typeid(T).name(), 0, 0, &status) << logging::endl;
     }
 
     length_ = length;

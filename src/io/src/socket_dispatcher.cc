@@ -31,7 +31,7 @@ SocketDispatcher::~SocketDispatcher()
 void SocketDispatcher::start()
 {
     if (_d->thread.joinable()) {
-        Log::warn("io::SocketDispatcher", "Could not start Dispatcher: thread is already running!");
+        logging::warn("io::SocketDispatcher") << "Could not start Dispatcher: thread is already running!" << logging::endl;
         return;
     }
 
