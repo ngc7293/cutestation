@@ -6,8 +6,6 @@
 #include <net/server.hh>
 #include <net/socket.hh>
 
-#include <log/log.hh>
-
 TEST(unix_server, listen_succeeds)
 {
     net::server server;

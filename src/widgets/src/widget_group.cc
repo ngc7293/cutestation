@@ -3,8 +3,6 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-#include <log/log.hh>
-
 namespace cute::widgets {
 
 WidgetGroup::WidgetGroup(QWidget* parent, const std::string& name)

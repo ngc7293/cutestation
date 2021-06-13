@@ -44,7 +44,7 @@ void Client::run()
                 break;
 
             default:
-                Log::warn("client/" + _d->name) << "Received empty message" << std::endl;
+                logging::warn("io::Client") << logging::tag{"client", _d->name} << "Received empty message" << logging::endl;
                 break;
             }
         }
@@ -94,7 +94,7 @@ void Client::onData(const proto::Data& data)
 void Client::onHandshake(const proto::Handshake& handshake)
 {
     _d->name = handshake.name();
-    Log::info("client/" + _d->name) << "Received handshake" << std::endl;
+    logging::info("io::Client") << logging::tag{"client", _d->name} << "Received handshake" << logging::endl;
 
     for (const proto::Handshake::Command& command : handshake.commands()) {
         std::string name = command.name();
@@ -103,7 +103,7 @@ void Client::onHandshake(const proto::Handshake& handshake)
             proto::Packet packet;
             proto::DelimitedPacketStream stream(packet);
 
-            Log::debug("client/" + _d->name) << "Sending command " << name << std::endl;
+            logging::debug("io::Client") << logging::tag{"client", _d->name} << "Sending command " << name << logging::endl;
             proto::makeData(*packet.mutable_data(), {{
                 name,
                 (uint64_t) std::chrono::duration_cast<std::chrono::milliseconds>(t).count(),
@@ -113,30 +113,30 @@ void Client::onHandshake(const proto::Handshake& handshake)
             *(_d->stream) << stream << std::flush;
         };
 
-        Log::debug("client/" + _d->name) << "Subscribed to " << command.name() << std::endl;
+        logging::debug("io::Client") << logging::tag{"client", _d->name} << "Subscribed to " << command.name() << logging::endl;
 
         switch (command.type()) {
         case proto::Handshake_Command_Type::Handshake_Command_Type_BOOL:
             if (!_d->subscriber.subscribe<bool>(name, subscribed_lambda)) {
-                Log::warn("client/" + _d->name) << "Unable to subscribe to " << command.name() << " with type bool" << std::endl;
+                logging::warn("io::Client") << logging::tag{"client", _d->name} << "Unable to subscribe to " << command.name() << logging::tag{"type", "bool"} << logging::endl;
             }
             break;
 
         case proto::Handshake_Command_Type::Handshake_Command_Type_INT:
             if (!_d->subscriber.subscribe<int>(name, subscribed_lambda)) {
-                Log::warn("client/" + _d->name) << "Unable to subscribe to " << command.name() << " with type int" << std::endl;
+                logging::warn("io::Client") << logging::tag{"client", _d->name} << "Unable to subscribe to " << command.name() << logging::tag{"type", "int"} << logging::endl;
             }
             break;
 
         case proto::Handshake_Command_Type::Handshake_Command_Type_FLOAT:
             if (!_d->subscriber.subscribe<double>(name, subscribed_lambda)) {
-                Log::warn("client/" + _d->name) << "Unable to subscribe to " << command.name() << " with type double" << std::endl;
+                logging::warn("io::Client") << logging::tag{"client", _d->name} << "Unable to subscribe to " << command.name() << logging::tag{"type", "double"} << logging::endl;
             }
             break;
 
         case proto::Handshake_Command_Type::Handshake_Command_Type_STRING:
             if (!_d->subscriber.subscribe<std::string>(name, subscribed_lambda)) {
-                Log::warn("client/" + _d->name) << "Unable to subscribe to " << command.name() << " with type string" << std::endl;
+                logging::warn("io::Client") << logging::tag{"client", _d->name} << "Unable to subscribe to " << command.name() << logging::tag{"type", "string"} << logging::endl;
             }
             break;
 
