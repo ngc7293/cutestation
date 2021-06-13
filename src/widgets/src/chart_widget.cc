@@ -86,6 +86,17 @@ void ChartWidget::refresh()
             ((QtCharts::QDateTimeAxis*)_d->chartview->chart()->axes(Qt::Horizontal)[0])->setRange(QDateTime::fromMSecsSinceEpoch(_d->last_update - _d->length), QDateTime::fromMSecsSinceEpoch(_d->last_update));
         }
     }
+//             QPen pen(QRgb(0xff0000));
+//             pen.setWidth(2);
+//             ((QtCharts::QLineSeries*)_d->chartview->chart()->series()[0])->setPen(pen);
+//         } else {
+//             QPen pen(QRgb(0x0000ff));
+//             pen.setWidth(2);
+//             ((QtCharts::QLineSeries*)_d->chartview->chart()->series()[0])->setPen(pen);
+//         }
+// #endif
+
+//         _d->last_update = now;
 }
 
 } // namespaces
