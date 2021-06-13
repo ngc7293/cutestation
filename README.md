@@ -1,6 +1,6 @@
 # CuteStation
 
-![C/C++ CI](https://github.com/ngc7293/cutestation/workflows/C/C++%20CI/badge.svg)
+[![C/C++ CI](https://github.com/ngc7293/cutestation/actions/workflows/build.yml/badge.svg)](https://github.com/ngc7293/cutestation/actions/workflows/build.yml)
 
 ## Contents
 
