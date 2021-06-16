@@ -15,6 +15,26 @@ enable_testing()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+function(target_os_compile_options)
+    cmake_parse_arguments(
+        OS_COMPILE_OPTIONS
+        ""
+        "TARGET"
+        "LINUX;WINDOWS;ALL"
+        ${ARGN}
+    )
+    
+    if (UNIX)
+        target_compile_options(${OS_COMPILE_OPTIONS_TARGET} PRIVATE ${OS_COMPILE_OPTIONS_LINUX})
+    endif()
+
+    if (MSVC)
+        target_compile_options(${OS_COMPILE_OPTIONS_TARGET} PRIVATE ${OS_COMPILE_OPTIONS_WINDOWS})
+    endif()
+
+    target_compile_options(${OS_COMPILE_OPTIONS_TARGET} PRIVATE ${OS_COMPILE_OPTIONS_ALL})
+endfunction()
+
 add_subdirectory(src)
 
 # if (UNIX)

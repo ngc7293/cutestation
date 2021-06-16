@@ -8,7 +8,7 @@ namespace {
         stream s;
         s.level = level;
         s.tags.emplace("component", component);
-        s.tags.emplace("time", std::chrono::high_resolution_clock::now());
+        s.tags.emplace("time", std::chrono::system_clock::now());
         return s;
     }
 }
