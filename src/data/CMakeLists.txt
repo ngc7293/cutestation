@@ -18,7 +18,7 @@ set(HEADERS
 add_library(cute.data STATIC ${SOURCES} ${HEADERS})
 set_property(TARGET cute.data PROPERTY CXX_STANDARD 20)
 target_include_directories(cute.data PUBLIC inc/ PRIVATE src/)
-target_compile_options(cute.data PUBLIC -fPIC PRIVATE -Wall -Wpedantic -Werror)
+target_os_compile_options(TARGET cute.data LINUX -Wall -Werror -Wpedantic -fPIC)
 target_link_libraries(cute.data PUBLIC cute.log cute.proto topic cute.util CONAN_PKG::nlohmann_json CONAN_PKG::qt)
 
 # Tests

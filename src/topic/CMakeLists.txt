@@ -25,7 +25,7 @@ add_library(topic STATIC ${SOURCES} ${HEADERS})
 
 target_compile_features(topic PUBLIC cxx_std_17)
 target_include_directories(topic PUBLIC inc PRIVATE src)
-target_compile_options(topic PRIVATE -Wall -Werror -Wpedantic)
+target_os_compile_options(TARGET topic LINUX -Wall -Werror -Wpedantic -fPIC)
 
 # Tests
 set(TESTS

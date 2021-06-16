@@ -21,6 +21,7 @@ set_property(SOURCE ${PROTO_SOURCES} PROPERTY SKIP_AUTOGEN ON)
 add_library(cute.proto STATIC ${HEADERS} ${SOURCES} ${PROTO_SOURCES} ${PROTO_HEADERS})
 target_compile_features(cute.proto PUBLIC cxx_std_20)
 target_include_directories(cute.proto PUBLIC inc/ ${CMAKE_CURRENT_BINARY_DIR})
+target_os_compile_options(TARGET cute.proto LINUX -Wall -Werror -Wpedantic)
 target_link_libraries(cute.proto PUBLIC CONAN_PKG::protobuf)
 
 # Tests

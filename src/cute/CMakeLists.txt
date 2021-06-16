@@ -26,5 +26,5 @@ SET(UI
 add_executable(cute ${SOURCES} ${HEADERS} ${QT_SOURCES} ${UI_SOURCES})
 set_property(TARGET cute PROPERTY CXX_STANDARD 20)
 target_include_directories(cute PRIVATE src/)
-target_compile_options(cute PUBLIC -fPIC PRIVATE -Wall -Wpedantic -Werror)
+target_os_compile_options(TARGET cute LINUX -Wall -Werror -Wpedantic -fPIC)
 target_link_libraries(cute PUBLIC cute.widgets cute.data cute.io cute.log cute.util CONAN_PKG::nlohmann_json CONAN_PKG::qt)

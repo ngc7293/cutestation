@@ -2,7 +2,9 @@
 
 #include <string>
 
+#ifdef __GNUC__
 #include <cxxabi.h>
+#endif
 
 #include <log/log.hh>
 #include <util/time.hh>
@@ -19,7 +21,13 @@ TimeSeries<T>::TimeSeries(const std::string& source, uint64_t length)
         accept(std::chrono::duration_cast<std::chrono::milliseconds>(t), v);
     })) {
         int status;
-        logging::err("TimeSeries") << "Could not subscribe to topic '" << source << "' with type " << abi::__cxa_demangle(typeid(T).name(), 0, 0, &status) << logging::endl;
+        logging::err("TimeSeries") << "Could not subscribe to topic '" << source << "' with type " << 
+#ifdef __GNUC__
+            abi::__cxa_demangle(typeid(T).name(), 0, 0, &status)
+#elif _MSC_VER
+            typeid(T).name()
+#endif
+        << logging::endl;
     }
 
     length_ = length;

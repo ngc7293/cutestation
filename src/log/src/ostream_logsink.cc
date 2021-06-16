@@ -78,7 +78,7 @@ void OstreamLogSink::log(const stream& s)
         _os << tag.first << "=";
         std::visit(overloaded {
             [this](auto arg) { _os << arg; },
-            [this](std::chrono::high_resolution_clock::time_point arg) {
+            [this](std::chrono::system_clock::time_point arg) {
                 std::time_t now = std::chrono::system_clock::to_time_t(arg);
                 _os << std::put_time(std::localtime(&now), LOG_TIME_FORMAT);
             }

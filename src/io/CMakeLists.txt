@@ -17,7 +17,7 @@ set(SOURCES
 add_library(cute.io STATIC ${SOURCES} ${HEADERS})
 set_property(TARGET cute.io PROPERTY CXX_STANDARD 20)
 target_include_directories(cute.io PUBLIC inc/ PRIVATE src/)
-target_compile_options(cute.io PRIVATE -Wall -Wpedantic -Werror )
+target_os_compile_options(TARGET cute.io LINUX -Wall -Werror -Wpedantic)
 target_link_libraries(cute.io PUBLIC cute.log cute.util topic cute.proto net)
 
 # Tests
