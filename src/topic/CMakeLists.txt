@@ -22,10 +22,8 @@ set(SOURCES
 
 # Target
 add_library(topic STATIC ${SOURCES} ${HEADERS})
-
-target_compile_features(topic PUBLIC cxx_std_17)
 target_include_directories(topic PUBLIC inc PRIVATE src)
-target_os_compile_options(TARGET topic LINUX -Wall -Werror -Wpedantic -fPIC)
+target_standard_compile_flags(topic)
 
 # Tests
 set(TESTS
@@ -34,5 +32,6 @@ set(TESTS
 )
 
 add_executable(topic.test ${TESTS})
+target_standard_compile_flags(topic.test)
 target_link_libraries(topic.test PUBLIC topic CONAN_PKG::gtest)
 gtest_discover_tests(topic.test)

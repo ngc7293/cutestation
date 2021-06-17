@@ -193,18 +193,17 @@ TEST(TopicManager, topics_can_be_replaced_if_no_subscribers)
 {
     topic::Subscriber sub;
     topic::Publisher pub;
-    bool ret;
     int count = 0;
 
-    ret = sub.subscribe<bool>("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers", [](const auto& t, const auto& v) {
+    EXPECT_TRUE(sub.subscribe<bool>("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers", [](const auto& t, const auto& v) {
         EXPECT_TRUE(false);
-    });
+    }));
 
-    ret = sub.unsubscribe("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers");
+    EXPECT_TRUE(sub.unsubscribe("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers"));
 
-    ret = sub.subscribe<int>("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers", [&count](const auto& t, const auto& v) {
+    EXPECT_TRUE(sub.subscribe<int>("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers", [&count](const auto& t, const auto& v) {
         count++;
-    });
+    }));
 
     pub.publish<int>("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers", 1);
     EXPECT_EQ(count, 1);

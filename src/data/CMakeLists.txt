@@ -16,9 +16,8 @@ set(HEADERS
 )
 
 add_library(cute.data STATIC ${SOURCES} ${HEADERS})
-set_property(TARGET cute.data PROPERTY CXX_STANDARD 20)
 target_include_directories(cute.data PUBLIC inc/ PRIVATE src/)
-target_os_compile_options(TARGET cute.data LINUX -Wall -Werror -Wpedantic -fPIC)
+target_standard_compile_flags(cute)
 target_link_libraries(cute.data PUBLIC cute.log cute.proto topic cute.util CONAN_PKG::nlohmann_json CONAN_PKG::qt)
 
 # Tests
@@ -28,5 +27,6 @@ set(TESTS
 )
 
 add_executable(cute.data.test ${TESTS})
+target_standard_compile_flags(cute.data.test)
 target_link_libraries(cute.data.test PUBLIC cute.data topic CONAN_PKG::gtest)
 gtest_discover_tests(cute.data.test)
