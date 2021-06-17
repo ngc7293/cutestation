@@ -14,9 +14,8 @@ set(HEADERS
 )
 
 add_library(net STATIC ${SOURCES} ${HEADERS})
-set_property(TARGET net PROPERTY CXX_STANDARD 20)
 target_include_directories(net PUBLIC inc/ PRIVATE src/)
-target_os_compile_options(TARGET net LINUX -Wall -Werror -Wpedantic)
+target_standard_compile_flags(net)
 target_link_libraries(net PUBLIC cute.log)
 
 # Tests
@@ -28,5 +27,6 @@ set(TESTS
 )
 
 add_executable(net.test ${TESTS})
+target_standard_compile_flags(net.test)
 target_link_libraries(net.test PUBLIC net CONAN_PKG::gtest)
 gtest_discover_tests(net.test)

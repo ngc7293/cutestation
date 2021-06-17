@@ -9,6 +9,7 @@ conan_basic_setup(TARGETS)
 include(conan_qt_executables_variables)
 include(Qt5CoreMacros)
 include(Qt5WidgetsMacros)
+target_compile_options(CONAN_PKG::qt INTERFACE -fPIC)
 
 find_package(GTest)
 enable_testing()
@@ -33,6 +34,15 @@ function(target_os_compile_options)
     endif()
 
     target_compile_options(${OS_COMPILE_OPTIONS_TARGET} PRIVATE ${OS_COMPILE_OPTIONS_ALL})
+endfunction()
+
+function(target_standard_compile_flags TARGET)
+    target_os_compile_options(
+        TARGET ${TARGET}
+        LINUX -Wall -Werror -Wpedantic
+        WINDOWS /W4 /WX
+    )
+    target_compile_features(${TARGET} PUBLIC cxx_std_20)
 endfunction()
 
 add_subdirectory(src)
