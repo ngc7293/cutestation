@@ -35,4 +35,4 @@ jobs:
         
       - name: Test
         working-directory: build
-        run: ctest
+        run: ctest --rerun-failed --output-on-failure
