@@ -9,7 +9,10 @@ conan_basic_setup(TARGETS)
 include(conan_qt_executables_variables)
 include(Qt5CoreMacros)
 include(Qt5WidgetsMacros)
-target_compile_options(CONAN_PKG::qt INTERFACE -fPIC)
+
+if (UNIX)
+    target_compile_options(CONAN_PKG::qt INTERFACE -fPIC)
+endif()
 
 find_package(GTest)
 enable_testing()
@@ -39,15 +42,24 @@ endfunction()
 function(target_standard_compile_flags TARGET)
     target_os_compile_options(
         TARGET ${TARGET}
-        LINUX -Wall -Werror -Wpedantic
-        WINDOWS /W4 /WX
+        LINUX -Wall -Werror -Wpedantic -Wno-unknown-pragmas
+        WINDOWS /W4 /WX /wd4068
     )
+
+    if (${CMAKE_BUILD_TYPE} STREQUAL Debug)
+        if (UNIX)
+            target_compile_options(${TARGET} PRIVATE --coverage)
+            target_link_options(${TARGET} PRIVATE --coverage)
+            target_link_libraries(${TARGET} PUBLIC gcov)
+        endif()
+    endif()
+
     target_compile_features(${TARGET} PUBLIC cxx_std_20)
 endfunction()
 
 add_subdirectory(src)
 
-# if (UNIX)
-#     add_custom_target(clean_gcda ALL COMMAND find -name "*.gcda" -delete COMMENT "Cleaning GCDA files")
-#     add_custom_target(coverage COMMAND r -r ../src ./ -e ".*gtest.*" -e ".*/tests/.*" --html-details -o coverage.html)
-# endif()
+if (UNIX)
+    add_custom_target(clean_gcda ALL COMMAND find -name "*.gcda" -delete COMMENT "Cleaning GCDA files")
+    add_custom_target(coverage COMMAND gcovr -r ../src ./ -e ".*gtest.*" -e ".*/tests/.*" --html-details -o coverage.html)
+endif()
