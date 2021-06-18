@@ -46,11 +46,11 @@ void SocketDispatcher::start()
 
         switch (_d->type) {
         case net::unix:
-            assert(_d->server.listen<net::unix>(_d->host));
+            _d->server.listen<net::unix>(_d->host);
             break;
         
         case net::tcp:
-            assert(_d->server.listen<net::tcp>(_d->host, _d->port));
+            _d->server.listen<net::tcp>(_d->host, _d->port);
             break;
         }
     });

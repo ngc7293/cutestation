@@ -40,13 +40,16 @@ template<socket_type type>
 bool server::listen(const std::string& address, uint16_t port)
 {
     if (_d->fd != -1) {
+        logging::debug("net::server") << logging::tag{"file", std::string(__FILE__)} << logging::tag{"line", (int) __LINE__} << logging::endl;
         close();
     }
 
     switch (type) {
         case tcp:
+            logging::debug("net::server") << logging::tag{"file", std::string(__FILE__)} << logging::tag{"line", (int) __LINE__} << logging::endl;
             return listen_tcp(address, port);
         case unix:
+            logging::debug("net::server") << logging::tag{"file", std::string(__FILE__)} << logging::tag{"line", (int) __LINE__} << logging::endl;
             return listen_unix(address);
     }
 }
@@ -61,21 +64,25 @@ bool server::listen_tcp(const std::string& address, uint16_t port)
     socklen_t len = sizeof(addr);
 
     if ((sockfd = ::socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+        logging::err("net::server") << strerror(errno) << logging::tag{"errno", (int) errno} << logging::endl;
         return false;
     }
     _d->fd = sockfd;
 
     addr.sin_family = AF_INET;
     if (inet_aton(address.c_str(), &addr.sin_addr) < 0) {
+        logging::err("net::server") << strerror(errno) << logging::tag{"errno", (int) errno} << logging::endl;
         return false;
     }
     addr.sin_port = htons(port);
 
     if (bind(sockfd, (struct sockaddr*)&addr, len) < 0) {;
+        logging::err("net::server") << strerror(errno) << logging::tag{"errno", (int) errno} << logging::endl;
         return false;
     }
 
     if (::listen(sockfd, 5) < 0) {
+        logging::err("net::server") << strerror(errno) << logging::tag{"errno", (int) errno} << logging::endl;
         return false;
     }
 
@@ -96,6 +103,7 @@ bool server::listen_unix(const std::string& path)
     socklen_t len = sizeof(addr);
 
     if ((sockfd = ::socket(AF_UNIX, SOCK_STREAM, 0)) < 0) {
+        logging::err("net::server") << strerror(errno) << logging::tag{"errno", (int) errno} << logging::endl;
         return false;
     }
     _d->fd = sockfd;
@@ -109,11 +117,13 @@ bool server::listen_unix(const std::string& path)
     }
 
     if (bind(sockfd, (struct sockaddr*)&addr, len) < 0) {
+        logging::err("net::server") << strerror(errno) << logging::tag{"errno", (int) errno} << logging::endl;
         return false;
     }
     _d->path = path;
 
     if (::listen(sockfd, 5) < 0) {
+        logging::err("net::server") << strerror(errno) << logging::tag{"errno", (int) errno} << logging::endl;
         return false;
     }
 

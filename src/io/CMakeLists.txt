@@ -29,5 +29,5 @@ set(TESTS
 
 add_executable(cute.io.test ${TESTS})
 target_standard_compile_flags(cute.io.test)
-target_link_libraries(cute.io.test PUBLIC cute.io CONAN_PKG::gtest)
+target_link_libraries(cute.io.test PUBLIC cute.io cute.log CONAN_PKG::protobuf CONAN_PKG::gtest)
 gtest_discover_tests(cute.io.test)
