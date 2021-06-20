@@ -65,8 +65,8 @@ TEST(SocketDispatcher, creates_a_valid_client)
     net::socket socket;
 
     cute::proto::makeData(*packet.mutable_data(), {{"cute.io.test.topic", 1, true}});
-    subscriber.subscribe<bool>("cute.io.test.topic", [&count](const auto& t, const bool& v) {
-        count = std::chrono::duration_cast<std::chrono::milliseconds>(t).count();
+    subscriber.subscribe<bool>("cute.io.test.topic", [&count](const auto& t, const bool& /*v*/) {
+        count = static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(t).count());
     });
 
     dispatcher.set_socket_path("/tmp/cute.io.test.socket_dispatcher");

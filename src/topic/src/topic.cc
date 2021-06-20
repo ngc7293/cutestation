@@ -43,7 +43,7 @@ const std::type_info& Topic::type() const
     return d_->type;
 }
 
-unsigned int Topic::subscribers() const
+std::size_t Topic::subscribers() const
 {
     return d_->subscribers.size();
 }

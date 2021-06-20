@@ -1,5 +1,7 @@
 #include "log/log.hh"
 
+#include <util/time.hh>
+
 namespace logging {
 
 namespace {
@@ -35,7 +37,7 @@ stream warn(const std::string& component)
 
 stream err(const std::string& component)
 {
-    return create_log_stream(ERROR, component);
+    return create_log_stream(ERR, component);
 }
 
 Log::Log()

@@ -15,7 +15,7 @@ template <typename T>
 TimeSeries<T>::TimeSeries(const std::string& source, uint64_t length)
     : Series()
 {
-    now_ = util::now<std::milli>;
+    now_ = util::time::now<std::milli>;
 
     if (!subscriber_.subscribe<T>(source, [this](const topic::time& t, const T& v) {
         accept(std::chrono::duration_cast<std::chrono::milliseconds>(t), v);

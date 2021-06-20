@@ -34,7 +34,9 @@ public:
 
 private:
     bool listen_tcp(const std::string& address, uint16_t port);
+#if (not defined _MSC_VER)
     bool listen_unix(const std::string& path);
+#endif
 
 private:
     struct priv;

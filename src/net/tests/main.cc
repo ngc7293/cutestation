@@ -4,11 +4,22 @@
 
 #include <log/log.hh>
 #include <log/ostream_logsink.hh>
+#include <net/net.hh>
 
 int main(int argc, const char* argv[])
 {
-    logging::OstreamLogSink cerr(std::cerr);
-    logging::Log::get().addSink(&cerr);
+    int rc;
+
+    logging::OstreamLogSink cout(std::cout);
+    logging::Log::get().addSink(&cout);
+
+    if (!net::init()) {
+        return -1;
+    }
+
     testing::InitGoogleTest(&argc, (char**)argv);
-    return RUN_ALL_TESTS();
+    rc = RUN_ALL_TESTS();
+
+    net::cleanup();
+    return rc;
 }

@@ -14,6 +14,10 @@ if (UNIX)
     target_compile_options(CONAN_PKG::qt INTERFACE -fPIC)
 endif()
 
+if (WIN32)
+    target_compile_options(CONAN_PKG::qt INTERFACE /wd5054)
+endif()
+
 find_package(GTest)
 enable_testing()
 
@@ -46,7 +50,7 @@ function(target_standard_compile_flags TARGET)
         WINDOWS /W4 /WX /wd4068
     )
 
-    if (${CMAKE_BUILD_TYPE} STREQUAL Debug)
+    if (${CMAKE_BUILD_TYPE} MATCHES Debug)
         if (UNIX)
             target_compile_options(${TARGET} PRIVATE --coverage)
             target_link_options(${TARGET} PRIVATE --coverage)

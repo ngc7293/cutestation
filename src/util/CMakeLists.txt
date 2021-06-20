@@ -4,11 +4,13 @@ set(HEADERS
     inc/util/json.hh
     inc/util/time.hh
     inc/util/switch.hh
+    inc/util/thread.hh
 )
 
 set(SOURCES
     src/json.cc
     src/switch.cc
+    src/thread.cc
 )
 
 add_library(cute.util STATIC ${SOURCES} ${HEADERS})

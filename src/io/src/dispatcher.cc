@@ -2,6 +2,8 @@
 
 #include <thread>
 
+#include <util/thread.hh>
+
 #include "io/client.hh"
 
 namespace cute::io {
@@ -12,7 +14,7 @@ struct ClientThread {
 
     ClientThread(std::shared_ptr<Client> client)
         : thread([client]() { 
-            pthread_setname_np(pthread_self(), "client");
+            util::thread::rename_this_thread("client");
             client->run();
         })
         , client(client)

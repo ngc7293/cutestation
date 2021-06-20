@@ -1,8 +1,9 @@
 {
     "io" : [
         {
-            "type": "unix",
-            "path": "/tmp/cute"
+            "type": "tcp",
+            "host": "0.0.0.0",
+            "port": 42857
         }
     ],
     "windows": [
