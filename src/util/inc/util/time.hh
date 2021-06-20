@@ -18,7 +18,7 @@ namespace util::time {
 template <class Unit>
 std::uint64_t now()
 {
-    return std::chrono::duration_cast<std::chrono::duration<std::uint64_t, Unit>>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+    return std::chrono::duration_cast<std::chrono::duration<std::uint64_t, Unit>>(std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
 template <class Clock>
