@@ -27,13 +27,11 @@ std::string to_string(std::chrono::time_point<Clock> tp, const std::string& form
     char buf[64] = { 0 };
     struct tm tm_buffer;
 
-    assert(now != 0);
-
-#ifdef _MSC_VER
+#if (defined _MSC_VER)
     std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::clock_cast<std::chrono::system_clock>(tp));
     localtime_s(&tm_buffer, &now);
-#elif __GNUC__
-    std::time_t now = std::chrono::system_clock::to_time_t(std::system_clock::now() + (tp - Clock::now()))
+#else
+    std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now() + (tp - Clock::now()))
     localtime_r(&now, &tm_buffer);
 #endif
 
