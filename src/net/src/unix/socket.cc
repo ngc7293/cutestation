@@ -111,10 +111,6 @@ void socket::close()
         ::shutdown(_d->fd, SHUT_RDWR);
         _d->buf->close();
         setstate(std::ios::eofbit);
-
-        delete _d->buf;
-        _d->buf = nullptr;
-        rdbuf(nullptr);
     }
 }
 
