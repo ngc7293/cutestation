@@ -11,7 +11,7 @@
 namespace logging {
 
 using timepoint = std::chrono::system_clock::time_point;
-using tag_value = std::variant<std::int64_t, double, timepoint, std::string>;
+using tag_value = std::variant<std::int32_t, std::uint32_t, std::int64_t, std::uint64_t, double, timepoint, std::string>;
 
 enum level {
     DEBUG = -1,
