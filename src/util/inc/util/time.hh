@@ -25,14 +25,15 @@ template <class Clock>
 std::string to_string(std::chrono::time_point<Clock> tp, const std::string& format)
 {
     char buf[64] = { 0 };
-    std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::clock_cast<std::chrono::system_clock>(tp));
     struct tm tm_buffer;
 
     assert(now != 0);
 
 #ifdef _MSC_VER
+    std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::clock_cast<std::chrono::system_clock>(tp));
     localtime_s(&tm_buffer, &now);
 #elif __GNUC__
+    std::time_t now = std::chrono::system_clock::to_time_t(std::system_clock::now() + (tp - Clock::now()))
     localtime_r(&now, &tm_buffer);
 #endif
 
