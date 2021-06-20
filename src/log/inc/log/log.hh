@@ -17,7 +17,7 @@ enum level {
     DEBUG = -1,
     INFO = 0,
     WARNING = 1,
-    ERROR = 2,
+    ERR = 2,
     MAX = 99
 };
 

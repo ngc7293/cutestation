@@ -14,10 +14,10 @@ namespace cute::ui {
 class WindowFactory {
 public:
     template<class T>
-    static std::shared_ptr<T> build(const json& j, QObject* parent = nullptr);
+    static std::shared_ptr<T> build(const json& j, QWidget* parent = nullptr);
 
     template<class T>
-    static std::vector<std::shared_ptr<T>> buildAll(const json& j, QObject* parent = nullptr);
+    static std::vector<std::shared_ptr<T>> buildAll(const json& j, QWidget* parent = nullptr);
 };
 
 }

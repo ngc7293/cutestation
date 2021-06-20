@@ -13,4 +13,4 @@ set(HEADERS
 add_library(cute.log STATIC ${SOURCES} ${HEADERS})
 target_include_directories(cute.log PUBLIC inc/ PRIVATE src/)
 target_standard_compile_flags(cute.log)
-target_os_compile_options(TARGET cute.log LINUX -Wall -Werror -Wpedantic)
+target_link_libraries(cute.log PUBLIC cute.util)

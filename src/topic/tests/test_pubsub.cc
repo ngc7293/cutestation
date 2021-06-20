@@ -11,7 +11,7 @@ TEST(Publisher, publishes_works)
     int count = 0;
     bool ret;
 
-    ret = sub.subscribe<double>("topic.test.publisher.publishes_works", [&count](const auto& t, const auto& v) {
+    ret = sub.subscribe<double>("topic.test.publisher.publishes_works", [&count](const auto& /*t*/, const auto& /*v*/) {
         count++;
     });
     EXPECT_TRUE(ret);
@@ -46,7 +46,7 @@ TEST(Publisher, publishes_works_on_user_defined_objects)
         int bar() const { return foo; }
     };
 
-    EXPECT_TRUE(sub.subscribe<Object>("topic.test.publisher.publishes_works_on_user_defined_objects", [&value](auto& t, auto& v) {
+    EXPECT_TRUE(sub.subscribe<Object>("topic.test.publisher.publishes_works_on_user_defined_objects", [&value](auto& /*t*/, auto& v) {
         value = v.bar();
     }));
 
@@ -62,7 +62,7 @@ TEST(Publisher, publishes_fails_on_type_mismatch)
     int count = 0;
     bool ret;
 
-    ret = sub.subscribe<double>("topic.test.publisher.publishes_fails_on_type_mismatch", [&count](const auto& t, const auto& v) {
+    ret = sub.subscribe<double>("topic.test.publisher.publishes_fails_on_type_mismatch", [&count](const auto& /*t*/, const auto& /*v*/) {
         count++;
     });
     EXPECT_TRUE(ret);
@@ -80,7 +80,7 @@ TEST(Subscriber, unsubscribes_works)
     int count = 0;
     bool ret;
 
-    ret = sub.subscribe<double>("topic.test.subscriber.unsubscribe_works", [&count](const auto& t, const auto& v) {
+    ret = sub.subscribe<double>("topic.test.subscriber.unsubscribe_works", [&count](const auto& /*t*/, const auto& /*v*/) {
         count++;
     });
     EXPECT_TRUE(ret);
@@ -101,12 +101,12 @@ TEST(Subscriber, second_subscribe_fails)
     int count = 0;
     bool ret;
 
-    ret = sub.subscribe<double>("topic.test.subscriber.unsubscribe_works", [&count](const auto& t, const auto& v) {
+    ret = sub.subscribe<double>("topic.test.subscriber.unsubscribe_works", [&count](const auto& /*t*/, const auto& /*v*/) {
         count++;
     });
     EXPECT_TRUE(ret);
 
-    ret = sub.subscribe<double>("topic.test.subscriber.unsubscribe_works", [&count](const auto& t, const auto& v) {
+    ret = sub.subscribe<double>("topic.test.subscriber.unsubscribe_works", [&count](const auto& /*t*/, const auto& /*v*/) {
         count--;
     });
     EXPECT_FALSE(ret);
@@ -124,7 +124,7 @@ TEST(Subscriber, subscribe_unsubscribe_subscribe)
     int count = 0;
     bool ret;
 
-    ret = sub.subscribe<double>("topic.test.subscriber.subscribe_unsubscribe_subscribe", [&count](const auto& t, const auto& v) {
+    ret = sub.subscribe<double>("topic.test.subscriber.subscribe_unsubscribe_subscribe", [&count](const auto& /*t*/, const auto& /*v*/) {
         count++;
     });
     EXPECT_TRUE(ret);
@@ -132,7 +132,7 @@ TEST(Subscriber, subscribe_unsubscribe_subscribe)
     ret = sub.unsubscribe("topic.test.subscriber.subscribe_unsubscribe_subscribe");
     EXPECT_TRUE(ret);
 
-    ret = sub.subscribe<double>("topic.test.subscriber.subscribe_unsubscribe_subscribe", [&count](const auto& t, const auto& v) {
+    ret = sub.subscribe<double>("topic.test.subscriber.subscribe_unsubscribe_subscribe", [&count](const auto& /*t*/, const auto& /*v*/) {
         count--;
     });
     EXPECT_TRUE(ret);
@@ -149,7 +149,7 @@ TEST(Subscriber, subscriber_unsubscribes_on_delete)
     topic::Publisher pub;
     bool ret;
 
-    ret = sub->subscribe<double>("topic.test.subscriber.subscriber_unsubscribes_on_delete", [](const auto& t, const auto& v) {
+    ret = sub->subscribe<double>("topic.test.subscriber.subscriber_unsubscribes_on_delete", [](const auto& /*t*/, const auto& /*v*/) {
         EXPECT_TRUE(false);
     });
     EXPECT_TRUE(ret);
@@ -176,11 +176,11 @@ TEST(Subscriber, cannot_subscribe_on_type_mistmatch)
     bool ret;
     int count = 0;
 
-    ret = sub.subscribe<bool>("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers", [&count](const auto& t, const auto& v) {
+    ret = sub.subscribe<bool>("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers", [&count](const auto& /*t*/, const auto& /*v*/) {
         count++;
     });
 
-    ret = sub.subscribe<int>("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers", [](const auto& t, const auto& v) {
+    ret = sub.subscribe<int>("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers", [](const auto& /*t*/, const auto& /*v*/) {
         EXPECT_TRUE(false);
     });
     EXPECT_FALSE(ret);
@@ -195,13 +195,13 @@ TEST(TopicManager, topics_can_be_replaced_if_no_subscribers)
     topic::Publisher pub;
     int count = 0;
 
-    EXPECT_TRUE(sub.subscribe<bool>("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers", [](const auto& t, const auto& v) {
+    EXPECT_TRUE(sub.subscribe<bool>("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers", [](const auto& /*t*/, const auto& /*v*/) {
         EXPECT_TRUE(false);
     }));
 
     EXPECT_TRUE(sub.unsubscribe("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers"));
 
-    EXPECT_TRUE(sub.subscribe<int>("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers", [&count](const auto& t, const auto& v) {
+    EXPECT_TRUE(sub.subscribe<int>("topic.test.topic_manager.topics_can_be_replaced_if_no_subscribers", [&count](const auto& /*t*/, const auto& /*v*/) {
         count++;
     }));
 

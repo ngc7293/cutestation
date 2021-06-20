@@ -15,3 +15,7 @@ qt:with_odbc=False
 [generators]
 cmake
 cmake_paths
+
+[imports]
+bin, *.dll -> ./bin
+bin/archdatadir/plugins, *.dll -> ./bin

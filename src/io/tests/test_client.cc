@@ -73,10 +73,10 @@ TEST(Client, handles_receiving_multiple_types)
     std::shared_ptr<net::closeable> ios = std::make_shared<net::stringstream>();
     cute::io::Client client(ios);
 
-    subscriber.subscribe<bool>("cute.io.test.bool", [&b](const auto& t, const auto& v) { b = v; });
-    subscriber.subscribe<int>("cute.io.test.int", [&i](const auto& t, const auto& v) { i = v; });
-    subscriber.subscribe<double>("cute.io.test.float", [&f](const auto& t, const auto& v) { f = v; });
-    subscriber.subscribe<std::string>("cute.io.test.string", [&s](const auto& t, const auto& v) { s = v; });
+    subscriber.subscribe<bool>("cute.io.test.bool", [&b](const auto& /*t*/, const auto& v) { b = v; });
+    subscriber.subscribe<int>("cute.io.test.int", [&i](const auto& /*t*/, const auto& v) { i = v; });
+    subscriber.subscribe<double>("cute.io.test.float", [&f](const auto& /*t*/, const auto& v) { f = v; });
+    subscriber.subscribe<std::string>("cute.io.test.string", [&s](const auto& /*t*/, const auto& v) { s = v; });
 
     cute::proto::makeData(*packet.mutable_data(), {
         {"cute.io.test.bool", 1, true},
@@ -141,7 +141,7 @@ TEST(Client, is_type_safe)
     std::shared_ptr<net::closeable> ios = std::make_shared<net::stringstream>();
     cute::io::Client client(ios);
 
-    subscriber.subscribe<bool>("cute.io.test.bool", [&count](const auto& t, const auto& v) {
+    subscriber.subscribe<bool>("cute.io.test.bool", [&count](const auto& /*t*/, const auto& v) {
         EXPECT_TRUE(v);
         count++;
     });

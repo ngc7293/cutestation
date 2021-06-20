@@ -119,8 +119,8 @@ void WidgetFactory::buildAll(const json& configs, WidgetGrid* layout, QWidget* p
     for (const json& el : configs) {
         widgets::Widget* widget = widgets::WidgetFactory::build<widgets::Widget>(el, parent);
 
-        unsigned x, y, xspan, yspan;
-        int width, height;
+        unsigned x = 0, y = 0, xspan = 1, yspan = 1;
+        int width = -1, height= -1;
 
         if (widget && util::json::validate("Widget", el,
             util::json::required {x, "x"},

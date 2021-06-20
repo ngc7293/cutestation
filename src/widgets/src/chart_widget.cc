@@ -67,17 +67,17 @@ void ChartWidget::set_range(double min, double max)
 
 void ChartWidget::refresh()
 {
-    QVector<QPointF> data;
+    QVector<QPointF> points;
 
-    series_->data<QVector, QPointF>(data);
+    series_->data<QVector, QPointF>(points);
 
-    if (data.size()) {
-        auto now = util::now<std::milli>();
-        ((QtCharts::QLineSeries*)chartview_->chart()->series()[0])->replace(data);
+    if (points.size()) {
+        auto now = util::time::now<std::milli>();
+        ((QtCharts::QLineSeries*)chartview_->chart()->series()[0])->replace(points);
         ((QtCharts::QDateTimeAxis*)chartview_->chart()->axes(Qt::Horizontal)[0])->setRange(QDateTime::fromMSecsSinceEpoch(now - length_), QDateTime::fromMSecsSinceEpoch(now));
 
 #ifndef NDEBUG
-        if (now - data.back().x() > 10) {
+        if (now - points.back().x() > 10) {
             QPen pen(QRgb(0xff0000));
             pen.setWidth(2);
             ((QtCharts::QLineSeries*)chartview_->chart()->series()[0])->setPen(pen);
