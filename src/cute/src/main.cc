@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include <QApplication>
-#include <QStyleFActory>
+#include <QStyleFactory>
 
 #include <log/log.hh>
 #include <log/ostream_logsink.hh>
