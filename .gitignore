@@ -8,6 +8,8 @@ ui_app.h
 
 # IDE
 .vscode/
+.vs/
+CMakeSettings.json
 
 # Python
 venv

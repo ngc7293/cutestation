@@ -10,14 +10,14 @@
 
 namespace logging {
 
-using timepoint = std::chrono::high_resolution_clock::time_point;
-using tag_value = std::variant<int, double, timepoint, std::string>;
+using timepoint = std::chrono::system_clock::time_point;
+using tag_value = std::variant<std::int32_t, std::uint32_t, std::int64_t, std::uint64_t, double, timepoint, std::string>;
 
 enum level {
     DEBUG = -1,
     INFO = 0,
     WARNING = 1,
-    ERROR = 2,
+    ERR = 2,
     MAX = 99
 };
 

@@ -17,7 +17,7 @@ private:
     widgets::WidgetGrid* grid_;
 
 public:
-    explicit Window(QObject* parent = nullptr);
+    explicit Window(QWidget* parent = nullptr);
     ~Window() override;
 
     widgets::WidgetGrid* grid();

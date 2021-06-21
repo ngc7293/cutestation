@@ -20,6 +20,14 @@
 
 namespace net {
 
+namespace {
+    bool report_and_die(int error)
+    {
+        logging::err("net::server") << strerror(error) << logging::tag{"errno", error} << logging::endl;
+        return false;
+    }
+}
+
 struct server::priv {
     int fd = -1;
     std::function<void(net::socket*)> callback = [](net::socket* s) { delete s; };
@@ -61,22 +69,22 @@ bool server::listen_tcp(const std::string& address, uint16_t port)
     socklen_t len = sizeof(addr);
 
     if ((sockfd = ::socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-        return false;
+        return report_and_die(errno);
     }
     _d->fd = sockfd;
 
     addr.sin_family = AF_INET;
     if (inet_aton(address.c_str(), &addr.sin_addr) < 0) {
-        return false;
+        return report_and_die(errno);
     }
     addr.sin_port = htons(port);
 
     if (bind(sockfd, (struct sockaddr*)&addr, len) < 0) {;
-        return false;
+        return report_and_die(errno);
     }
 
     if (::listen(sockfd, 5) < 0) {
-        return false;
+        return report_and_die(errno);
     }
 
     logging::info("net::server") << logging::tag{"addr", address} << "Listening" << logging::endl;
@@ -96,7 +104,7 @@ bool server::listen_unix(const std::string& path)
     socklen_t len = sizeof(addr);
 
     if ((sockfd = ::socket(AF_UNIX, SOCK_STREAM, 0)) < 0) {
-        return false;
+        return report_and_die(errno);
     }
     _d->fd = sockfd;
 
@@ -109,12 +117,12 @@ bool server::listen_unix(const std::string& path)
     }
 
     if (bind(sockfd, (struct sockaddr*)&addr, len) < 0) {
-        return false;
+        return report_and_die(errno);
     }
     _d->path = path;
 
     if (::listen(sockfd, 5) < 0) {
-        return false;
+        return report_and_die(errno);
     }
 
     logging::info("net::server") << logging::tag{"path", path} << "Listening" << logging::endl;

@@ -5,8 +5,9 @@
 #include <io/socket_dispatcher.hh>
 #include <net/socket.hh>
 #include <topic/subscriber.hh>
+#include <util/test.hh>
 
-TEST(SocketDispatcher, creates_a_valid_unix_socket)
+TEST_UNIX(SocketDispatcher, creates_a_valid_unix_socket)
 {
     cute::io::SocketDispatcher dispatcher;
 
@@ -21,7 +22,7 @@ TEST(SocketDispatcher, creates_a_valid_unix_socket)
     dispatcher.close();
 }
 
-TEST(SocketDispatcher, DISABLED_creates_a_valid_tcp_socket)
+TEST_WINDOWS(SocketDispatcher, creates_a_valid_tcp_socket)
 {
     cute::io::SocketDispatcher dispatcher;
 
@@ -36,7 +37,7 @@ TEST(SocketDispatcher, DISABLED_creates_a_valid_tcp_socket)
     dispatcher.close();
 }
 
-TEST(SocketDispatcher, wont_start_if_already_running)
+TEST_UNIX(SocketDispatcher, wont_start_if_already_running)
 {
     cute::io::SocketDispatcher dispatcher;
     net::socket socket;
@@ -53,7 +54,7 @@ TEST(SocketDispatcher, wont_start_if_already_running)
     dispatcher.close();
 }
 
-TEST(SocketDispatcher, creates_a_valid_client)
+TEST_UNIX(SocketDispatcher, creates_a_valid_client)
 {
     int count = 0;
     topic::Subscriber subscriber;
@@ -65,12 +66,13 @@ TEST(SocketDispatcher, creates_a_valid_client)
     net::socket socket;
 
     cute::proto::makeData(*packet.mutable_data(), {{"cute.io.test.topic", 1, true}});
-    subscriber.subscribe<bool>("cute.io.test.topic", [&count](const auto& t, const bool& v) {
-        count = std::chrono::duration_cast<std::chrono::milliseconds>(t).count();
+    subscriber.subscribe<bool>("cute.io.test.topic", [&count](const auto& t, const bool& /*v*/) {
+        count = static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(t).count());
     });
 
     dispatcher.set_socket_path("/tmp/cute.io.test.socket_dispatcher");
     dispatcher.start();
+
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
     EXPECT_TRUE(socket.connect<net::unix>("/tmp/cute.io.test.socket_dispatcher"));

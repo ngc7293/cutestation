@@ -8,26 +8,28 @@
 #include <sys/types.h>
 #include <sys/un.h>
 
-#include "fdbuf.hh"
+#include "sockbuf.hh"
 
 namespace net {
 
 struct socket::priv {
     int fd = -1;
-    fdbuf* buf = nullptr;
+    sockbuf* buf = nullptr;
     socket_type type;
 };
 
 socket::socket()
-    : _d(new priv)
+    : closeable(nullptr)
+    , _d(new priv)
 {
 }
 
 socket::socket(int fd, socket_type type)
-    : _d(new priv)
+    : closeable(nullptr)
+    , _d(new priv)
 {
     _d->fd = fd;
-    _d->buf = new fdbuf(fd);
+    _d->buf = new sockbuf(fd);
     _d->type = type;
     rdbuf(_d->buf);
 }
@@ -56,7 +58,7 @@ bool socket::connect(const std::string& host, uint16_t port)
     }
 
     _d->type = type;
-    _d->buf = new fdbuf(_d->fd);
+    _d->buf = new sockbuf(_d->fd);
     rdbuf(_d->buf);
 
     switch(type) {

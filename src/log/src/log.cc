@@ -1,5 +1,7 @@
 #include "log/log.hh"
 
+#include <util/time.hh>
+
 namespace logging {
 
 namespace {
@@ -8,7 +10,7 @@ namespace {
         stream s;
         s.level = level;
         s.tags.emplace("component", component);
-        s.tags.emplace("time", std::chrono::high_resolution_clock::now());
+        s.tags.emplace("time", std::chrono::system_clock::now());
         return s;
     }
 }
@@ -35,7 +37,7 @@ stream warn(const std::string& component)
 
 stream err(const std::string& component)
 {
-    return create_log_stream(ERROR, component);
+    return create_log_stream(ERR, component);
 }
 
 Log::Log()

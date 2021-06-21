@@ -12,7 +12,7 @@
 namespace cute::ui {
 
 template<>
-std::shared_ptr<Window> WindowFactory::build<Window>(const json& config, QObject* parent)
+std::shared_ptr<Window> WindowFactory::build<Window>(const json& config, QWidget* parent)
 {
     std::shared_ptr<Window> window;
 
@@ -33,7 +33,7 @@ std::shared_ptr<Window> WindowFactory::build<Window>(const json& config, QObject
 }
 
 template<>
-std::vector<std::shared_ptr<Window>> WindowFactory::buildAll<Window>(const json& config, QObject* parent)
+std::vector<std::shared_ptr<Window>> WindowFactory::buildAll<Window>(const json& config, QWidget* parent)
 {
     std::vector<std::shared_ptr<Window>> windows;
 

@@ -4,8 +4,9 @@
 
 namespace cute::ui {
 
-Window::Window(QObject* parent)
-    : ui_(new Ui::Window())
+Window::Window(QWidget* parent)
+    : QMainWindow(parent)
+    , ui_(new Ui::Window())
 {
     ui_->setupUi(this);
 
