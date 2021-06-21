@@ -5,8 +5,9 @@
 #include <io/socket_dispatcher.hh>
 #include <net/socket.hh>
 #include <topic/subscriber.hh>
+#include <util/test.hh>
 
-TEST(SocketDispatcher, creates_a_valid_unix_socket)
+TEST_UNIX(SocketDispatcher, creates_a_valid_unix_socket)
 {
     cute::io::SocketDispatcher dispatcher;
 
@@ -21,7 +22,7 @@ TEST(SocketDispatcher, creates_a_valid_unix_socket)
     dispatcher.close();
 }
 
-TEST(SocketDispatcher, DISABLED_creates_a_valid_tcp_socket)
+TEST_WINDOWS(SocketDispatcher, creates_a_valid_tcp_socket)
 {
     cute::io::SocketDispatcher dispatcher;
 
@@ -36,7 +37,7 @@ TEST(SocketDispatcher, DISABLED_creates_a_valid_tcp_socket)
     dispatcher.close();
 }
 
-TEST(SocketDispatcher, wont_start_if_already_running)
+TEST_UNIX(SocketDispatcher, wont_start_if_already_running)
 {
     cute::io::SocketDispatcher dispatcher;
     net::socket socket;
@@ -53,7 +54,7 @@ TEST(SocketDispatcher, wont_start_if_already_running)
     dispatcher.close();
 }
 
-TEST(SocketDispatcher, creates_a_valid_client)
+TEST_UNIX(SocketDispatcher, creates_a_valid_client)
 {
     int count = 0;
     topic::Subscriber subscriber;

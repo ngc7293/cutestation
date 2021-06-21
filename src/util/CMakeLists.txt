@@ -16,7 +16,7 @@ set(SOURCES
 add_library(cute.util STATIC ${SOURCES} ${HEADERS})
 target_include_directories(cute.util PUBLIC inc/ PRIVATE src/)
 target_standard_compile_flags(cute.util)
-target_link_libraries(cute.util PUBLIC cute.log CONAN_PKG::nlohmann_json CONAN_PKG::qt)
+target_link_libraries(cute.util PUBLIC cute.log CONAN_PKG::nlohmann_json CONAN_PKG::qt CONAN_PKG::gtest)
 
 # Tests
 set(TESTS

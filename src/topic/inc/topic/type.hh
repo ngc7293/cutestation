@@ -6,6 +6,7 @@
 
 namespace topic {
     using time = std::chrono::milliseconds;
+    using clock = std::chrono::system_clock;
 
 /* TODO: Investigate the performance impact of using std::any vs std::variant,
          and switch to it if the performance improvement is significant. In such
