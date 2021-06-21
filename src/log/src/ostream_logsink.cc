@@ -5,6 +5,8 @@
 
 #include <ctime>
 
+#include <util/time.hh>
+
 namespace logging {
 
 namespace {
@@ -16,7 +18,7 @@ namespace {
             { DEBUG, "debug" },
             { INFO, "info" },
             { WARNING, "warn" },
-            { ERROR, "error" },
+            { ERR, "error" },
         };
 
         return LOG_LEVEL_STRING.at(level);
@@ -59,8 +61,7 @@ void OstreamLogSink::log(const stream& s)
     std::lock_guard<std::mutex> lock(_mutex);
 
     if (auto time = find_tag_typed<timepoint>(s, "time")) {
-        std::time_t now = std::chrono::system_clock::to_time_t(time.value());
-        _os << "[" << std::put_time(std::localtime(&now), LOG_TIME_FORMAT) << "] ";
+        _os << "[" << util::time::to_string(time.value(), LOG_TIME_FORMAT) << "] ";
     }
     
     _os << "(" << string_from_level(s.level) << ") ";
@@ -78,9 +79,8 @@ void OstreamLogSink::log(const stream& s)
         _os << tag.first << "=";
         std::visit(overloaded {
             [this](auto arg) { _os << arg; },
-            [this](std::chrono::high_resolution_clock::time_point arg) {
-                std::time_t now = std::chrono::system_clock::to_time_t(arg);
-                _os << std::put_time(std::localtime(&now), LOG_TIME_FORMAT);
+            [this](std::chrono::system_clock::time_point arg) {
+                _os << util::time::to_string(arg, LOG_TIME_FORMAT);
             }
         }, tag.second);
         _os << " ";

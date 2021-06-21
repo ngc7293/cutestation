@@ -61,7 +61,7 @@ public:
         // Have to put implementation here because of  template class
         // compilation behavior
         const std::lock_guard<std::mutex> lock(mutex_);
-        container.reserve(data_.size());
+        container.reserve(static_cast<int>(data_.size()));
 
         for (const auto& point : data_) {
             container.push_back(V(point.first, point.second));

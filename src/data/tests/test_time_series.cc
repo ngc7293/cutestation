@@ -48,7 +48,7 @@ TEST(SeriesFactory, can_build_valid_series_factory)
     topic::Publisher publisher;
     std::shared_ptr<cute::data::TimeSeries<double>> series = cute::data::SeriesFactory::build<cute::data::TimeSeries<double>>(config);
 
-    EXPECT_TRUE((bool) series);
+    EXPECT_TRUE(static_cast<bool>(series));
 
     EXPECT_EQ(series->size(), 0);
     publisher.publish<double>("cute.data.test.double", 0.0f);

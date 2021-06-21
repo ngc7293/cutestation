@@ -73,7 +73,7 @@ void Client::onData(const proto::Data& data)
             break;
 
         case proto::Measurement::ValueCase::kInt:
-            _d->publisher.publish<int>(source, measurement.int_(), timestamp);
+            _d->publisher.publish<int>(source, static_cast<int>(measurement.int_()), timestamp);
             break;
 
         case proto::Measurement::ValueCase::kFloat:

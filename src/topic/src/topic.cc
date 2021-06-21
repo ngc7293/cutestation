@@ -43,7 +43,7 @@ const std::type_info& Topic::type() const
     return d_->type;
 }
 
-unsigned int Topic::subscribers() const
+std::size_t Topic::subscribers() const
 {
     return d_->subscribers.size();
 }
@@ -80,7 +80,7 @@ bool Topic::unsubscribe(Subscriber* subscriber)
 
 void Topic::publish(const topic::time& time, const std::any& value)
 {
-    std::shared_lock (d_->mutex);
+    std::shared_lock lock(d_->mutex);
 
     for (const SubscribeInfo& subscriber: d_->subscribers) {
         if (subscriber.callback) {

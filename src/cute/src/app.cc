@@ -25,7 +25,7 @@ App::App()
 {
     std::ifstream ifs("config.json");
     json config = json::parse(ifs, nullptr, true, true);
-    _d->windows = ui::WindowFactory::buildAll<ui::Window>(config.at("windows"), this);
+    _d->windows = ui::WindowFactory::buildAll<ui::Window>(config.at("windows"), nullptr);
     _d->dispatchers = io::DispatcherFactory::buildAll<io::Dispatcher>(config.at("io"));
 
     for (auto& dispatcher: _d->dispatchers) {
@@ -37,6 +37,11 @@ App::~App()
 {
     for (auto& dispatcher: _d->dispatchers) {
         dispatcher->close();
+    }
+
+    for (auto& windows: _d->windows) {
+        windows->hide();
+        windows->deleteLater();
     }
 }
 

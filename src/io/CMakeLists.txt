@@ -15,9 +15,8 @@ set(SOURCES
 )
 
 add_library(cute.io STATIC ${SOURCES} ${HEADERS})
-set_property(TARGET cute.io PROPERTY CXX_STANDARD 20)
 target_include_directories(cute.io PUBLIC inc/ PRIVATE src/)
-target_compile_options(cute.io PRIVATE -Wall -Wpedantic -Werror )
+target_standard_compile_flags(cute.io)
 target_link_libraries(cute.io PUBLIC cute.log cute.util topic cute.proto net)
 
 # Tests
@@ -29,5 +28,6 @@ set(TESTS
 )
 
 add_executable(cute.io.test ${TESTS})
-target_link_libraries(cute.io.test PUBLIC cute.io CONAN_PKG::gtest)
+target_standard_compile_flags(cute.io.test)
+target_link_libraries(cute.io.test PUBLIC cute.io cute.log CONAN_PKG::protobuf CONAN_PKG::gtest)
 gtest_discover_tests(cute.io.test)
