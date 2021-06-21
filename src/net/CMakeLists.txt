@@ -37,13 +37,10 @@ set(TESTS
     tests/main.cc
     tests/test_stream.cc
     tests/test_tcp.cc
+    tests/test_unix.cc
 )
-
-if (UNIX)
-    list(APPEND TESTS tests/test_unix.cc)
-endif()
 
 add_executable(net.test ${TESTS})
 target_standard_compile_flags(net.test)
-target_link_libraries(net.test PUBLIC net cute.log CONAN_PKG::gtest)
+target_link_libraries(net.test PUBLIC net cute.util cute.log CONAN_PKG::gtest)
 gtest_discover_tests(net.test)

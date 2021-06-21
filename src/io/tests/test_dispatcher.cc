@@ -7,6 +7,7 @@
 #include <io/dispatcher.hh>
 #include <net/socket.hh>
 #include <net/server.hh>
+#include <util/test.hh>
 
 class MockDispatcher : public cute::io::Dispatcher {
 public:
@@ -17,7 +18,7 @@ public:
     }
 };
 
-TEST(Dispatcher, closes_doesnt_hang)
+TEST_UNIX(Dispatcher, closes_doesnt_hang)
 {
     // We expect dispatcher.close() to hang if the net::closeable stream cannot
     // be closed : read() is a blocking operation for some streams (net::socket)
