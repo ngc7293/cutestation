@@ -29,6 +29,7 @@ public:
 class stringstream : public closeable {
 public:
     stringstream() : closeable(new std::stringbuf()) { }
+    virtual ~stringstream() { delete rdbuf(); }
 
     std::string str() const { return static_cast<std::stringbuf *>(rdbuf())->str(); }
 };

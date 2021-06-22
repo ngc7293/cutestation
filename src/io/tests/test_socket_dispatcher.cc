@@ -22,39 +22,39 @@ TEST_UNIX(SocketDispatcher, creates_a_valid_unix_socket)
     dispatcher.close();
 }
 
-TEST_WINDOWS(SocketDispatcher, creates_a_valid_tcp_socket)
+TEST(SocketDispatcher, creates_a_valid_tcp_socket)
 {
     cute::io::SocketDispatcher dispatcher;
 
-    dispatcher.set_socket_address("0.0.0.0", 25000);
+    dispatcher.set_socket_address("0.0.0.0", 42857);
     dispatcher.start();
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
     net::socket socket;
-    EXPECT_TRUE(socket.connect<net::tcp>("127.0.0.1", 25000));
+    EXPECT_TRUE(socket.connect<net::tcp>("127.0.0.1", 42857));
 
     dispatcher.close();
 }
 
-TEST_UNIX(SocketDispatcher, wont_start_if_already_running)
+TEST(SocketDispatcher, wont_start_if_already_running)
 {
     cute::io::SocketDispatcher dispatcher;
     net::socket socket;
 
-    dispatcher.set_socket_path("/tmp/cute.io.test.socket_dispatcher");
+    dispatcher.set_socket_address("0.0.0.0", 42857);
     dispatcher.start();
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-    dispatcher.set_socket_path("/tmp/cute.io.test.socket_dispatcher.bad");
+    dispatcher.set_socket_address("0.0.0.0", 42858);
     dispatcher.start();
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-    EXPECT_FALSE(socket.connect<net::unix>("/tmp/cute.io.test.socket_dispatcher.bad"));
+    EXPECT_FALSE(socket.connect<net::tcp>("0.0.0.0", 42858));
     dispatcher.close();
 }
 
-TEST_UNIX(SocketDispatcher, creates_a_valid_client)
+TEST(SocketDispatcher, creates_a_valid_client)
 {
     int count = 0;
     topic::Subscriber subscriber;
@@ -70,12 +70,12 @@ TEST_UNIX(SocketDispatcher, creates_a_valid_client)
         count = static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(t).count());
     });
 
-    dispatcher.set_socket_path("/tmp/cute.io.test.socket_dispatcher");
+    dispatcher.set_socket_address("0.0.0.0", 42857);
     dispatcher.start();
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-    EXPECT_TRUE(socket.connect<net::unix>("/tmp/cute.io.test.socket_dispatcher"));
+    EXPECT_TRUE(socket.connect<net::tcp>("127.0.0.1", 42857));
     socket << stream << std::flush;
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
