@@ -75,7 +75,7 @@ TEST(SocketDispatcher, creates_a_valid_client)
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-    EXPECT_TRUE(socket.connect<net::tcp>("0.0.0.0", 42857));
+    EXPECT_TRUE(socket.connect<net::tcp>("127.0.0.1", 42857));
     socket << stream << std::flush;
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
