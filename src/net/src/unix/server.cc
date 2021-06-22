@@ -73,6 +73,9 @@ bool server::listen_tcp(const std::string& address, uint16_t port)
     }
     _d->fd = sockfd;
 
+    int option = 1;
+    setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &option, sizeof(option));
+
     addr.sin_family = AF_INET;
     if (inet_aton(address.c_str(), &addr.sin_addr) < 0) {
         return report_and_die(errno);
