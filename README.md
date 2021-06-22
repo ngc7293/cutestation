@@ -47,8 +47,11 @@ a Google Test-driven unit test executable named `<target>.test` (e.g.:
 
 | Module        | Description
 |:--------------|:--------------------------------------------------------------
-| `net`         | Socket communication using iostreams. Currently only works for Unix and TCP sockets on Unix.
+| `net`         | Socket communication using iostreams. Currently only works for Unix (on Unix) and TCP sockets (on Unix and Windows).
 | `topic`       | Topic-based publish-subscribe system. Should be thread-safe, but makes no attempt at multi-threading optimization, that is left to the user.
+| `log`         | Standardized multi-output logging.
+| `cute.util`   | Catch all for misceallenous utility functions.
+| `cute.proto`  | Utilities relating to Protobuf communication.
 | `cute.io`     | Handles IPC with external data sources for CuteStation.
 | `cute.data`   | Containers for real-time data.
 | `cute.widgets`| Widgets to display real-time data (contained in cute.data containers)
@@ -61,7 +64,7 @@ a Google Test-driven unit test executable named `<target>.test` (e.g.:
 - Ninja (recommended)
 
 CuteStation uses C++20 features and syntax; a modern compiler is required. The
-officially supported compiler is GCC 9.3.0.
+officially supported compiler are GCC 9.3.0 and Visual Studio 16 2019.
 
 ## Building
 
@@ -72,11 +75,11 @@ git clone https://github.com/ngc7293/cutestation
 cd cutestation
 ```
 
-To build
+To build (on Ubuntu)
 
 ```bash
 mkdir build; cd build;
-conan install .. -s compiler.libcxx=libstdc++11 -s cppstd=20 -s build_type=Debug --build=missing
+conan install .. -s compiler.libcxx=libstdc++11 -s build_type=Debug --build=missing
 cmake .. -G Ninja
 ninja
 ```
@@ -87,11 +90,5 @@ Most modules have unit tests. These are built with Google Test into one
 executable per module, using the syntax `<module>.test`. They can be found in
 the `build/bin` directory.
 
-**Coverage is currently disabled. We'll be back soon.**
-
 After running tests, you can generate the coverage report with `ninja coverage`.
 Detailed coverage information will be written to `build/coverage.html`.
-
-**Note**: Linux will purposefully keep TCP sockets alive for a certain time
-after they are closed. This will cause the TCP Server tests to fail if called
-repeatedly. These failures can be ignored (the tests are DISABLED in gtest)

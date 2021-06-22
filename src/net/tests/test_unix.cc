@@ -12,7 +12,7 @@ TEST_UNIX(unix_server, listen_succeeds)
     net::server server;
 
     std::future<bool> ret = std::async(std::launch::async, [&server]() {
-        return server.listen<net::unix>("/tmp/cute.net.TEST_UNIX");
+        return server.listen<net::unix>("/tmp/cute.net.test");
     });
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -27,11 +27,11 @@ TEST_UNIX(unix_server, sockets_can_connect)
     net::socket socket;
 
     auto a = std::async(std::launch::async, [&server]() {
-        return server.listen<net::unix>("/tmp/cute.net.TEST_UNIX");
+        return server.listen<net::unix>("/tmp/cute.net.test");
     });
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-    EXPECT_TRUE(socket.connect<net::unix>("/tmp/cute.net.TEST_UNIX"));
+    EXPECT_TRUE(socket.connect<net::unix>("/tmp/cute.net.test"));
 
     server.close();
     a.wait();
@@ -43,11 +43,11 @@ TEST_UNIX(unix_socket, sockets_report_eof_after_closing)
     net::socket socket;
 
     auto a = std::async(std::launch::async, [&server]() {
-        return server.listen<net::unix>("/tmp/cute.net.TEST_UNIX");
+        return server.listen<net::unix>("/tmp/cute.net.test");
     });
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-    EXPECT_TRUE(socket.connect<net::unix>("/tmp/cute.net.TEST_UNIX"));
+    EXPECT_TRUE(socket.connect<net::unix>("/tmp/cute.net.test"));
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
     socket.close();
     EXPECT_TRUE(socket.eof());
@@ -74,11 +74,11 @@ TEST_UNIX(unix_server, server_creates_new_socket)
     });
 
     auto a = std::async(std::launch::async, [&server]() {
-        return server.listen<net::unix>("/tmp/cute.net.TEST_UNIX");
+        return server.listen<net::unix>("/tmp/cute.net.test");
     });
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-    socket.connect<net::unix>("/tmp/cute.net.TEST_UNIX");
+    socket.connect<net::unix>("/tmp/cute.net.test");
 
     std::getline(socket, line);
     socket << "passed" << std::endl;
@@ -93,7 +93,7 @@ TEST_UNIX(unix_socket, socket_connect_fails_with_no_server)
 {
     net::socket socket;
 
-    EXPECT_FALSE(socket.connect<net::unix>("/tmp/cute.net.TEST_UNIX"));
+    EXPECT_FALSE(socket.connect<net::unix>("/tmp/cute.net.test"));
 }
 
 TEST_UNIX(unix_socket, socket_can_send_very_large_buffers)
@@ -116,11 +116,11 @@ TEST_UNIX(unix_socket, socket_can_send_very_large_buffers)
     });
 
     auto a = std::async(std::launch::async, [&server]() {
-        return server.listen<net::unix>("/tmp/cute.net.TEST_UNIX");
+        return server.listen<net::unix>("/tmp/cute.net.test");
     });
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-    socket.connect<net::unix>("/tmp/cute.net.TEST_UNIX");
+    socket.connect<net::unix>("/tmp/cute.net.test");
     socket.write(buffer, 4096);
     socket << std::endl;
     server.close();
