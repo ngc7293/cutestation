@@ -3,6 +3,8 @@
 #include <QApplication>
 #include <QStyleFactory>
 
+#include <google/protobuf/stubs/common.h>
+
 #include <log/log.hh>
 #include <log/ostream_logsink.hh>
 #include <net/net.hh>
@@ -27,6 +29,7 @@ int main(int argc, char* argv[])
 
     int rc = qapp.exec();
 
+    google::protobuf::ShutdownProtobufLibrary();
     net::cleanup();
     return rc;
 }

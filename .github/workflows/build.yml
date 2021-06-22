@@ -34,10 +34,6 @@ jobs:
         if: matrix.config.os == 'ubuntu-latest'
         run: sudo apt-get install libgl-dev ninja-build
 
-      - name: Install tools (Windows)
-        if: matrix.config.os == 'windows-latest'
-        run: choco install ninja
-
       - name: Install Conan
         run: |
           pip install conan
