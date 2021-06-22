@@ -11,13 +11,13 @@ TEST_UNIX(SocketDispatcher, creates_a_valid_unix_socket)
 {
     cute::io::SocketDispatcher dispatcher;
 
-    dispatcher.set_socket_path("/tmp/cute.io.socket_dispatcher");
+    dispatcher.set_socket_path("/tmp/cute.io.test.socket_dispatcher");
     dispatcher.start();
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
     net::socket socket;
-    EXPECT_TRUE(socket.connect<net::unix>("/tmp/cute.io.socket_dispatcher"));
+    EXPECT_TRUE(socket.connect<net::unix>("/tmp/cute.io.test.socket_dispatcher"));
 
     dispatcher.close();
 }
