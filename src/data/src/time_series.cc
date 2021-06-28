@@ -34,7 +34,7 @@ TimeSeries<T>::TimeSeries(const std::string& source, uint64_t length)
 }
 
 template <typename T>
-TimeSeries<T>::~TimeSeries() {}
+TimeSeries<T>::~TimeSeries() = default;
 
 template <typename T>
 void TimeSeries<T>::accept(const std::chrono::milliseconds& when, const T& what)

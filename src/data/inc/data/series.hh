@@ -14,8 +14,8 @@ protected:
     std::shared_ptr<SamplingPolicy> sampling_policy_;
 
 public:
-    Series();
-    virtual ~Series();
+    Series() = default;
+    virtual ~Series() = default;
 };
 
 }

@@ -1,9 +1,7 @@
 cmake_minimum_required(VERSION 3.17)
 
 set(SOURCES
-    src/sampling_policy.cc
     src/series_factory.cc
-    src/series.cc
     src/time_series.cc
 )
 

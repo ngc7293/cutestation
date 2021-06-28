@@ -1,5 +1,7 @@
 # Build artefacts
 build/
+_build/
+out/
 __pycache__/
 CMakeCache.txt
 
@@ -9,6 +11,7 @@ ui_app.h
 # IDE
 .vscode/
 .vs/
+.idea/
 CMakeSettings.json
 
 # Python

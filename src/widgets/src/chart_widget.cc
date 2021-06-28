@@ -13,7 +13,7 @@
 
 namespace cute::widgets {
 
-struct ChartWidget::ChartWidgetPriv {
+struct ChartWidget::Priv {
     QtCharts::QChartView* chartview;
     double min, max;
     int length;
@@ -24,7 +24,7 @@ struct ChartWidget::ChartWidgetPriv {
 
 ChartWidget::ChartWidget(QWidget* parent, const std::string& name)
     : ViewWidget(parent, name)
-    , _d(new ChartWidgetPriv)
+    , _d(new Priv)
 {
     _d->length = 1;
     _d->min = 0;
@@ -48,7 +48,7 @@ ChartWidget::ChartWidget(QWidget* parent, const std::string& name)
     layout()->addWidget(_d->chartview);
 }
 
-ChartWidget::~ChartWidget() {}
+ChartWidget::~ChartWidget() = default;
 
 void ChartWidget::add_series(std::shared_ptr<data::TimeSeries<double>> series)
 {
@@ -79,24 +79,13 @@ void ChartWidget::refresh()
         series.second->data<QVector, QPointF>(points);
 
         if (points.size()) {
-            auto now = util::now<std::milli>();
-            series.first->replace(data);
+            auto now = util::time::now<std::milli>();
+            series.first->replace(points);
             _d->last_update = std::max(_d->last_update, now);
 
             ((QtCharts::QDateTimeAxis*)_d->chartview->chart()->axes(Qt::Horizontal)[0])->setRange(QDateTime::fromMSecsSinceEpoch(_d->last_update - _d->length), QDateTime::fromMSecsSinceEpoch(_d->last_update));
         }
     }
-//             QPen pen(QRgb(0xff0000));
-//             pen.setWidth(2);
-//             ((QtCharts::QLineSeries*)_d->chartview->chart()->series()[0])->setPen(pen);
-//         } else {
-//             QPen pen(QRgb(0x0000ff));
-//             pen.setWidth(2);
-//             ((QtCharts::QLineSeries*)_d->chartview->chart()->series()[0])->setPen(pen);
-//         }
-// #endif
-
-//         _d->last_update = now;
 }
 
 } // namespaces
