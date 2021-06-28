@@ -17,7 +17,7 @@
                     "refresh_rate": 60,
         
                     // Chart-specific config
-                    "source": "anirniq.acquisition.gps.lat",
+                    "sources": ["anirniq.acquisition.gps.lat", "anirniq.acquisition.gps.lon"],
                     "length": 2000,
                     "range": [0, 2],
 
@@ -39,7 +39,7 @@
                             "type": "chart",
                             "name": "GPS Latitude on secondary Window",
                 
-                            "source": "anirniq.acquisition.gps.lat",
+                            "sources": ["anirniq.acquisition.gps.lat"],
                             "length": 2000,
                 
                             "refresh_rate": 60,
