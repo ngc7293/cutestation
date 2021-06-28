@@ -15,9 +15,7 @@ WidgetGroup::WidgetGroup(QWidget* parent, const std::string& name)
     layout()->addWidget(box_);
 }
 
-WidgetGroup::~WidgetGroup()
-{
-}
+WidgetGroup::~WidgetGroup() = default;
 
 void WidgetGroup::set_name(const std::string& name)
 {

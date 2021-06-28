@@ -14,10 +14,6 @@ Widget::Widget(QWidget* parent, const std::string& name)
     setLayout(new QHBoxLayout(this));
 }
 
-Widget::~Widget()
-{
-
-}
-
+Widget::~Widget() = default;
 
 } // namespaces

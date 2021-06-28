@@ -17,7 +17,7 @@ ButtonWidget::ButtonWidget(QWidget* parent, const std::string& name)
     layout()->addWidget(button_);
 }
 
-ButtonWidget::~ButtonWidget() {}
+ButtonWidget::~ButtonWidget() = default;
 
 void ButtonWidget::set_command(const std::string& command)
 {

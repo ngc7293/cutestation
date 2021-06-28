@@ -7,9 +7,7 @@ WidgetGrid::WidgetGrid(QWidget* parent)
 {
 }
 
-WidgetGrid::~WidgetGrid()
-{
-}
+WidgetGrid::~WidgetGrid() = default;
 
 void WidgetGrid::addWidget(Widget* widget, int x, int y, int xspan, int yspan)
 {

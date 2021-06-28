@@ -19,7 +19,7 @@ std::shared_ptr<Window> WindowFactory::build<Window>(const json& config, QWidget
     std::string name;
 
     if (!util::json::validate("Window", config,
-        util::json::optionnal {name, "name", "CuteStation"}
+        util::json::optional {name, "name", "CuteStation"}
     )) {
         return window; // Empty pointer
     }

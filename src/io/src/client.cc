@@ -21,9 +21,7 @@ Client::Client(std::shared_ptr<net::closeable> stream)
     _d->name = "unamed";
 }
 
-Client::~Client()
-{
-}
+Client::~Client() = default;
 
 void Client::run()
 {

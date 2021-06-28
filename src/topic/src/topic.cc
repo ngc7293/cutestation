@@ -29,9 +29,7 @@ Topic::Topic(const std::string& name, const std::type_info& type)
     d_->name = name;
 }
 
-Topic::~Topic()
-{
-}
+Topic::~Topic() = default;
 
 std::string Topic::name() const
 {
