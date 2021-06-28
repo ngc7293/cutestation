@@ -44,8 +44,8 @@ bool has<std::vector<std::int32_t>>(const nlohmann::json& j, const std::string& 
     bool ret = j.count(key) && j[key].is_array();
 
     if (ret) {
-        for (const nlohmann::json& e : j) {
-            ret = ret || e.is_number_integer();
+        for (const nlohmann::json& e : j[key]) {
+            ret = ret && e.is_number_integer();
         }
     }
 
@@ -58,8 +58,8 @@ bool has<std::vector<std::uint32_t>>(const nlohmann::json& j, const std::string&
     bool ret = j.count(key) && j[key].is_array();
 
     if (ret) {
-        for (const nlohmann::json& e : j) {
-            ret = ret || e.is_number_unsigned();
+        for (const nlohmann::json& e : j[key]) {
+            ret = ret && e.is_number_unsigned();
         }
     }
 
@@ -72,8 +72,8 @@ bool has<std::vector<std::string>>(const nlohmann::json& j, const std::string& k
     bool ret = j.count(key) && j[key].is_array();
 
     if (ret) {
-        for (const nlohmann::json& e : j) {
-            ret = ret || e.is_string();
+        for (const nlohmann::json& e : j[key]) {
+            ret = ret && e.is_string();
         }
     }
 

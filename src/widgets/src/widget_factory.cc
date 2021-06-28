@@ -126,10 +126,10 @@ void WidgetFactory::buildAll(const json& configs, WidgetGrid* layout, QWidget* p
         if (widget && util::json::validate("Widget", el,
             util::json::required {x, "x"},
             util::json::required {y, "y"},
-            util::json::optionnal {xspan, "colspan", 1u},
-            util::json::optionnal {yspan, "rowspan", 1u},
-            util::json::optionnal {width, "width", -1},
-            util::json::optionnal {height, "height", -1}
+            util::json::optional {xspan, "colspan", 1u},
+            util::json::optional {yspan, "rowspan", 1u},
+            util::json::optional {width, "width", -1},
+            util::json::optional {height, "height", -1}
         )) {
             layout->addWidget(widget, x, y, xspan, yspan);
 

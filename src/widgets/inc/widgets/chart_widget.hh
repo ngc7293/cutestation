@@ -11,7 +11,7 @@ namespace cute::widgets {
 
 class ChartWidget : public ViewWidget {
     Q_OBJECT
-    struct ChartWidgetPriv;
+    struct Priv;
 
 public:
     ChartWidget(QWidget* parent, const std::string& name);
@@ -25,7 +25,7 @@ protected slots:
     void refresh() override;
 
 private:
-    std::unique_ptr<ChartWidgetPriv> _d;
+    std::unique_ptr<Priv> _d;
 };
 
 } // namespaces

@@ -16,9 +16,7 @@ TopicManager::TopicManager()
 {
 }
 
-TopicManager::~TopicManager()
-{
-}
+TopicManager::~TopicManager() = default;
 
 std::shared_ptr<Topic> TopicManager::retrieve(const std::string& name, const std::type_info& type)
 {
