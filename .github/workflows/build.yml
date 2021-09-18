@@ -4,6 +4,8 @@ on: push
 
 jobs:
   build-test:
+    environment: Conan
+
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
 
@@ -38,6 +40,7 @@ jobs:
         run: |
           pip install conan
           conan remote add davidbourgault https://artifactory.davidbourgault.ca/artifactory/api/conan/conan
+          conan user -p ${{ secrets.CONAN_PASSWORD }} -r davidbourgault david
           conan config set general.revisions_enabled=1
 
       - name: Create directories
@@ -52,6 +55,9 @@ jobs:
         if: matrix.config.os == 'windows-latest'
         working-directory: build
         run: conan install .. -s compiler="Visual Studio" -s compiler.version=16 -s build_type=${{ matrix.config.build_type }} -r davidbourgault
+
+      - name: Upload
+        run: conan upload qt/* --remote davidbourgault --all --confirm
 
       - name: Configure
         working-directory: build
