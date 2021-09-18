@@ -7,8 +7,8 @@ namespace cute::data {
 
 class SamplingPolicy {
 public:
-    SamplingPolicy();
-    virtual ~SamplingPolicy();
+    SamplingPolicy() = default;
+    virtual ~SamplingPolicy() = default;
 
     virtual bool accept(std::uint64_t timestamp, double* value) = 0;
 };

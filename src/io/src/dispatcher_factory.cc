@@ -26,10 +26,11 @@ std::shared_ptr<SocketDispatcher> DispatcherFactory::build(const json& config)
         }
 
         dispatcher = std::make_shared<SocketDispatcher>();
-        dispatcher->set_socket_address(host, port);
+        dispatcher->set_socket_address(host, static_cast<std::uint16_t>(port));
     }
 
     if (type == "unix") {
+#if (not defined _MSC_VER)
         if (!util::json::validate("SocketDispatcher", config,
             util::json::required(host, "path")
         )) {
@@ -38,6 +39,10 @@ std::shared_ptr<SocketDispatcher> DispatcherFactory::build(const json& config)
 
         dispatcher = std::make_shared<SocketDispatcher>();
         dispatcher->set_socket_path(host);
+#else
+        logging::warn("DispatcherFactory") << "Unix sockets are not supported on Windows" << logging::endl;
+        return dispatcher;
+#endif
     }
 
     return dispatcher;
@@ -58,6 +63,7 @@ std::shared_ptr<Dispatcher> DispatcherFactory::build(const json& config)
         return build<SocketDispatcher>(config);
     }
 
+    logging::warn("DispatcherFactory") << "Unknown dispatcher type '" << type << "'" << logging::endl;
     return std::shared_ptr<Dispatcher>();
 }
 

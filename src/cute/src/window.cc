@@ -4,10 +4,14 @@
 
 namespace cute::ui {
 
-Window::Window(QObject* parent)
-    : ui_(new Ui::Window())
+Window::Window(QWidget* parent)
+    : QMainWindow(parent)
+    , ui_(new Ui::Window())
 {
-    ui_->setupUi(this); 
+    ui_->setupUi(this);
+
+    grid_ = new widgets::WidgetGrid(this);
+    ui_->chart_hbox->addLayout(grid_);
 }
 
 Window::~Window()
@@ -15,11 +19,9 @@ Window::~Window()
     delete ui_;
 }
 
-void Window::addWidget(widgets::Widget* widget, unsigned x, unsigned y, unsigned rowspan, unsigned colspan)
+widgets::WidgetGrid* Window::grid()
 {
-    if (widget) {
-        ui_->chart_grid->addWidget((QWidget*)widget, x, y, rowspan, colspan);
-    }
+    return grid_;
 }
 
 }

@@ -7,7 +7,7 @@
 namespace cute::widgets {
 
 ButtonWidget::ButtonWidget(QWidget* parent, const std::string& name)
-    : ControlWidget(parent, name)
+    : ViewWidget(parent, name)
 {
     command_ = "";
     button_ = new QPushButton(this);
@@ -17,7 +17,7 @@ ButtonWidget::ButtonWidget(QWidget* parent, const std::string& name)
     layout()->addWidget(button_);
 }
 
-ButtonWidget::~ButtonWidget() {}
+ButtonWidget::~ButtonWidget() = default;
 
 void ButtonWidget::set_command(const std::string& command)
 {
@@ -26,10 +26,10 @@ void ButtonWidget::set_command(const std::string& command)
 
 void ButtonWidget::clicked()
 {
-    if (!publish<bool>(command_, 1)) {
-        Log::warn("button/" + name_) << "Failed to publish command '" << command_ << "'" << std::endl;
+    if (!publisher_.publish<bool>(command_, 1)) {
+        logging::warn("button") << logging::tag{"name", name_} << "Failed to publish command '" << command_ << "'" << logging::endl;
     } else {
-        Log::debug("button/" + name_) << "Published command '" << command_ << "'" << std::endl;
+        logging::debug("button") << logging::tag{"name", name_} << "Published command '" << command_ << "'" << logging::endl;
     }
 }
 

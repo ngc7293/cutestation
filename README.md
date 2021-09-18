@@ -1,14 +1,16 @@
 # CuteStation
 
-![C/C++ CI](https://github.com/ngc7293/cutestation/workflows/C/C++%20CI/badge.svg)
+[![C/C++ CI](https://github.com/ngc7293/cutestation/actions/workflows/build.yml/badge.svg)](https://github.com/ngc7293/cutestation/actions/workflows/build.yml)
 
 ## Contents
 
-- [Goals](#Goals)
-- [Structure](#Structure)
-- [Depends](#Depends)
-- [Building](#Building)
-- [Testing](#Testing)
+- [CuteStation](#cutestation)
+  - [Contents](#contents)
+  - [Goals](#goals)
+  - [Structure](#structure)
+  - [Depends](#depends)
+  - [Building](#building)
+  - [Testing](#testing)
 
 ## Goals
 
@@ -45,8 +47,11 @@ a Google Test-driven unit test executable named `<target>.test` (e.g.:
 
 | Module        | Description
 |:--------------|:--------------------------------------------------------------
-| `net`         | Socket communication using iostreams. Currently only works for Unix and TCP sockets on Unix.
+| `net`         | Socket communication using iostreams. Currently only works for Unix (on Unix) and TCP sockets (on Unix and Windows).
 | `topic`       | Topic-based publish-subscribe system. Should be thread-safe, but makes no attempt at multi-threading optimization, that is left to the user.
+| `log`         | Standardized multi-output logging.
+| `cute.util`   | Catch all for misceallenous utility functions.
+| `cute.proto`  | Utilities relating to Protobuf communication.
 | `cute.io`     | Handles IPC with external data sources for CuteStation.
 | `cute.data`   | Containers for real-time data.
 | `cute.widgets`| Widgets to display real-time data (contained in cute.data containers)
@@ -54,15 +59,12 @@ a Google Test-driven unit test executable named `<target>.test` (e.g.:
 
 ## Depends
 
-- [Protobuf 3.11](https://github.com/protocolbuffers/protobuf/)
-- [nlohmann::json](https://github.com/nlohmann/json)
-- Qt 5.14.1
+- Conan
 - CMake 3.17 (for [CMP0100](https://cmake.org/cmake/help/v3.17/policy/CMP0100.html))
 - Ninja (recommended)
-- gcovr (recommended)
 
 CuteStation uses C++20 features and syntax; a modern compiler is required. The
-officially supported compiler is GCC 9.3.0.
+officially supported compiler are GCC 9.3.0 and Visual Studio 16 2019.
 
 ## Building
 
@@ -71,19 +73,16 @@ To clone:
 ```bash
 git clone https://github.com/ngc7293/cutestation
 cd cutestation
-git submodule update --init --recursive # For Google Test
 ```
 
-To build
+To build (on Ubuntu)
 
 ```bash
 mkdir build; cd build;
+conan install .. -s compiler.libcxx=libstdc++11 -s build_type=Debug --build=missing
 cmake .. -G Ninja
 ninja
 ```
-
-Note that the current CMakeLists assumes Qt to be installed in
-`/opt/Qt/5.14.1/`, you might need to update it to match your install path.
 
 ## Testing
 
@@ -93,7 +92,3 @@ the `build/bin` directory.
 
 After running tests, you can generate the coverage report with `ninja coverage`.
 Detailed coverage information will be written to `build/coverage.html`.
-
-**Note**: Linux will purposefully keep TCP sockets alive for a certain time
-after they are closed. This will cause the TCP Server tests to fail if called
-repeatedly. These failures can be ignored.

@@ -6,6 +6,10 @@
 
 #include "stream.hh"
 
+#if (defined _MSC_VER)
+#include <WinSock2.h>
+#endif
+
 namespace net {
 
 #undef unix
@@ -25,11 +29,17 @@ public:
 
 protected:
     friend class server;
+#if (defined _MSC_VER)
+    socket(SOCKET fd, socket_type type);
+#else
     socket(int fd, socket_type type);
+#endif
 
 private:
     bool connect_tcp(const std::string& path, uint16_t port);
+#if (not defined _MSC_VER)
     bool connect_unix(const std::string& path);
+#endif
 
 private:
     struct priv;

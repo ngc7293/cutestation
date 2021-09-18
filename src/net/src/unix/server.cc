@@ -20,10 +20,18 @@
 
 namespace net {
 
+namespace {
+    bool report_and_die(int error)
+    {
+        logging::err("net::server") << strerror(error) << logging::tag{"errno", error} << logging::endl;
+        return false;
+    }
+}
+
 struct server::priv {
     int fd = -1;
     std::function<void(net::socket*)> callback = [](net::socket* s) { delete s; };
-    std::string name = "";
+    std::string path = "";
 };
 
 server::server()
@@ -61,24 +69,28 @@ bool server::listen_tcp(const std::string& address, uint16_t port)
     socklen_t len = sizeof(addr);
 
     if ((sockfd = ::socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-        return false;
+        return report_and_die(errno);
     }
     _d->fd = sockfd;
 
+    int option = 1;
+    setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &option, sizeof(option));
+
     addr.sin_family = AF_INET;
     if (inet_aton(address.c_str(), &addr.sin_addr) < 0) {
-        return false;
+        return report_and_die(errno);
     }
     addr.sin_port = htons(port);
 
     if (bind(sockfd, (struct sockaddr*)&addr, len) < 0) {;
-        return false;
+        return report_and_die(errno);
     }
 
     if (::listen(sockfd, 5) < 0) {
-        return false;
+        return report_and_die(errno);
     }
 
+    logging::info("net::server") << logging::tag{"addr", address} << "Listening" << logging::endl;
 
     int connfd;
     while ((connfd = accept(_d->fd, (struct sockaddr*) &addr, &len)) > 0) {
@@ -95,7 +107,7 @@ bool server::listen_unix(const std::string& path)
     socklen_t len = sizeof(addr);
 
     if ((sockfd = ::socket(AF_UNIX, SOCK_STREAM, 0)) < 0) {
-        return false;
+        return report_and_die(errno);
     }
     _d->fd = sockfd;
 
@@ -108,13 +120,15 @@ bool server::listen_unix(const std::string& path)
     }
 
     if (bind(sockfd, (struct sockaddr*)&addr, len) < 0) {
-        return false;
+        return report_and_die(errno);
     }
-    _d->name = path;
+    _d->path = path;
 
     if (::listen(sockfd, 5) < 0) {
-        return false;
+        return report_and_die(errno);
     }
+
+    logging::info("net::server") << logging::tag{"path", path} << "Listening" << logging::endl;
 
     int connfd;
     while ((connfd = accept(_d->fd, (struct sockaddr*) &addr, &len)) > 0) {
@@ -127,17 +141,17 @@ bool server::listen_unix(const std::string& path)
 void server::close()
 {
     if (_d->fd > 0) {
-        Log::debug("net::server/" + _d->name) << "Closing FD" << std::endl;
+        logging::debug("net::server") << "Closing FD" << logging::endl;
         ::shutdown(_d->fd, SHUT_RDWR);
         ::close(_d->fd);
         _d->fd = -1;
     }
 
-    if (_d->name != "") {
-        Log::debug("net::server/" + _d->name) << "Removing socket file" << std::endl;
-        ::unlink(_d->name.c_str());
-        ::remove(_d->name.c_str());
-        _d->name = "";
+    if (_d->path != "") {
+        logging::debug("net::server") << logging::tag{"path", _d->path} << "Removing socket file" << logging::endl;
+        ::unlink(_d->path.c_str());
+        ::remove(_d->path.c_str());
+        _d->path = "";
     }
 }
 

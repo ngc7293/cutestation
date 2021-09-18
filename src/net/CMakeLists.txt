@@ -1,26 +1,39 @@
 cmake_minimum_required(VERSION 3.17)
 
-set(SOURCES
-    src/fdbuf.cc
-    src/socket.cc
-    src/server.cc
-)
-
 set(HEADERS
     inc/net/socket.hh
     inc/net/stream.hh
     inc/net/server.hh
-    src/fdbuf.hh
+    inc/net/net.hh
 )
 
+if (UNIX)
+    set(SOURCES
+        src/unix/sockbuf.cc
+        src/unix/socket.cc
+        src/unix/server.cc
+        src/unix/sockbuf.hh
+        src/unix/net.cc
+    )
+endif()
+
+if (WIN32)
+    set(SOURCES
+        src/windows/sockbuf.cc
+        src/windows/socket.cc
+        src/windows/server.cc
+        src/windows/sockbuf.hh
+        src/windows/net.cc
+    )
+endif()
+
 add_library(net STATIC ${SOURCES} ${HEADERS})
-set_property(TARGET net PROPERTY CXX_STANDARD 20)
 target_include_directories(net PUBLIC inc/ PRIVATE src/)
-target_compile_options(net PRIVATE -Wall -Wpedantic -Werror --coverage)
+target_standard_compile_flags(net)
 target_link_libraries(net PUBLIC cute.log)
 
-## Tests
-set( TESTS
+# Tests
+set(TESTS
     tests/main.cc
     tests/test_stream.cc
     tests/test_tcp.cc
@@ -28,8 +41,6 @@ set( TESTS
 )
 
 add_executable(net.test ${TESTS})
+target_standard_compile_flags(net.test)
+target_link_libraries(net.test PUBLIC net cute.util cute.log CONAN_PKG::gtest)
 gtest_discover_tests(net.test)
-
-target_compile_options(net.test PUBLIC --coverage)
-target_link_options(net.test PUBLIC --coverage)
-target_link_libraries(net.test PUBLIC net gcov gtest)

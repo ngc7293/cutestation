@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 
-#include <widgets/widget.hh>
+#include <widgets/widget_grid.hh>
 
 namespace Ui {
     class Window;
@@ -14,12 +14,13 @@ namespace cute::ui {
 class Window: public QMainWindow {
 private:
     Ui::Window* ui_;
+    widgets::WidgetGrid* grid_;
 
 public:
-    explicit Window(QObject* parent = nullptr);
+    explicit Window(QWidget* parent = nullptr);
     ~Window() override;
 
-    void addWidget(widgets::Widget* widget, unsigned x, unsigned y, unsigned rowspan = 1, unsigned colspan = 1);
+    widgets::WidgetGrid* grid();
 };
 
 }

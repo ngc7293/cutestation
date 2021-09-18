@@ -5,10 +5,9 @@
 
 #include <net/server.hh>
 #include <net/socket.hh>
+#include <util/test.hh>
 
-#include <log/log.hh>
-
-TEST(unix_server, listen_succeeds)
+TEST_UNIX(unix_server, listen_succeeds)
 {
     net::server server;
 
@@ -22,7 +21,7 @@ TEST(unix_server, listen_succeeds)
     EXPECT_TRUE(ret.get());
 }
 
-TEST(unix_server, sockets_can_connect)
+TEST_UNIX(unix_server, sockets_can_connect)
 {
     net::server server;
     net::socket socket;
@@ -38,7 +37,7 @@ TEST(unix_server, sockets_can_connect)
     a.wait();
 }
 
-TEST(unix_socket, sockets_report_eof_after_closing)
+TEST_UNIX(unix_socket, sockets_report_eof_after_closing)
 {
     net::server server;
     net::socket socket;
@@ -57,7 +56,7 @@ TEST(unix_socket, sockets_report_eof_after_closing)
     a.wait();
 }
 
-TEST(unix_server, server_creates_new_socket)
+TEST_UNIX(unix_server, server_creates_new_socket)
 {
     net::server server;
     net::socket socket;
@@ -90,14 +89,14 @@ TEST(unix_server, server_creates_new_socket)
     a.wait();
 }
 
-TEST(unix_socket, socket_connect_fails_with_no_server)
+TEST_UNIX(unix_socket, socket_connect_fails_with_no_server)
 {
     net::socket socket;
 
     EXPECT_FALSE(socket.connect<net::unix>("/tmp/cute.net.test"));
 }
 
-TEST(unix_socket, socket_can_send_very_large_buffers)
+TEST_UNIX(unix_socket, socket_can_send_very_large_buffers)
 {
     // Confirm that fdbuf's overflow() method works
     net::server server;

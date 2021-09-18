@@ -21,8 +21,7 @@ public:
     template<typename T>
     bool callSubscribe(const std::string& name, std::function<void(const topic::time&, const T& value)> method) { return subscribe(name, method); }
 
-    template<typename T>
-    bool callUnsubscribe(const std::string& name) { return unsubscribe<T>(name); }
+    bool callUnsubscribe(const std::string& name) { return unsubscribe(name); }
 };
 
 }

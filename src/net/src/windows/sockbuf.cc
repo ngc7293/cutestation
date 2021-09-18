@@ -1,12 +1,12 @@
-#include "fdbuf.hh"
+#include "sockbuf.hh"
 
 #include <iostream>
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/socket.h>
+#include <WinSock2.h>
 
-fdbuf::fdbuf(int fd, std::size_t len)
+namespace net {
+
+sockbuf::sockbuf(SOCKET fd, int len)
 {
     _fd = fd;
     _garea = new char[len];
@@ -16,13 +16,13 @@ fdbuf::fdbuf(int fd, std::size_t len)
     setp(_parea, _parea + _len);
 }
 
-fdbuf::~fdbuf()
+sockbuf::~sockbuf()
 {
     delete[] _garea;
     delete[] _parea;
 }
 
-int fdbuf::overflow(int c)
+int sockbuf::overflow(int c)
 {
     if (sync() == -1) {
         return traits_type::eof();
@@ -32,11 +32,11 @@ int fdbuf::overflow(int c)
     return c;
 }
 
-int fdbuf::underflow()
+int sockbuf::underflow()
 {
-    ssize_t count = read(_fd, _garea, _len);
+    int count = recv(_fd, _garea, _len, 0);
 
-    if (count <= 0) {
+    if (count == SOCKET_ERROR) {
         return traits_type::eof();
     }
 
@@ -44,9 +44,9 @@ int fdbuf::underflow()
     return traits_type::to_int_type(_garea[0]);
 }
 
-int fdbuf::sync()
+int sockbuf::sync()
 {
-    if (send(_fd, _parea, (pptr() - pbase()), MSG_NOSIGNAL) == -1) {
+    if (send(_fd, _parea, static_cast<int>(pptr() - pbase()), 0) == -1) {
         return -1;
     }
 
@@ -54,7 +54,9 @@ int fdbuf::sync()
     return 0;
 }
 
-bool fdbuf::close()
+bool sockbuf::close()
 {
-    return (::close(_fd) == 0);
+    return (closesocket(_fd) == 0);
 }
+
+} // namespaces

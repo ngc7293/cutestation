@@ -1,16 +1,20 @@
-#ifndef FDBUF_HH_
-#define FDBUF_HH_
+#ifndef SOCKBUF_HH_
+#define SOCKBUF_HH_
 
 #include <streambuf>
 
 #include <cstdio>
 
-class fdbuf : public std::streambuf {
+#include <WinSock2.h>
+
+namespace net {
+
+class sockbuf : public std::streambuf {
     struct priv;
 
 public:
-    fdbuf(int fd, std::size_t len = 128);
-    virtual ~fdbuf();
+    sockbuf(SOCKET fd, int len = 128);
+    virtual ~sockbuf();
 
     int overflow(int c = EOF) override;
     int underflow() override;
@@ -19,11 +23,13 @@ public:
     bool close();
 
 private:
-    int _fd;
+    SOCKET _fd;
 
     char* _garea;
     char* _parea;
-    size_t _len;
+    int _len;
 };
+
+} // namespaces
 
 #endif

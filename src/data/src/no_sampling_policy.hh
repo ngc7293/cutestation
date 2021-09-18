@@ -7,8 +7,8 @@ namespace cute::data {
 
 class NoSamplingPolicy : public SamplingPolicy {
 public:
-    NoSamplingPolicy() {}
-    ~NoSamplingPolicy() override {}
+    NoSamplingPolicy() = default;
+    ~NoSamplingPolicy() override = default;
 
     bool accept(std::uint64_t timestamp, double* value) override { return true;}
 };

@@ -29,9 +29,7 @@ Topic::Topic(const std::string& name, const std::type_info& type)
     d_->name = name;
 }
 
-Topic::~Topic()
-{
-}
+Topic::~Topic() = default;
 
 std::string Topic::name() const
 {
@@ -41,6 +39,11 @@ std::string Topic::name() const
 const std::type_info& Topic::type() const
 {
     return d_->type;
+}
+
+std::size_t Topic::subscribers() const
+{
+    return d_->subscribers.size();
 }
 
 bool Topic::subscribe(const SubscribeInfo& incoming)
@@ -75,7 +78,7 @@ bool Topic::unsubscribe(Subscriber* subscriber)
 
 void Topic::publish(const topic::time& time, const std::any& value)
 {
-    std::shared_lock (d_->mutex);
+    std::shared_lock lock(d_->mutex);
 
     for (const SubscribeInfo& subscriber: d_->subscribers) {
         if (subscriber.callback) {

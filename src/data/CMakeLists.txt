@@ -1,9 +1,7 @@
 cmake_minimum_required(VERSION 3.17)
 
 set(SOURCES
-    src/sampling_policy.cc
     src/series_factory.cc
-    src/series.cc
     src/time_series.cc
 )
 
@@ -16,20 +14,17 @@ set(HEADERS
 )
 
 add_library(cute.data STATIC ${SOURCES} ${HEADERS})
-set_property(TARGET cute.data PROPERTY CXX_STANDARD 20)
 target_include_directories(cute.data PUBLIC inc/ PRIVATE src/)
-target_compile_options(cute.data PRIVATE -Wall -Wpedantic -Werror --coverage)
-target_link_libraries(cute.data PUBLIC cute.log cute.proto topic cute.util nlohmann_json::nlohmann_json Qt5::Core Qt5::Widgets Qt5::Charts)
+target_standard_compile_flags(cute)
+target_link_libraries(cute.data PUBLIC cute.log cute.proto topic cute.util CONAN_PKG::nlohmann_json CONAN_PKG::qt)
 
-## Tests
-set( TESTS
-tests/main.cc
-tests/test_time_series.cc
+# Tests
+set(TESTS
+    tests/main.cc
+    tests/test_time_series.cc
 )
 
 add_executable(cute.data.test ${TESTS})
+target_standard_compile_flags(cute.data.test)
+target_link_libraries(cute.data.test PUBLIC cute.data topic CONAN_PKG::gtest)
 gtest_discover_tests(cute.data.test)
-
-target_compile_options(cute.data.test PRIVATE --coverage)
-target_link_options(cute.data.test PRIVATE --coverage)
-target_link_libraries(cute.data.test PUBLIC cute.data topic gcov gtest)

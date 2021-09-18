@@ -14,9 +14,7 @@ Publisher::Publisher()
 {
 }
 
-Publisher::~Publisher()
-{
-}
+Publisher::~Publisher() = default;
 
 bool Publisher::publish_generic(const std::string& name, const topic::time& time, const std::any& value) const
 {

@@ -3,7 +3,10 @@
 
 #include <variant>
 
+#pragma warning( push )
+#pragma warning( disable: 4127 5054)
 #include <packet.pb.h>
+#pragma warning( pop )
 
 #include "delimited_protobuf_stream.hh"
 
@@ -36,7 +39,7 @@ struct _command_initializer {
 void makeData(proto::Data& data, std::initializer_list<_measurement_initializer> list);
 void makeHandshake(proto::Handshake& handshake, const std::string& name, std::initializer_list<_command_initializer> list);
 
-typedef DelimitedProtobufStream<Packet> DelimitedPacketStream;
+using DelimitedPacketStream = DelimitedProtobufStream<Packet>;
 
 }
 

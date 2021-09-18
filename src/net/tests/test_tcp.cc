@@ -5,13 +5,14 @@
 
 #include <net/server.hh>
 #include <net/socket.hh>
+#include <util/test.hh>
 
 TEST(tcp_server, listen_succeeds)
 {
     net::server server;
 
     std::future<bool> ret = std::async(std::launch::async, [&server]() {
-        return server.listen<net::tcp>("0.0.0.0", 25000);
+        return server.listen<net::tcp>("0.0.0.0", 42857);
     });
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -26,11 +27,11 @@ TEST(tcp_server, sockets_can_connect)
     net::socket socket;
 
     auto a = std::async(std::launch::async, [&server]() {
-        return server.listen<net::tcp>("0.0.0.0", 25001);
+        return server.listen<net::tcp>("0.0.0.0", 42857);
     });
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-    EXPECT_TRUE(socket.connect<net::tcp>("127.0.0.1", 25001));
+    EXPECT_TRUE(socket.connect<net::tcp>("127.0.0.1", 42857));
 
     server.close();
     a.wait();
@@ -54,11 +55,11 @@ TEST(tcp_server, server_creates_new_socket)
     });
 
     auto a = std::async(std::launch::async, [&server]() {
-        return server.listen<net::tcp>("0.0.0.0", 25002);
+        return server.listen<net::tcp>("0.0.0.0", 42857);
     });
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-    socket.connect<net::tcp>("127.0.0.1", 25002);
+    socket.connect<net::tcp>("127.0.0.1", 42857);
 
     std::getline(socket, line);
     socket << "passed" << std::endl;
@@ -73,5 +74,5 @@ TEST(tcp_socket, socket_connect_fails_with_no_server)
 {
     net::socket socket;
 
-    EXPECT_FALSE(socket.connect<net::tcp>("127.0.0.1", 25003));
+    EXPECT_FALSE(socket.connect<net::tcp>("127.0.0.1", 42857));
 }

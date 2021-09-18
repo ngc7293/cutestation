@@ -2,7 +2,9 @@
 
 #include <string>
 
+#ifdef __GNUC__
 #include <cxxabi.h>
+#endif
 
 #include <log/log.hh>
 #include <util/time.hh>
@@ -13,20 +15,26 @@ template <typename T>
 TimeSeries<T>::TimeSeries(const std::string& source, uint64_t length)
     : Series()
 {
-    now_ = util::now<std::milli>;
+    now_ = util::time::now<std::milli>;
 
-    if (!subscribe<T>(source, [this](const topic::time& t, const T& v) {
+    if (!subscriber_.subscribe<T>(source, [this](const topic::time& t, const T& v) {
         accept(std::chrono::duration_cast<std::chrono::milliseconds>(t), v);
     })) {
         int status;
-        Log::err("TimeSeries") << "Could not subscribe to topic '" << source << "' with type " << abi::__cxa_demangle(typeid(T).name(), 0, 0, &status) << std::endl;
+        logging::err("TimeSeries") << "Could not subscribe to topic '" << source << "' with type " << 
+#ifdef __GNUC__
+            abi::__cxa_demangle(typeid(T).name(), 0, 0, &status)
+#elif _MSC_VER
+            typeid(T).name()
+#endif
+        << logging::endl;
     }
 
     length_ = length;
 }
 
 template <typename T>
-TimeSeries<T>::~TimeSeries() {}
+TimeSeries<T>::~TimeSeries() = default;
 
 template <typename T>
 void TimeSeries<T>::accept(const std::chrono::milliseconds& when, const T& what)

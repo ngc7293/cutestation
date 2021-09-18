@@ -7,6 +7,7 @@
 #include <io/dispatcher.hh>
 #include <net/socket.hh>
 #include <net/server.hh>
+#include <util/test.hh>
 
 class MockDispatcher : public cute::io::Dispatcher {
 public:
@@ -31,11 +32,11 @@ TEST(Dispatcher, closes_doesnt_hang)
     });
 
     auto a = std::async(std::launch::async, [&server]() {
-        return server.listen<net::unix>("/tmp/cute.io.test");
+        return server.listen<net::tcp>("0.0.0.0", 42857);
     });
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
-    EXPECT_TRUE(socket.connect<net::unix>("/tmp/cute.io.test"));
+    EXPECT_TRUE(socket.connect<net::tcp>("127.0.0.1", 42857));
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
     dispatcher.close();

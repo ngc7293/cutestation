@@ -6,6 +6,8 @@
 #include <net/server.hh>
 #include <net/socket.hh>
 
+#include <util/thread.hh>
+
 namespace cute::io {
 
 struct SocketDispatcher::priv {
@@ -31,7 +33,7 @@ SocketDispatcher::~SocketDispatcher()
 void SocketDispatcher::start()
 {
     if (_d->thread.joinable()) {
-        Log::warn("io::SocketDispatcher", "Could not start Dispatcher: thread is already running!");
+        logging::warn("io::SocketDispatcher") << "Could not start Dispatcher: thread is already running!" << logging::endl;
         return;
     }
 
@@ -42,15 +44,14 @@ void SocketDispatcher::start()
     });
 
     _d->thread = std::thread([this]() {
-        pthread_setname_np(pthread_self(), "dispatcher");
+        util::thread::rename_this_thread("dispatcher");
 
         switch (_d->type) {
         case net::unix:
-            assert(_d->server.listen<net::unix>(_d->host));
+            _d->server.listen<net::unix>(_d->host);
             break;
-        
         case net::tcp:
-            assert(_d->server.listen<net::tcp>(_d->host, _d->port));
+            _d->server.listen<net::tcp>(_d->host, _d->port);
             break;
         }
     });

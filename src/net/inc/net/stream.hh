@@ -11,6 +11,7 @@ namespace net {
  */
 class closeable : public std::iostream {
 public:
+    closeable(std::streambuf* s) : std::iostream(s) { }
     virtual void close() {}
 };
 
@@ -25,7 +26,13 @@ public:
  * stream and thus cancelling the blocking read() WITHOUT having to complexify
  * the test functions; test_client makes extensive use of this class.
  */
-class stringstream : public std::stringstream, virtual public closeable {};
+class stringstream : public closeable {
+public:
+    stringstream() : closeable(new std::stringbuf()) { }
+    virtual ~stringstream() { delete rdbuf(); }
+
+    std::string str() const { return static_cast<std::stringbuf *>(rdbuf())->str(); }
+};
 
 }
 

@@ -33,15 +33,11 @@ bool Subscriber::subscribe_generic(const std::string& name, const std::type_info
     return false;
 }
 
-bool Subscriber::unsubscribe_generic(const std::string& name, const std::type_info& type)
+bool Subscriber::unsubscribe(const std::string& name)
 {
-    if (std::shared_ptr<Topic> topic = GlobalTopicManager::get().retrieve(name, type)) {
-        if (topic->unsubscribe(this)) {
-            auto it = std::find(d_->subscribed.begin(), d_->subscribed.end(), topic);
-
-            assert(it != d_->subscribed.end());
+    for (auto it = d_->subscribed.begin(); it != d_->subscribed.end(); it++) {
+        if ((*it)->name() == name && (*it)->unsubscribe(this)) {
             d_->subscribed.erase(it);
-
             return true;
         }
     }
