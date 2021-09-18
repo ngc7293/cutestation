@@ -67,17 +67,19 @@ jobs:
       - name: Test
         working-directory: build
         run: ctest --rerun-failed --output-on-failure
-      
-      - name: Install
-        working-directory: build
-        run: cmake --install .
 
       - name: Package
         working-directory: build
         run: cpack
+
+      - name: Get package version
+        working-directory: build
+        run: echo CUTE_VERSION=$(ls *.deb | cut -d- -f2) >> $GITHUB_ENV
 
       - name: Upload
         uses: ncipollo/release-action@v1
         with:
           artifacts: "build/cute-*.deb"
           token: ${{ secrets.GITHUB_TOKEN }}
+          commit: master
+          tag: v${{ env.CUTE_VERSION }}

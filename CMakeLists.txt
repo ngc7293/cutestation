@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
-project(cute)
+project(cute VERSION 1.0.0)
 
 include("${CMAKE_BINARY_DIR}/conan_paths.cmake")
 include("${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")

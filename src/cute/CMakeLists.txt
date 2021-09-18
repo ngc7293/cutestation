@@ -49,7 +49,6 @@ install(
 )
 install(
     FILES
-        ${CONAN_QT_ROOT}/bin/archdatadir/plugins/xcbglintegrations/libqxcb-egl-integration.so
         ${CONAN_QT_ROOT}/bin/archdatadir/plugins/xcbglintegrations/libqxcb-glx-integration.so
     DESTINATION
         ${CMAKE_INSTALL_PREFIX}/share/cute/bin/archdatadir/plugins/xcbglintegrations
