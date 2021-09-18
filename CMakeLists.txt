@@ -23,6 +23,12 @@ enable_testing()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+# Installation stuff
+set(CPACK_GENERATOR "DEB")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "David Bourgault")
+include(CPack)
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/share/cute/lib")
+
 function(target_os_compile_options)
     cmake_parse_arguments(
         OS_COMPILE_OPTIONS
@@ -61,9 +67,9 @@ function(target_standard_compile_flags TARGET)
     target_compile_features(${TARGET} PUBLIC cxx_std_20)
 endfunction()
 
-add_subdirectory(src)
-
 if (UNIX)
     add_custom_target(clean_gcda ALL COMMAND find -name "*.gcda" -delete COMMENT "Cleaning GCDA files")
     add_custom_target(coverage COMMAND gcovr -r ../src ./ -e ".*gtest.*" -e ".*/tests/.*" --html-details -o coverage.html)
 endif()
+
+add_subdirectory(src)
