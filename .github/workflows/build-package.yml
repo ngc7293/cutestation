@@ -94,7 +94,7 @@ jobs:
           submodules: true
 
       - name: Get package version
-        run: cat CMakeLists.txt | perl -lne 'print "VERSION=$1" if /project\(rocketsd VERSION (\d+\.\d+\.\d+)\)/' >> $GITHUB_ENV
+        run: cat CMakeLists.txt | perl -lne 'print "VERSION=$1" if /project\(cute VERSION (\d+\.\d+\.\d+)\)/' >> $GITHUB_ENV
 
       - name: Download artifact
         uses: actions/download-artifact@v2
