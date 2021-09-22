@@ -17,7 +17,7 @@ cmake
 cmake_paths
 
 [imports]
-bin, *.dll -> ./lib
-bin/archdatadir/plugins, *.dll -> ./lib
+bin, *.dll -> ./bin
+bin/archdatadir/plugins, *.dll -> ./bin
 lib, *.so* -> ./lib
 bin/archdatadir/plugins, *.so -> ./lib

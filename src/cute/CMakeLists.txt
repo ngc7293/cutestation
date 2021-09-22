@@ -42,12 +42,14 @@ if (UNIX)
         DESTINATION
             share/cute/lib
     )
+
     install(
         FILES
             ${CONAN_QT_ROOT}/bin/archdatadir/plugins/platforms/libqxcb.so
         DESTINATION
             share/cute/bin/archdatadir/plugins/platforms
     )
+
     install(
         FILES
             ${CONAN_QT_ROOT}/bin/archdatadir/plugins/xcbglintegrations/libqxcb-glx-integration.so
@@ -64,10 +66,13 @@ elseif(MSVC)
         DESTINATION
             bin
     )
+
     install(
         FILES
             ${CONAN_QT_ROOT}/bin/archdatadir/plugins/platforms/qwindows.dll
         DESTINATION
             bin/platforms
     )
+
+    install(FILES ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} DESTINATION bin)
 endif()
