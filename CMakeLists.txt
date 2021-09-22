@@ -25,11 +25,13 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 if (UNIX)
     set(CPACK_GENERATOR "DEB")
     set(CPACK_DEBIAN_PACKAGE_MAINTAINER "David Bourgault")
+    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/share/cute/lib")
 elseif(MSVC)
-set(CPACK_GENERATOR "WIX")
+    set(CPACK_GENERATOR "WIX")
 endif()
+
 include(CPack)
-set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/share/cute/lib")
+include(InstallRequiredSystemLibraries)
 
 function(target_os_compile_options)
     cmake_parse_arguments(
