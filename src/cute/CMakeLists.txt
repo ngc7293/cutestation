@@ -38,6 +38,7 @@ if (UNIX)
             ${CONAN_QT_ROOT}/lib/libQt5Core.so.5    ${CONAN_QT_ROOT}/lib/libQt5Core.so.5.15.2
             ${CONAN_QT_ROOT}/lib/libQt5Gui.so.5     ${CONAN_QT_ROOT}/lib/libQt5Gui.so.5.15.2
             ${CONAN_QT_ROOT}/lib/libQt5XcbQpa.so.5  ${CONAN_QT_ROOT}/lib/libQt5XcbQpa.so.5.15.2
+            ${CONAN_QT_ROOT}/lib/libQt5DBus.so.5    ${CONAN_QT_ROOT}/lib/libQt5DBus.so.5.15.2
         DESTINATION
             share/cute/lib
     )
