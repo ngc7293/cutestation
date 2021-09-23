@@ -65,7 +65,7 @@ jobs:
 
       - name: Build
         working-directory: build
-        run: cmake --build . --config ${{ matrix.config.build_type }}
+        run: cmake --build . --config ${{ matrix.config.build_type }} --parallel 2
 
       - name: Test
         working-directory: build
@@ -84,7 +84,7 @@ jobs:
             build/*.deb
 
   release-artifacts:
-    if: ${{ github.ref == 'ref/heads/master'}}
+    if: ${{ github.ref == 'refs/heads/master'}}
 
     name: Create release
     runs-on: ubuntu-latest
