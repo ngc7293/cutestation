@@ -3,6 +3,7 @@
 
 #include <QObject>
 
+#include <filesystem>
 #include <memory>
 
 namespace cute {
@@ -11,7 +12,7 @@ class App : public QObject {
     Q_OBJECT
 
 public:
-    App();
+    App(const std::filesystem::path& config_path);
     ~App();
 
     void show();
