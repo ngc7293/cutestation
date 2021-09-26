@@ -14,6 +14,7 @@ set(SOURCES
     src/widget_grid.cc
     src/widget.cc
     src/view_widget.cc
+    src/single_value_widget.cc
 )
 
 set(HEADERS
@@ -25,6 +26,7 @@ set(HEADERS
     inc/widgets/widget_factory.hh
     inc/widgets/view_widget.hh
     inc/widgets/widget.hh
+    inc/widgets/single_value_widget.hh
 )
 
 add_library(cute.widgets STATIC ${SOURCES} ${HEADERS} ${QT_SOURCES})

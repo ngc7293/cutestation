@@ -14,7 +14,7 @@
                     // (View)Widget-level config
                     "type": "chart",
                     "name": "GPS Latitude on secondary Window",
-                    "refresh_rate": 60,
+                    "refresh_rate": 10,
         
                     // Chart-specific config
                     "sources": ["anirniq.acquisition.gps.lat", "anirniq.acquisition.gps.lon"],
@@ -33,7 +33,7 @@
                     "x": 0,
                     "y": 2,
                     "colspan": 2,
-                    "refresh_rate": 60,
+
                     "widgets": [
                         {
                             "type": "chart",
@@ -42,7 +42,7 @@
                             "sources": ["anirniq.acquisition.gps.lat"],
                             "length": 2000,
                 
-                            "refresh_rate": 60,
+                            "refresh_rate": 30,
                             "range": [0, 2],
                             "x": 0,
                             "y": 0,
@@ -60,6 +60,29 @@
                     
                     // Layout information
                     "x": 0,
+                    "y": 0
+                }
+            ]
+        },
+        {
+            "name": "Window 2",
+            "widgets": [
+                {
+                    "type": "singlevalue",
+                    "name": "Min",
+                    "strategy": "min",
+                    "source": "anirniq.acquisition.gps.lat",
+
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "type": "singlevalue",
+                    "name": "Max",
+                    "strategy": "max",
+                    "source": "anirniq.acquisition.gps.lat",
+
+                    "x": 1,
                     "y": 0
                 }
             ]

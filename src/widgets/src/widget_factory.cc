@@ -9,10 +9,12 @@
 #include <util/switch.hh>
 #include <data/series.hh>
 #include <data/series_factory.hh>
+#include <data/min_max_value.hh>
 
 #include "widgets/button_widget.hh"
 #include "widgets/chart_widget.hh"
 #include "widgets/widget_group.hh"
+#include "widgets/single_value_widget.hh"
 
 namespace cute::widgets {
 
@@ -72,11 +74,44 @@ ButtonWidget* WidgetFactory::build(const json& config, QWidget* parent)
 }
 
 template<>
+SingleValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
+{
+    SingleValueWidget* widget = nullptr;
+
+    std::string name, source, strategy;
+    unsigned refresh_rate;
+
+    if (!(util::json::validate("SingleValueWidget", config,
+        util::json::required(name, "name"),
+        util::json::required(source, "source"),
+        util::json::required(strategy, "strategy"),
+        util::json::optional(refresh_rate, "refresh_rate", 2u)
+    ))) {
+        return widget;
+    }
+
+    if (strategy != "min" && strategy != "max") {
+        logging::err("SingleValueWidget") << "Invalid strategy '" << strategy << "'" << logging::endl;
+    }
+
+    widget = new SingleValueWidget(parent, name);
+    if (strategy == "min") {
+        widget->set_value(std::unique_ptr<data::SingleValue<double>>(new data::MinValue<double>(source)));
+    } else if (strategy == "max") {
+        widget->set_value(std::unique_ptr<data::SingleValue<double>>(new data::MaxValue<double>(source)));
+    }
+
+    widget->start(refresh_rate);
+    return widget;
+}
+
+
+template<>
 WidgetGroup* WidgetFactory::build(const json& config, QWidget* parent)
 {
     WidgetGroup* widget = nullptr;
 
-    std::string name, command;
+    std::string name;
 
     if (!(util::json::validate("WidgetGroup", config,
         util::json::required(name, "name")
@@ -107,7 +142,8 @@ Widget* WidgetFactory::build(const json& config, QWidget* parent)
     util::switcher::string(type, {
         {"chart", [&widget, config, parent]() { widget = build<ChartWidget>(config, parent); }},
         {"button", [&widget, config, parent]() { widget = build<ButtonWidget>(config, parent); }},
-        {"group",  [&widget, config, parent]() { widget = build<WidgetGroup>(config, parent); }}
+        {"group",  [&widget, config, parent]() { widget = build<WidgetGroup>(config, parent); }},
+        {"singlevalue",  [&widget, config, parent]() { widget = build<SingleValueWidget>(config, parent); }}
     }, [&type]() {
         logging::err("WidgetFactory") << "Unknown widget type '" << type << "'" << logging::endl;
     });

@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.17)
 set(SOURCES
     src/series_factory.cc
     src/time_series.cc
+    src/single_value.cc
 )
 
 set(HEADERS
@@ -10,6 +11,7 @@ set(HEADERS
     inc/data/series.hh
     inc/data/time_series.hh
     inc/data/sampling_policy.hh
+    inc/data/single_value.hh
     src/no_sampling_policy.hh
 )
 
