@@ -11,6 +11,7 @@ namespace cute::data {
 class DynamicValue {
 public:
     DynamicValue(const std::string& source);
+    virtual ~DynamicValue();
 
     virtual double value() const = 0;
     virtual std::chrono::milliseconds timestamp() const = 0;

@@ -18,6 +18,8 @@ DynamicValue::DynamicValue(const std::string& source)
     }
 }
 
+DynamicValue::~DynamicValue() = default;
+
 SimpleDynamicValue::SimpleDynamicValue(const std::string& source, Comparator comparator)
     : DynamicValue(source)
     , comparator_(comparator)
