@@ -1,34 +1,33 @@
 cmake_minimum_required(VERSION 3.17)
 
 set(HEADERS
-    inc/net/socket.hh
-    inc/net/stream.hh
-    inc/net/server.hh
-    inc/net/net.hh
+    socket.hh
+    stream.hh
+    server.hh
+    net.hh
 )
 
 if (UNIX)
     set(SOURCES
-        src/unix/sockbuf.cc
-        src/unix/socket.cc
-        src/unix/server.cc
-        src/unix/sockbuf.hh
-        src/unix/net.cc
+        unix/sockbuf.cc
+        unix/socket.cc
+        unix/server.cc
+        unix/sockbuf.hh
+        unix/net.cc
     )
 endif()
 
 if (WIN32)
     set(SOURCES
-        src/windows/sockbuf.cc
-        src/windows/socket.cc
-        src/windows/server.cc
-        src/windows/sockbuf.hh
-        src/windows/net.cc
+        windows/sockbuf.cc
+        windows/socket.cc
+        windows/server.cc
+        windows/sockbuf.hh
+        windows/net.cc
     )
 endif()
 
 add_library(net STATIC ${SOURCES} ${HEADERS})
-target_include_directories(net PUBLIC inc/ PRIVATE src/)
 target_standard_compile_flags(net)
 target_link_libraries(net PUBLIC cute.log)
 
