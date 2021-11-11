@@ -11,8 +11,11 @@ set(SOURCES
     button_widget.hh
     chart_widget.cc
     chart_widget.hh
+    compass_widget.hh
+    compass_widget.cc
     single_value_widget.cc
     single_value_widget.hh
+    spacer_widget.hh
     view_widget.cc
     view_widget.hh
     widget_factory.cc

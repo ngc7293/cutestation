@@ -14,7 +14,9 @@
 
 #include "button_widget.hh"
 #include "chart_widget.hh"
+#include "compass_widget.hh"
 #include "single_value_widget.hh"
+#include "spacer_widget.hh"
 #include "widget_group.hh"
 
 namespace cute::widgets {
@@ -116,6 +118,34 @@ SingleValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
     return widget;
 }
 
+template<>
+SpacerWidget* WidgetFactory::build(const json& config, QWidget* parent)
+{
+    return new SpacerWidget(parent);
+}
+
+
+template<>
+CompassWidget* WidgetFactory::build(const json& config, QWidget* parent)
+{
+    std::string name;
+    double radius;
+    unsigned int refresh_rate;
+
+    if (!(util::json::validate("CompassWidget", config,
+        util::json::required(name, "name"),
+        util::json::required(radius, "radius"),
+        util::json::optional(refresh_rate, "refresh_rate", 2u)
+    ))) {
+        return nullptr;
+    }
+
+    CompassWidget* widget = new CompassWidget(parent, name);
+    widget->set_radius(radius);
+    widget->start(refresh_rate);
+    return widget;
+}
+
 
 template<>
 WidgetGroup* WidgetFactory::build(const json& config, QWidget* parent)
@@ -140,7 +170,6 @@ WidgetGroup* WidgetFactory::build(const json& config, QWidget* parent)
 template<>
 Widget* WidgetFactory::build(const json& config, QWidget* parent)
 {
-
     std::string type;
 
     if (!util::json::validate("Widget", config, 
@@ -151,10 +180,12 @@ Widget* WidgetFactory::build(const json& config, QWidget* parent)
 
     Widget* widget = nullptr;
     util::switcher::string(type, {
-        {"chart", [&widget, config, parent]() { widget = build<ChartWidget>(config, parent); }},
-        {"button", [&widget, config, parent]() { widget = build<ButtonWidget>(config, parent); }},
-        {"group",  [&widget, config, parent]() { widget = build<WidgetGroup>(config, parent); }},
-        {"singlevalue",  [&widget, config, parent]() { widget = build<SingleValueWidget>(config, parent); }}
+        {"chart",       [&widget, config, parent]() { widget = build<ChartWidget>(config, parent); }},
+        {"button",      [&widget, config, parent]() { widget = build<ButtonWidget>(config, parent); }},
+        {"group",       [&widget, config, parent]() { widget = build<WidgetGroup>(config, parent); }},
+        {"singlevalue", [&widget, config, parent]() { widget = build<SingleValueWidget>(config, parent); }},
+        {"spacer",      [&widget, config, parent]() { widget = build<SpacerWidget>(config, parent); }},
+        {"compass",     [&widget, config, parent]() { widget = build<CompassWidget>(config, parent); }}
     }, [&type]() {
         logging::err("WidgetFactory") << "Unknown widget type '" << type << "'" << logging::endl;
     });
