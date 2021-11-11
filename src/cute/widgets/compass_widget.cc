@@ -9,8 +9,8 @@ namespace cute::widgets {
 struct CompassWidget::Priv {
     double radius = 0;
 
-    DynamicValuePair reference;
-    DynamicValuePair target;
+    ValuePair reference;
+    ValuePair target;
 };
 
 CompassWidget::CompassWidget(QWidget* parent, const std::string& name)
@@ -29,12 +29,12 @@ void CompassWidget::set_radius(double radius)
     _d -> radius = radius;
 }
 
-void CompassWidget::set_reference(DynamicValuePair&& reference)
+void CompassWidget::set_reference(ValuePair&& reference)
 {
     _d -> reference = std::move(reference);
 }
 
-void CompassWidget::set_target(DynamicValuePair&& target)
+void CompassWidget::set_target(ValuePair&& target)
 {
     _d -> target = std::move(target);
 }
@@ -47,7 +47,6 @@ void CompassWidget::paintEvent(QPaintEvent* event)
 
     int side = std::min(width() - 16, height() - 16);
     double scale = static_cast<double>(side) / (2 * _d -> radius);
-
     double sr = _d -> radius * scale;
 
     QPainter painter(this);
@@ -66,9 +65,6 @@ void CompassWidget::paintEvent(QPaintEvent* event)
     painter.setFont(QFont("Source Code Pro", 8));
     painter.drawText(QPoint(0, -sr), QString::number(_d->radius, 'f', 0));
     painter.drawText(QPoint(0, -sr / 2), QString::number(_d->radius / 2, 'f', 0));
-
-    // painter.drawEllipse(-(_d -> radius), -(_d -> radius), _d -> radius, _d -> radius);
-    // painter.drawEllipse(-(_d -> radius) / 2, -(_d -> radius) / 2, _d -> radius / 2, _d -> radius / 2);
 }
 
 void CompassWidget::refresh()

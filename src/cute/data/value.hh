@@ -3,47 +3,33 @@
 
 #include <mutex>
 
-#include <log/log.hh>
-#include <topic/subscriber.hh>
+#include <util/time.hh>
 
 namespace cute::data {
 
 class Value {
 public:
+    Value() = default;
+    virtual ~Value() = default;
+
     virtual double value() const = 0;
     virtual std::chrono::milliseconds timestamp() const = 0;
 };
 
-class SimpleDynamicValue : public DynamicValue {
-protected:
-    using Comparator = std::function<bool(const double& lhs, const double& rhs)>;
-
+class StaticValue: public Value {
 public:
-    SimpleDynamicValue(const std::string& source, Comparator comparator);
+    StaticValue(double value)
+        : data_(util::time::now<std::chrono::milliseconds>(), value)
+    {
+    }
+    ~StaticValue() = default;
 
-    double value() const override;
-    std::chrono::milliseconds timestamp() const override;
-
-    void accept(const std::chrono::milliseconds& when, const double& what) override;
+    double value() const override { return data_.second; };
+    std::chrono::milliseconds timestamp() const override { return data_.first; };
 
 private:
     std::pair<std::chrono::milliseconds, double> data_;
-    Comparator comparator_;
-};
 
-class MinValue : public SimpleDynamicValue {
-public:
-    MinValue(const std::string& source);
-};
-
-class MaxValue : public SimpleDynamicValue {
-public:
-    MaxValue(const std::string& source);
-};
-
-class LastValue : public SimpleDynamicValue {
-public:
-    LastValue(const std::string& source);
 };
 
 }

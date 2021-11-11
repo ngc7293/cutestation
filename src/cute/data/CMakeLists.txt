@@ -12,6 +12,9 @@ set(SOURCES
     series.hh
     time_series.cc
     time_series.hh
+    value.hh
+    value_factory.hh
+    value_factory.cc
 )
 
 add_library(cute.data STATIC ${SOURCES})
@@ -23,6 +26,7 @@ set(TESTS
     tests/main.cc
     tests/test_time_series.cc
     tests/test_dynamic_value.cc
+    tests/test_value_factory.cc
 )
 
 add_executable(cute.data.test ${TESTS})

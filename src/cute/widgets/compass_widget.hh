@@ -12,15 +12,15 @@ namespace cute::widgets {
 class CompassWidget: public ViewWidget {
     Q_OBJECT
 
-    using DynamicValuePair = std::pair<std::unique_ptr<data::DynamicValue>, std::unique_ptr<data::DynamicValue>>;
+    using ValuePair = std::pair<std::unique_ptr<data::Value>, std::unique_ptr<data::Value>>;
 
 public:
     CompassWidget(QWidget* parent, const std::string& name);
     ~CompassWidget() override;
 
     void set_radius(double radius);
-    void set_reference(DynamicValuePair&& reference);
-    void set_target(DynamicValuePair&& target);
+    void set_reference(ValuePair&& reference);
+    void set_target(ValuePair&& target);
 
 protected:
     void paintEvent(QPaintEvent* event) override;

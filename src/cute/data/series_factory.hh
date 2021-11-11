@@ -3,8 +3,6 @@
 
 #include "nlohmann/json.hpp"
 
-#include "series.hh"
-
 using json = nlohmann::json;
 
 namespace cute::data {

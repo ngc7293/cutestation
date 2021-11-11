@@ -1,7 +1,8 @@
 #include "log/ostream_logsink.hh"
 
-#include <map>
 #include <iomanip>
+#include <map>
+#include <optional>
 
 #include <ctime>
 

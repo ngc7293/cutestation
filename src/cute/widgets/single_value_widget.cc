@@ -1,6 +1,8 @@
 #include <QLabel>
 #include <QLayout>
 
+#include <log/log.hh>
+
 #include "single_value_widget.hh"
 
 namespace cute::widgets {
@@ -8,7 +10,7 @@ namespace cute::widgets {
 struct SingleValueWidget::Priv {
     QLabel* label;
     std::string format;
-    std::unique_ptr<data::DynamicValue> value;
+    std::unique_ptr<data::Value> value;
 };
 
 SingleValueWidget::SingleValueWidget(QWidget* parent, const std::string& name)
@@ -26,7 +28,7 @@ void SingleValueWidget::set_format(const std::string& format)
     _d -> format = format;
 }
 
-void SingleValueWidget::set_value(std::unique_ptr<data::DynamicValue>&& value)
+void SingleValueWidget::set_value(std::unique_ptr<data::Value>&& value)
 {
     _d -> value = std::move(value);
 }

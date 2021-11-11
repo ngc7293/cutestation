@@ -8,6 +8,7 @@
 #include <cute/data/dynamic_value.hh>
 #include <cute/data/series_factory.hh>
 #include <cute/data/series.hh>
+#include <cute/data/value_factory.hh>
 #include <log/log.hh>
 #include <util/json.hh>
 #include <util/switch.hh>
@@ -79,40 +80,29 @@ ButtonWidget* WidgetFactory::build(const json& config, QWidget* parent)
 template<>
 SingleValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
 {
-    std::string name, source, strategy, format;
+    std::string name, format;
     unsigned refresh_rate;
 
     if (!(util::json::validate("SingleValueWidget", config,
         util::json::required(name, "name"),
-        util::json::required(source, "source"),
-        util::json::required(strategy, "strategy"),
         util::json::optional(format, "format", "%f"),
         util::json::optional(refresh_rate, "refresh_rate", 2u)
     ))) {
         return nullptr;
     }
 
-    data::DynamicValue* ptr = nullptr;
-    util::switcher::string(strategy, {
-        {"min", [&] { ptr = new data::MinValue(source); }},
-        {"max", [&] { ptr = new data::MaxValue(source); }},
-        {"last", [&] { ptr = new data::LastValue(source); }},
-        {"rolling_average", [&] {
-            unsigned window;
-            if (util::json::validate("SingleValueWidget", config, util::json::required(window, "window"))) {
-                ptr = new data::RollingAverageValue(source, std::chrono::milliseconds(window));
-            }
-        }}
-    }, [&] {
-        logging::err("SingleValueWidget") << "Invalid strategy '" << strategy << "'" << logging::endl;
-    });
+    data::Value* ptr;
+    if (config.count("source")) {
+        ptr = data::ValueFactory::build(config["source"]);
+    }
 
     if (!ptr) {
+        logging::err("SingleValueWidget") << "Missing or invalid 'source' configuration" << logging::endl;
         return nullptr;
     }
 
     SingleValueWidget* widget = new SingleValueWidget(parent, name);
-    widget->set_value(std::unique_ptr<data::DynamicValue>(ptr));
+    widget->set_value(std::unique_ptr<data::Value>(ptr));
     widget->set_format(format);
     widget->start(refresh_rate);
     return widget;

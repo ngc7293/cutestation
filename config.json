@@ -31,36 +31,39 @@
                         {
                             "type": "singlevalue",
                             "name": "altitude.current",
+                            "format": "Current: %.2fm",
                             "source": "anirniq.acquisition.altitude",
                             "refresh_rate": 10,
-                            "strategy": "last",
-                            "format": "Current: %.2fm",
                             "x": 1,
-                            "y": 0,
-                            "width": 200
+                            "y": 0
                         },
                         {
                             "type": "singlevalue",
                             "name": "altitude.max",
-                            "source": "anirniq.acquisition.altitude",
-                            "refresh_rate": 10,
-                            "strategy": "max",
                             "format": "Max: %.2fm",
+                            "source": {
+                                "source": "anirniq.acquisition.altitude",
+                                "type": "max"
+                            },
+                            "refresh_rate": 10,
                             "x": 1,
                             "y": 1
                         },
                         {
                             "type": "singlevalue",
                             "name": "altitude.min",
-                            "source": "anirniq.acquisition.altitude",
-                            "refresh_rate": 10,
-                            "strategy": "min",
                             "format": "Min: %.2fm",
+                            "source": {
+                                "source": "anirniq.acquisition.altitude",
+                                "type": "min"
+                            },
+                            "refresh_rate": 10,
                             "x": 1,
                             "y": 2
                         },
                         {
                             "type": "spacer",
+                            "width": 400,
                             "height": 300,
                             "x": 1,
                             "y": 3
@@ -88,36 +91,39 @@
                         {
                             "type": "singlevalue",
                             "name": "velocity.current",
+                            "format": "Current: %.2fm/s",
                             "source": "anirniq.acquisition.vertical_velocity",
                             "refresh_rate": 10,
-                            "strategy": "last",
-                            "format": "Current: %.2fm/s",
                             "x": 1,
-                            "y": 0,
-                            "width": 200
+                            "y": 0
                         },
                         {
                             "type": "singlevalue",
                             "name": "velocity.max",
-                            "source": "anirniq.acquisition.vertical_velocity",
-                            "refresh_rate": 10,
-                            "strategy": "max",
                             "format": "Max: %.2fm/s",
+                            "source": {
+                                "source": "anirniq.acquisition.vertical_velocity",
+                                "type": "max"
+                            },
+                            "refresh_rate": 10,
                             "x": 1,
                             "y": 1
                         },
                         {
                             "type": "singlevalue",
                             "name": "velocity.min",
-                            "source": "anirniq.acquisition.vertical_velocity",
-                            "refresh_rate": 10,
-                            "strategy": "min",
                             "format": "Min: %.2fm/s",
+                            "source": {
+                                "source": "anirniq.acquisition.vertical_velocity",
+                                "type": "min"
+                            },
+                            "refresh_rate": 10,
                             "x": 1,
                             "y": 2
                         },
                         {
                             "type": "spacer",
+                            "width": 400,
                             "height": 300,
                             "x": 1,
                             "y": 3
@@ -137,7 +143,8 @@
                             "radius": 1000,
                             "x": 0,
                             "y": 0,
-                            "width": 200
+                            "width": 400,
+			    "height": 400
                         },
                         {
                             "type": "spacer",
