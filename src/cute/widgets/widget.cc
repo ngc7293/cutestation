@@ -12,7 +12,9 @@ Widget::Widget(QWidget* parent, const std::string& name)
     : QWidget(parent)
     , name_(name)
 {
-    setLayout(new QHBoxLayout(this));
+    setLayout(new QVBoxLayout(this));
+    layout()->setSpacing(0);
+    layout()->setContentsMargins(0, 0, 0, 0);
 }
 
 Widget::~Widget() = default;

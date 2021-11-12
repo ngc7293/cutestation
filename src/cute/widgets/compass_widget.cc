@@ -90,6 +90,7 @@ void CompassWidget::paintEvent(QPaintEvent* event)
         int sd = static_cast<int>(distance * scale);
 
         painter.save();
+        painter.translate(0, -8);
         painter.rotate(bearing);
 
         painter.setBrush(QColor(255, 0, 0));

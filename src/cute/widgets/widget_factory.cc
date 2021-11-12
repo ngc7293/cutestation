@@ -80,11 +80,12 @@ ButtonWidget* WidgetFactory::build(const json& config, QWidget* parent)
 template<>
 SingleValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
 {
-    std::string name, format;
+    std::string name, label, format;
     unsigned refresh_rate;
 
     if (!(util::json::validate("SingleValueWidget", config,
         util::json::required(name, "name"),
+        util::json::optional(label, "label", "widget"),
         util::json::optional(format, "format", "%f"),
         util::json::optional(refresh_rate, "refresh_rate", 2u)
     ))) {
@@ -103,6 +104,7 @@ SingleValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
 
     SingleValueWidget* widget = new SingleValueWidget(parent, name);
     widget->set_value(std::unique_ptr<data::Value>(ptr));
+    widget->set_label(label);
     widget->set_format(format);
     widget->start(refresh_rate);
     return widget;
