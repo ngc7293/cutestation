@@ -1,14 +1,16 @@
 cmake_minimum_required(VERSION 3.17)
 
 set(SOURCES
-    json.hh
-    time.hh
-    switch.hh
-    thread.hh
-    type.hh
+    geo.cc
+    geo.hh
     json.cc
+    json.hh
     switch.cc
+    switch.hh
     thread.cc
+    thread.hh
+    time.hh
+    type.hh
 )
 
 add_library(cute.util STATIC ${SOURCES} ${HEADERS})
@@ -19,6 +21,7 @@ target_link_libraries(cute.util PUBLIC cute.log CONAN_PKG::nlohmann_json CONAN_P
 set(TESTS
     tests/main.cc
     tests/test_json.cc
+    tests/test_geo.cc
     tests/test_switch.cc
     tests/test_type.cc
 )

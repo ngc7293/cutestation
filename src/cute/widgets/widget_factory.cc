@@ -121,17 +121,42 @@ CompassWidget* WidgetFactory::build(const json& config, QWidget* parent)
     std::string name;
     double radius;
     unsigned int refresh_rate;
+    std::vector<nlohmann::json> reference, target;
 
     if (!(util::json::validate("CompassWidget", config,
         util::json::required(name, "name"),
         util::json::required(radius, "radius"),
+        util::json::required(reference, "reference"),
+        util::json::required(target, "target"),
         util::json::optional(refresh_rate, "refresh_rate", 2u)
     ))) {
         return nullptr;
     }
 
+    if (reference.size() != 2) {
+        logging::err("CompassWidget") << "Reference configuration is not in [lat, lon] format" << logging::endl;
+        return nullptr;
+    }
+
+    if (target.size() != 2) {
+        logging::err("CompassWidget") << "Target configuration is not in [lat, lon] format" << logging::endl;
+        return nullptr;
+    }
+
+    CompassWidget::ValuePair referenceValue = {
+        std::unique_ptr<data::Value>(data::ValueFactory::build(reference[0])),
+        std::unique_ptr<data::Value>(data::ValueFactory::build(reference[1]))
+    };
+
+    CompassWidget::ValuePair targetValue = {
+        std::unique_ptr<data::Value>(data::ValueFactory::build(target[0])),
+        std::unique_ptr<data::Value>(data::ValueFactory::build(target[1]))
+    };
+
     CompassWidget* widget = new CompassWidget(parent, name);
     widget->set_radius(radius);
+    widget->set_reference(std::move(referenceValue));
+    widget->set_target(std::move(targetValue));
     widget->start(refresh_rate);
     return widget;
 }

@@ -12,6 +12,7 @@ namespace cute::widgets {
 class CompassWidget: public ViewWidget {
     Q_OBJECT
 
+public:
     using ValuePair = std::pair<std::unique_ptr<data::Value>, std::unique_ptr<data::Value>>;
 
 public:
