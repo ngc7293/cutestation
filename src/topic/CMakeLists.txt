@@ -29,5 +29,5 @@ set(TESTS
 
 add_executable(topic.test ${TESTS})
 target_standard_compile_flags(topic.test)
-target_link_libraries(topic.test PUBLIC topic CONAN_PKG::gtest)
+target_link_libraries(topic.test PUBLIC topic CONAN_PKG::GTest)
 gtest_discover_tests(topic.test)

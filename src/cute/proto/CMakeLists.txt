@@ -32,5 +32,5 @@ set(TESTS
 
 add_executable(cute.proto.test ${TESTS})
 target_compile_features(cute.proto PUBLIC cxx_std_20)
-target_link_libraries(cute.proto.test PUBLIC cute.proto CONAN_PKG::gtest)
+target_link_libraries(cute.proto.test PUBLIC cute.proto CONAN_PKG::GTest)
 gtest_discover_tests(cute.proto.test)

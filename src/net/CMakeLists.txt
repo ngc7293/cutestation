@@ -41,5 +41,5 @@ set(TESTS
 
 add_executable(net.test ${TESTS})
 target_standard_compile_flags(net.test)
-target_link_libraries(net.test PUBLIC net cute.util cute.log CONAN_PKG::gtest)
+target_link_libraries(net.test PUBLIC net cute.util cute.log CONAN_PKG::GTest)
 gtest_discover_tests(net.test)

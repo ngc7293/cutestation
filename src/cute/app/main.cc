@@ -81,14 +81,8 @@ int main(int argc, char* argv[])
     }
 
     QApplication qapp(argc, argv);
-    
-    std::stringstream ss;
-    for (const auto& style: QStyleFactory::keys()) {
-        ss << style.toStdString() << ", ";
-    }
-    auto stream = logging::info("main") << "Available styles: " << ss.str() << logging::endl;
-
     qapp.setStyle(QStyleFactory::create("Fusion"));
+
     cute::App app(args.config_path);
     app.show();
 
