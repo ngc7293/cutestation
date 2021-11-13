@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include <cute/data/dynamic_value.hh>
+#include <cute/data/value.hh>
 
 #include "view_widget.hh"
 
@@ -16,8 +16,9 @@ public:
     SingleValueWidget(QWidget* parent, const std::string& name);
     ~SingleValueWidget() override;
 
+    void set_label(const std::string& label);
     void set_format(const std::string& format);
-    void set_value(std::unique_ptr<data::DynamicValue>&& value);
+    void set_value(std::unique_ptr<data::Value>&& value);
 
 protected slots:
     void refresh() override;

@@ -3,19 +3,18 @@
 
 #include <mutex>
 
+#include <cute/data/value.hh>
 #include <log/log.hh>
 #include <topic/subscriber.hh>
 
 namespace cute::data {
 
-class DynamicValue {
+class DynamicValue : public Value {
 public:
     DynamicValue(const std::string& source);
     virtual ~DynamicValue();
 
-    virtual double value() const = 0;
-    virtual std::chrono::milliseconds timestamp() const = 0;
-
+protected:
     virtual void accept(const std::chrono::milliseconds& when, const double& what) = 0;
 
 private:
@@ -32,6 +31,7 @@ public:
     double value() const override;
     std::chrono::milliseconds timestamp() const override;
 
+protected:
     void accept(const std::chrono::milliseconds& when, const double& what) override;
 
 private:

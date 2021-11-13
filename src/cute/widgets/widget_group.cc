@@ -13,6 +13,7 @@ WidgetGroup::WidgetGroup(QWidget* parent, const std::string& name)
     grid_ = new WidgetGrid();
     box_->setLayout(grid_);
     layout()->addWidget(box_);
+    layout()->setContentsMargins(10, 10, 10, 10);
 }
 
 WidgetGroup::~WidgetGroup() = default;

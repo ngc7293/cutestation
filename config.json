@@ -1,5 +1,5 @@
 {
-    "io" : [
+    "io": [
         {
             "type": "tcp",
             "host": "0.0.0.0",
@@ -8,82 +8,274 @@
     ],
     "windows": [
         {
-            "name": "Window 1",
+            "name": "Anirniq",
             "widgets": [
                 {
-                    // (View)Widget-level config
-                    "type": "chart",
-                    "name": "GPS Latitude on secondary Window",
-                    "refresh_rate": 10,
-        
-                    // Chart-specific config
-                    "sources": ["anirniq.acquisition.gps.lat", "anirniq.acquisition.gps.lon"],
-                    "length": 2000,
-                    "range": [0, 2],
-
-                    // Layout information
-                    "x": 0,
-                    "y": 1,
-                    "colspan": 2,
-                    "height": 400
-                },
-                {
                     "type": "group",
-                    "name": "Group!",
+                    "name": "Status",
                     "x": 0,
-                    "y": 2,
-                    "colspan": 2,
-
+                    "y": 0,
+                    "colspan": 3,
                     "widgets": [
                         {
-                            "type": "chart",
-                            "name": "GPS Latitude on secondary Window",
-                
-                            "sources": ["anirniq.acquisition.gps.lat"],
-                            "length": 2000,
-                
-                            "refresh_rate": 30,
-                            "range": [0, 2],
+                            "type": "singlevalue",
+                            "name": "status.mission",
+                            "label": "Mission",
+                            "format": "BAD",
+                            "source": 0,
+                            "refresh_rate": 10,
                             "x": 0,
                             "y": 0,
-                            "height": 400
+                            "width": 100
+                        },
+                        {
+                            "type": "singlevalue",
+                            "name": "status.acqui",
+                            "label": "Acquisition",
+                            "format": "BAD",
+                            "source": 0,
+                            "refresh_rate": 10,
+                            "x": 1,
+                            "y": 0,
+                            "width": 100
+                        },
+                        {
+                            "type": "singlevalue",
+                            "name": "status.comm",
+                            "label": "Communication",
+                            "format": "BAD",
+                            "source": 0,
+                            "refresh_rate": 10,
+                            "x": 2,
+                            "y": 0,
+                            "width": 100
+                        },
+                        {
+                            "type": "singlevalue",
+                            "name": "status.psu",
+                            "label": "Power Supply",
+                            "format": "BAD",
+                            "source": 0,
+                            "refresh_rate": 10,
+                            "x": 3,
+                            "y": 0,
+                            "width": 100
+                        },
+                        {
+                            "type": "spacer",
+                            "x": 4,
+                            "y": 0
                         }
                     ]
                 },
                 {
-                    "type": "button",
-                    "name": "AZ-3",
-                    "refresh_rate": 60,
-
-                    // Button-specific config
-                    "command": "anirniq.remote_control.engine.sequence.stop",
-                    
-                    // Layout information
+                    "type": "group",
+                    "name": "Altitude",
                     "x": 0,
-                    "y": 0
-                }
-            ]
-        },
-        {
-            "name": "Window 2",
-            "widgets": [
-                {
-                    "type": "singlevalue",
-                    "name": "Min",
-                    "strategy": "min",
-                    "source": "anirniq.acquisition.gps.lat",
-
-                    "x": 0,
-                    "y": 0
+                    "y": 1,
+                    "colspan": 2,
+                    "widgets": [
+                        {
+                            "type": "chart",
+                            "name": "altitude.chart",
+                            "refresh_rate": 60,
+                            "sources": [
+                                "anirniq.acquisition.altitude"
+                            ],
+                            "length": 60000,
+                            "range": [
+                                0,
+                                30000
+                            ],
+                            "x": 0,
+                            "y": 0,
+                            "rowspan": 4
+                        },
+                        {
+                            "type": "singlevalue",
+                            "name": "altitude.current",
+                            "label": "Current (m)",
+                            "format": "%.2f",
+                            "source": "anirniq.acquisition.altitude",
+                            "refresh_rate": 10,
+                            "x": 1,
+                            "y": 0
+                        },
+                        {
+                            "type": "singlevalue",
+                            "name": "altitude.max",
+                            "label": "Maximum (m)",
+                            "format": "%.2f",
+                            "source": {
+                                "source": "anirniq.acquisition.altitude",
+                                "type": "max"
+                            },
+                            "refresh_rate": 10,
+                            "x": 1,
+                            "y": 1
+                        },
+                        {
+                            "type": "singlevalue",
+                            "name": "altitude.min",
+                            "label": "Minimum (m)",
+                            "format": "%.2f",
+                            "source": {
+                                "source": "anirniq.acquisition.altitude",
+                                "type": "min"
+                            },
+                            "refresh_rate": 10,
+                            "x": 1,
+                            "y": 2
+                        },
+                        {
+                            "type": "spacer",
+                            "width": 200,
+                            "height": 250,
+                            "x": 1,
+                            "y": 3
+                        }
+                    ]
                 },
                 {
-                    "type": "singlevalue",
-                    "name": "Max",
-                    "strategy": "max",
-                    "source": "anirniq.acquisition.gps.lat",
-
+                    "type": "group",
+                    "name": "Velocity",
+                    "x": 0,
+                    "y": 2,
+                    "widgets": [
+                        {
+                            "type": "chart",
+                            "name": "velocity.chart",
+                            "refresh_rate": 60,
+                            "sources": [
+                                "anirniq.acquisition.vertical_velocity"
+                            ],
+                            "length": 60000,
+                            "range": [
+                                0,
+                                1250
+                            ],
+                            "x": 0,
+                            "y": 0,
+                            "rowspan": 4
+                        },
+                        {
+                            "type": "singlevalue",
+                            "name": "velocity.current",
+                            "label": "Current (m/s)",
+                            "format": "%.2f",
+                            "source": "anirniq.acquisition.vertical_velocity",
+                            "refresh_rate": 10,
+                            "x": 1,
+                            "y": 0
+                        },
+                        {
+                            "type": "singlevalue",
+                            "name": "velocity.max",
+                            "label": "Maximum (m/s)",
+                            "format": "%.2f",
+                            "source": {
+                                "source": "anirniq.acquisition.vertical_velocity",
+                                "type": "max"
+                            },
+                            "refresh_rate": 10,
+                            "x": 1,
+                            "y": 1
+                        },
+                        {
+                            "type": "singlevalue",
+                            "name": "velocity.min",
+                            "label": "Minimum (m/s)",
+                            "format": "%.2f",
+                            "source": {
+                                "source": "anirniq.acquisition.vertical_velocity",
+                                "type": "min"
+                            },
+                            "refresh_rate": 10,
+                            "x": 1,
+                            "y": 2
+                        },
+                        {
+                            "type": "spacer",
+                            "width": 200,
+                            "height": 250,
+                            "x": 1,
+                            "y": 3
+                        }
+                    ]
+                },
+                {
+                    "type": "group",
+                    "name": "Acceleration",
                     "x": 1,
-                    "y": 0
+                    "y": 2,
+                    "widgets": [
+                        {
+                            "type": "chart",
+                            "name": "acceleration.chart",
+                            "refresh_rate": 60,
+                            "sources": [
+                                "anirniq.acquisition.acceleration.x",
+                                "anirniq.acquisition.acceleration.y",
+                                "anirniq.acquisition.acceleration.z"
+                            ],
+                            "length": 60000,
+                            "range": [
+                                -16,
+                                16
+                            ],
+                            "x": 0,
+                            "y": 0,
+                            "rowspan": 4
+                        }
+                    ]
+                },
+                {
+                    "type": "group",
+                    "name": "GPS",
+                    "x": 2,
+                    "y": 1,
+                    "rowspan": 2,
+                    "widgets": [
+                        {
+                            "type": "compass",
+                            "name": "gps.compass",
+                            "radius": 1000,
+                            "reference": [45.543000, -73.55000],
+                            "target": ["anirniq.acquisition.gps.lat", "anirniq.acquisition.gps.lon"],
+                            "refresh_rate": 60,
+                            "x": 0,
+                            "y": 0,
+                            "width": 200,
+                            "height": 200,
+                            "colspan": 2
+                        },
+                        {
+                            "type": "singlevalue",
+                            "name": "gps.lat",
+                            "label": "Latitude",
+                            "format": "%.6f",
+                            "source": "anirniq.acquisition.gps.lat",
+                            "refresh_rate": 10,
+                            "x": 0,
+                            "y": 1
+                        },
+                        {
+                            "type": "singlevalue",
+                            "name": "gps.lon",
+                            "label": "Longitude",
+                            "format": "%.6f",
+                            "source": "anirniq.acquisition.gps.lon",
+                            "refresh_rate": 10,
+                            "x": 1,
+                            "y": 1
+                        },
+                        {
+                            "type": "spacer",
+                            "x": 0,
+                            "y": 2,
+                            "colspan": 2
+                        }
+                    ]
                 }
             ]
         }

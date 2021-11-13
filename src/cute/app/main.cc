@@ -82,6 +82,7 @@ int main(int argc, char* argv[])
 
     QApplication qapp(argc, argv);
     qapp.setStyle(QStyleFactory::create("Fusion"));
+
     cute::App app(args.config_path);
     app.show();
 

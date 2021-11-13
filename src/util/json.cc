@@ -9,6 +9,12 @@ bool has<std::string>(const nlohmann::json& j, const std::string& key)
 }
 
 template <>
+bool has<nlohmann::json>(const nlohmann::json& j, const std::string& key)
+{
+    return j.count(key);
+}
+
+template <>
 bool has<double>(const nlohmann::json& j, const std::string& key)
 {
     return j.count(key) && j[key].is_number();
@@ -78,6 +84,12 @@ bool has<std::vector<std::string>>(const nlohmann::json& j, const std::string& k
     }
 
     return ret;
+}
+
+template<>
+bool has<std::vector<nlohmann::json>>(const nlohmann::json& j, const std::string& key)
+{
+    return j.count(key) && j[key].is_array();
 }
 
 }

@@ -29,6 +29,10 @@ public:
 
     std::string name() { return name_; }
     void set_name(const std::string& name) { name_ = name; }
+
+#if (not NDEBUG)
+    void paintEvent(QPaintEvent *event) override;
+#endif
 };
 
 } // namespaces

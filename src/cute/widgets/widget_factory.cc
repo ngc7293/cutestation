@@ -8,13 +8,16 @@
 #include <cute/data/dynamic_value.hh>
 #include <cute/data/series_factory.hh>
 #include <cute/data/series.hh>
+#include <cute/data/value_factory.hh>
 #include <log/log.hh>
 #include <util/json.hh>
 #include <util/switch.hh>
 
 #include "button_widget.hh"
 #include "chart_widget.hh"
+#include "compass_widget.hh"
 #include "single_value_widget.hh"
+#include "spacer_widget.hh"
 #include "widget_group.hh"
 
 namespace cute::widgets {
@@ -77,41 +80,85 @@ ButtonWidget* WidgetFactory::build(const json& config, QWidget* parent)
 template<>
 SingleValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
 {
-    std::string name, source, strategy, format;
+    std::string name, label, format;
     unsigned refresh_rate;
 
     if (!(util::json::validate("SingleValueWidget", config,
         util::json::required(name, "name"),
-        util::json::required(source, "source"),
-        util::json::required(strategy, "strategy"),
+        util::json::optional(label, "label", "widget"),
         util::json::optional(format, "format", "%f"),
         util::json::optional(refresh_rate, "refresh_rate", 2u)
     ))) {
         return nullptr;
     }
 
-    data::DynamicValue* ptr = nullptr;
-    util::switcher::string(strategy, {
-        {"min", [&] { ptr = new data::MinValue(source); }},
-        {"max", [&] { ptr = new data::MaxValue(source); }},
-        {"last", [&] { ptr = new data::LastValue(source); }},
-        {"rolling_average", [&] {
-            unsigned window;
-            if (util::json::validate("SingleValueWidget", config, util::json::required(window, "window"))) {
-                ptr = new data::RollingAverageValue(source, std::chrono::milliseconds(window));
-            }
-        }}
-    }, [&] {
-        logging::err("SingleValueWidget") << "Invalid strategy '" << strategy << "'" << logging::endl;
-    });
+    data::Value* ptr = nullptr;
+    if (config.count("source")) {
+        ptr = data::ValueFactory::build(config["source"]);
+    }
 
     if (!ptr) {
+        logging::err("SingleValueWidget") << "Missing or invalid 'source' configuration" << logging::endl;
         return nullptr;
     }
 
     SingleValueWidget* widget = new SingleValueWidget(parent, name);
-    widget->set_value(std::unique_ptr<data::DynamicValue>(ptr));
+    widget->set_value(std::unique_ptr<data::Value>(ptr));
+    widget->set_label(label);
     widget->set_format(format);
+    widget->start(refresh_rate);
+    return widget;
+}
+
+template<>
+SpacerWidget* WidgetFactory::build(const json& /*config*/, QWidget* parent)
+{
+    return new SpacerWidget(parent);
+}
+
+
+template<>
+CompassWidget* WidgetFactory::build(const json& config, QWidget* parent)
+{
+    std::string name;
+    double radius;
+    unsigned int refresh_rate;
+    std::vector<nlohmann::json> reference, target;
+
+    if (!(util::json::validate("CompassWidget", config,
+        util::json::required(name, "name"),
+        util::json::required(radius, "radius"),
+        util::json::required(reference, "reference"),
+        util::json::required(target, "target"),
+        util::json::optional(refresh_rate, "refresh_rate", 2u)
+    ))) {
+        return nullptr;
+    }
+
+    if (reference.size() != 2) {
+        logging::err("CompassWidget") << "Reference configuration is not in [lat, lon] format" << logging::endl;
+        return nullptr;
+    }
+
+    if (target.size() != 2) {
+        logging::err("CompassWidget") << "Target configuration is not in [lat, lon] format" << logging::endl;
+        return nullptr;
+    }
+
+    CompassWidget::ValuePair referenceValue = {
+        std::unique_ptr<data::Value>(data::ValueFactory::build(reference[0])),
+        std::unique_ptr<data::Value>(data::ValueFactory::build(reference[1]))
+    };
+
+    CompassWidget::ValuePair targetValue = {
+        std::unique_ptr<data::Value>(data::ValueFactory::build(target[0])),
+        std::unique_ptr<data::Value>(data::ValueFactory::build(target[1]))
+    };
+
+    CompassWidget* widget = new CompassWidget(parent, name);
+    widget->set_radius(radius);
+    widget->set_reference(std::move(referenceValue));
+    widget->set_target(std::move(targetValue));
     widget->start(refresh_rate);
     return widget;
 }
@@ -140,7 +187,6 @@ WidgetGroup* WidgetFactory::build(const json& config, QWidget* parent)
 template<>
 Widget* WidgetFactory::build(const json& config, QWidget* parent)
 {
-
     std::string type;
 
     if (!util::json::validate("Widget", config, 
@@ -151,10 +197,12 @@ Widget* WidgetFactory::build(const json& config, QWidget* parent)
 
     Widget* widget = nullptr;
     util::switcher::string(type, {
-        {"chart", [&widget, config, parent]() { widget = build<ChartWidget>(config, parent); }},
-        {"button", [&widget, config, parent]() { widget = build<ButtonWidget>(config, parent); }},
-        {"group",  [&widget, config, parent]() { widget = build<WidgetGroup>(config, parent); }},
-        {"singlevalue",  [&widget, config, parent]() { widget = build<SingleValueWidget>(config, parent); }}
+        {"chart",       [&widget, config, parent]() { widget = build<ChartWidget>(config, parent); }},
+        {"button",      [&widget, config, parent]() { widget = build<ButtonWidget>(config, parent); }},
+        {"group",       [&widget, config, parent]() { widget = build<WidgetGroup>(config, parent); }},
+        {"singlevalue", [&widget, config, parent]() { widget = build<SingleValueWidget>(config, parent); }},
+        {"spacer",      [&widget, config, parent]() { widget = build<SpacerWidget>(config, parent); }},
+        {"compass",     [&widget, config, parent]() { widget = build<CompassWidget>(config, parent); }}
     }, [&type]() {
         logging::err("WidgetFactory") << "Unknown widget type '" << type << "'" << logging::endl;
     });

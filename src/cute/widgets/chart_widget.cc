@@ -39,13 +39,17 @@ ChartWidget::ChartWidget(QWidget* parent, const std::string& name)
     yaxis->setRange(_d->min, _d->max);
 
     QtCharts::QDateTimeAxis* xaxis = new QtCharts::QDateTimeAxis(_d->chartview);
-    xaxis->setTickCount(2);
+    xaxis->setTickCount(5);
+    xaxis->setFormat("HH:mm:ss");
 
     _d->chartview->chart()->addAxis(xaxis, Qt::AlignBottom);
     _d->chartview->chart()->addAxis(yaxis, Qt::AlignLeft);
 
     // UI tweaks
     _d->chartview->setRenderHint(QPainter::Antialiasing);
+    _d->chartview->chart()->setBackgroundVisible(false);
+    _d->chartview->chart()->setMargins(QMargins(0, 0, 0, 0));
+    _d->chartview->chart()->legend()->hide();
 
     layout()->addWidget(_d->chartview);
 }
