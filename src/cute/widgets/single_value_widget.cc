@@ -1,3 +1,4 @@
+#include <QFontDatabase>
 #include <QLabel>
 #include <QLayout>
 
@@ -24,7 +25,7 @@ SingleValueWidget::SingleValueWidget(QWidget* parent, const std::string& name)
     _d -> label -> setAlignment(Qt::AlignHCenter);
 
     _d -> value_label = new QLabel(this);
-    QFont valueFont("Source Code Pro");
+    QFont valueFont = QFontDatabase::systemFont(QFontDatabase::FixedFont);
     valueFont.setPixelSize(16);
     _d -> value_label -> setFont(valueFont);
     _d -> value_label -> setAlignment(Qt::AlignHCenter);

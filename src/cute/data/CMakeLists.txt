@@ -31,5 +31,5 @@ set(TESTS
 
 add_executable(cute.data.test ${TESTS})
 target_standard_compile_flags(cute.data.test)
-target_link_libraries(cute.data.test PUBLIC cute.data topic CONAN_PKG::GTest)
+target_link_libraries(cute.data.test PUBLIC cute.data topic CONAN_PKG::gtest)
 gtest_discover_tests(cute.data.test)

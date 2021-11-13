@@ -1,9 +1,10 @@
-#include "compass_widget.hh"
-
+#include <QFontDatabase>
 #include <QPainter>
 
 #include <log/log.hh>
 #include <util/geo.hh>
+
+#include "compass_widget.hh"
 
 namespace cute::widgets {
 
@@ -85,9 +86,12 @@ void CompassWidget::Priv::drawBackground(QPainter& painter, double scale)
         painter.restore();
     }
 
+    QFont font = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+    font.setPointSize(96);
+
     painter.setBrush(Qt::NoBrush);
     painter.setPen(QColor(0, 0, 0));
-    painter.setFont(QFont("Source Code Pro", (8 / scale)));
+    painter.setFont(font);
     painter.drawText(QRect(0, radius, 0, 0),     (Qt::AlignHCenter | Qt::AlignTop | Qt::TextDontClip), QString::number(radius, 'f', 0));
     painter.drawText(QRect(0, radius / 2, 0, 0), (Qt::AlignHCenter | Qt::AlignTop | Qt::TextDontClip), QString::number(radius / 2, 'f', 0));
 
@@ -117,11 +121,25 @@ void CompassWidget::Priv::drawTarget(QPainter& painter, double scale)
     }
     painter.restore();
 
+
+    QFont font = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+    font.setPointSize(128);
+
+
+    QString unit;
+    if (distance < 1000) {
+        unit = "m";
+    } else {
+        unit = "km";
+        distance /= 1000.0;
+    }
+
     painter.setBrush(Qt::NoBrush);
     painter.setPen(QColor(0, 0, 0));
-    painter.setFont(QFont("Source Code Pro", (12 / scale)));
+    painter.setFont(font);
+
     painter.drawText(QRect(-radius - 8/scale, radius + 8/scale, 0, 0), (Qt::AlignLeft  | Qt::AlignBottom | Qt::TextDontClip), QString("%1°").arg(bearing, 0, 'f', 2));
-    painter.drawText(QRect( radius + 8/scale, radius + 8/scale, 0, 0), (Qt::AlignRight | Qt::AlignBottom | Qt::TextDontClip), QString("%1m").arg(distance, 0, 'f', 2));
+    painter.drawText(QRect( radius + 8/scale, radius + 8/scale, 0, 0), (Qt::AlignRight | Qt::AlignBottom | Qt::TextDontClip), QString("%1%2").arg(distance, 0, 'f', 2).arg(unit));
 }
 
 }
