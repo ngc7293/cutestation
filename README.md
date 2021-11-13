@@ -64,7 +64,7 @@ a Google Test-driven unit test executable named `<target>.test` (e.g.:
 - Ninja (recommended)
 
 CuteStation uses C++20 features and syntax; a modern compiler is required. The
-officially supported compiler are GCC 9.3.0 and Visual Studio 16 2019.
+officially supported compiler are GCC 10/11 and Visual Studio 16 2019.
 
 ## Building
 

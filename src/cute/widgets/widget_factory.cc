@@ -92,7 +92,7 @@ SingleValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
         return nullptr;
     }
 
-    data::Value* ptr;
+    data::Value* ptr = nullptr;
     if (config.count("source")) {
         ptr = data::ValueFactory::build(config["source"]);
     }
@@ -111,7 +111,7 @@ SingleValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
 }
 
 template<>
-SpacerWidget* WidgetFactory::build(const json& config, QWidget* parent)
+SpacerWidget* WidgetFactory::build(const json& /*config*/, QWidget* parent)
 {
     return new SpacerWidget(parent);
 }

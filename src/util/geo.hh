@@ -1,6 +1,10 @@
 #ifndef UTIL_GEO_HH_
 #define UTIL_GEO_HH_
 
+#include <numbers>
+
+#include <cmath>
+
 namespace util::geo {
 
 namespace constants {

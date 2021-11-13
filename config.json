@@ -12,14 +12,73 @@
             "widgets": [
                 {
                     "type": "group",
-                    "name": "Altitude",
+                    "name": "Status",
                     "x": 0,
                     "y": 0,
+                    "colspan": 3,
+                    "widgets": [
+                        {
+                            "type": "singlevalue",
+                            "name": "status.mission",
+                            "label": "Mission",
+                            "format": "BAD",
+                            "source": 0,
+                            "refresh_rate": 10,
+                            "x": 0,
+                            "y": 0,
+                            "width": 100
+                        },
+                        {
+                            "type": "singlevalue",
+                            "name": "status.acqui",
+                            "label": "Acquisition",
+                            "format": "BAD",
+                            "source": 0,
+                            "refresh_rate": 10,
+                            "x": 1,
+                            "y": 0,
+                            "width": 100
+                        },
+                        {
+                            "type": "singlevalue",
+                            "name": "status.comm",
+                            "label": "Communication",
+                            "format": "BAD",
+                            "source": 0,
+                            "refresh_rate": 10,
+                            "x": 2,
+                            "y": 0,
+                            "width": 100
+                        },
+                        {
+                            "type": "singlevalue",
+                            "name": "status.psu",
+                            "label": "Power Supply",
+                            "format": "BAD",
+                            "source": 0,
+                            "refresh_rate": 10,
+                            "x": 3,
+                            "y": 0,
+                            "width": 100
+                        },
+                        {
+                            "type": "spacer",
+                            "x": 4,
+                            "y": 0
+                        }
+                    ]
+                },
+                {
+                    "type": "group",
+                    "name": "Altitude",
+                    "x": 0,
+                    "y": 1,
+                    "colspan": 2,
                     "widgets": [
                         {
                             "type": "chart",
                             "name": "altitude.chart",
-                            "refresh_rate": 2,
+                            "refresh_rate": 60,
                             "sources": [
                                 "anirniq.acquisition.altitude"
                             ],
@@ -71,7 +130,7 @@
                         {
                             "type": "spacer",
                             "width": 200,
-                            "height": 300,
+                            "height": 250,
                             "x": 1,
                             "y": 3
                         }
@@ -81,12 +140,12 @@
                     "type": "group",
                     "name": "Velocity",
                     "x": 0,
-                    "y": 1,
+                    "y": 2,
                     "widgets": [
                         {
                             "type": "chart",
                             "name": "velocity.chart",
-                            "refresh_rate": 2,
+                            "refresh_rate": 60,
                             "sources": [
                                 "anirniq.acquisition.vertical_velocity"
                             ],
@@ -138,7 +197,7 @@
                         {
                             "type": "spacer",
                             "width": 200,
-                            "height": 300,
+                            "height": 250,
                             "x": 1,
                             "y": 3
                         }
@@ -146,9 +205,36 @@
                 },
                 {
                     "type": "group",
-                    "name": "GPS",
+                    "name": "Acceleration",
                     "x": 1,
-                    "y": 0,
+                    "y": 2,
+                    "widgets": [
+                        {
+                            "type": "chart",
+                            "name": "acceleration.chart",
+                            "refresh_rate": 60,
+                            "sources": [
+                                "anirniq.acquisition.acceleration.x",
+                                "anirniq.acquisition.acceleration.y",
+                                "anirniq.acquisition.acceleration.z"
+                            ],
+                            "length": 60000,
+                            "range": [
+                                -16,
+                                16
+                            ],
+                            "x": 0,
+                            "y": 0,
+                            "rowspan": 4
+                        }
+                    ]
+                },
+                {
+                    "type": "group",
+                    "name": "GPS",
+                    "x": 2,
+                    "y": 1,
+                    "rowspan": 2,
                     "widgets": [
                         {
                             "type": "compass",

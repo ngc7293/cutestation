@@ -47,6 +47,8 @@ void CompassWidget::paintEvent(QPaintEvent* event)
 {
 #if (not NDEBUG)
     Widget::paintEvent(event);
+#else
+    (void) event;
 #endif
 
     int side = std::min(width() - 16, height() - 16);
