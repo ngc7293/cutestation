@@ -13,7 +13,6 @@ template<typename Type>
 class DynamicValue: public Value<Type> {
 public:
     DynamicValue(const std::string& source);
-    virtual ~DynamicValue();
 
 protected:
     virtual void accept(const std::chrono::milliseconds& when, const Type& what) = 0;

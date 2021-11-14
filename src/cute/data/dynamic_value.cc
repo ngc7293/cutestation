@@ -20,9 +20,6 @@ DynamicValue<Type>::DynamicValue(const std::string& source)
 }
 
 template<typename Type>
-DynamicValue<Type>::~DynamicValue() = default;
-
-template<typename Type>
 SimpleDynamicValue<Type>::SimpleDynamicValue(const std::string& source, Comparator comparator)
     : DynamicValue<Type>(source)
     , comparator_(comparator)
