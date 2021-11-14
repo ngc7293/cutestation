@@ -9,34 +9,37 @@ using namespace std::literals::chrono_literals;
 
 namespace cute::data {
 
-DynamicValue::DynamicValue(const std::string& source)
+template<typename Type>
+DynamicValue<Type>::DynamicValue(const std::string& source)
 {
-    if (!subscriber_.subscribe<double>(source, [this](const auto& t, const double& v) {
+    if (!subscriber_.subscribe<Type>(source, [this](const auto& t, const Type& v) {
         accept(t, v);
     })) {
         logging::err("TimeSeries") << "Could not subscribe to topic '" << source << "' with type double" << logging::endl;
     }
 }
 
-DynamicValue::~DynamicValue() = default;
-
-SimpleDynamicValue::SimpleDynamicValue(const std::string& source, Comparator comparator)
-    : DynamicValue(source)
+template<typename Type>
+SimpleDynamicValue<Type>::SimpleDynamicValue(const std::string& source, Comparator comparator)
+    : DynamicValue<Type>(source)
     , comparator_(comparator)
 {
 }
 
-double SimpleDynamicValue::value() const
+template<typename Type>
+Type SimpleDynamicValue<Type>::value() const
 {
     return data_.second;
 }
 
-std::chrono::milliseconds SimpleDynamicValue::timestamp() const
+template<typename Type>
+std::chrono::milliseconds SimpleDynamicValue<Type>::timestamp() const
 {
     return data_.first;
 }
 
-void SimpleDynamicValue::accept(const std::chrono::milliseconds& when, const double& what)
+template<typename Type>
+void SimpleDynamicValue<Type>::accept(const std::chrono::milliseconds& when, const Type& what)
 {
     if (comparator_(what, data_.second)) {
         data_ = {when, what};
@@ -55,9 +58,14 @@ MaxValue::MaxValue(const std::string& source)
 {
 }
 
-LastValue::LastValue(const std::string& source)
-    : SimpleDynamicValue(source, [] (const auto& , const auto& ) { return true; })
+template<typename Type>
+LastValue<Type>::LastValue(const std::string& source)
+    : SimpleDynamicValue<Type>(source, [] (const auto& , const auto& ) { return true; })
 {
 }
+
+template class LastValue<double>;
+template class LastValue<int>;
+template class LastValue<std::string>;
 
 } // namespaces

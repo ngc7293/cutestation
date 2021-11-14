@@ -6,7 +6,7 @@
 
 namespace cute::data {
 
-class RollingAverageValue : public DynamicValue {
+class RollingAverageValue : public DynamicValue<double> {
 public:
     RollingAverageValue(const std::string& source, std::chrono::milliseconds window);
 

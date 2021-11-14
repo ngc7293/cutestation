@@ -16,7 +16,7 @@
 #include "button_widget.hh"
 #include "chart_widget.hh"
 #include "compass_widget.hh"
-#include "single_value_widget.hh"
+#include "number_value_widget.hh"
 #include "spacer_widget.hh"
 #include "widget_group.hh"
 
@@ -78,12 +78,12 @@ ButtonWidget* WidgetFactory::build(const json& config, QWidget* parent)
 }
 
 template<>
-SingleValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
+NumberValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
 {
     std::string name, label, format;
     unsigned refresh_rate;
 
-    if (!(util::json::validate("SingleValueWidget", config,
+    if (!(util::json::validate("NumberValueWidget", config,
         util::json::required(name, "name"),
         util::json::optional(label, "label", "widget"),
         util::json::optional(format, "format", "%f"),
@@ -92,18 +92,18 @@ SingleValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
         return nullptr;
     }
 
-    data::Value* ptr = nullptr;
+    data::NumberValue* ptr = nullptr;
     if (config.count("source")) {
-        ptr = data::ValueFactory::build(config["source"]);
+        ptr = data::ValueFactory::build<double>(config["source"]);
     }
 
     if (!ptr) {
-        logging::err("SingleValueWidget") << "Missing or invalid 'source' configuration" << logging::endl;
+        logging::err("NumberValueWidget") << "Missing or invalid 'source' configuration" << logging::endl;
         return nullptr;
     }
 
-    SingleValueWidget* widget = new SingleValueWidget(parent, name);
-    widget->set_value(std::unique_ptr<data::Value>(ptr));
+    NumberValueWidget* widget = new NumberValueWidget(parent, name);
+    widget->set_value(std::unique_ptr<data::NumberValue>(ptr));
     widget->set_label(label);
     widget->set_format(format);
     widget->start(refresh_rate);
@@ -146,13 +146,13 @@ CompassWidget* WidgetFactory::build(const json& config, QWidget* parent)
     }
 
     CompassWidget::ValuePair referenceValue = {
-        std::unique_ptr<data::Value>(data::ValueFactory::build(reference[0])),
-        std::unique_ptr<data::Value>(data::ValueFactory::build(reference[1]))
+        std::unique_ptr<data::NumberValue>(data::ValueFactory::build<double>(reference[0])),
+        std::unique_ptr<data::NumberValue>(data::ValueFactory::build<double>(reference[1]))
     };
 
     CompassWidget::ValuePair targetValue = {
-        std::unique_ptr<data::Value>(data::ValueFactory::build(target[0])),
-        std::unique_ptr<data::Value>(data::ValueFactory::build(target[1]))
+        std::unique_ptr<data::NumberValue>(data::ValueFactory::build<double>(target[0])),
+        std::unique_ptr<data::NumberValue>(data::ValueFactory::build<double>(target[1]))
     };
 
     CompassWidget* widget = new CompassWidget(parent, name);
@@ -200,7 +200,7 @@ Widget* WidgetFactory::build(const json& config, QWidget* parent)
         {"chart",       [&widget, config, parent]() { widget = build<ChartWidget>(config, parent); }},
         {"button",      [&widget, config, parent]() { widget = build<ButtonWidget>(config, parent); }},
         {"group",       [&widget, config, parent]() { widget = build<WidgetGroup>(config, parent); }},
-        {"singlevalue", [&widget, config, parent]() { widget = build<SingleValueWidget>(config, parent); }},
+        {"numbervalue", [&widget, config, parent]() { widget = build<NumberValueWidget>(config, parent); }},
         {"spacer",      [&widget, config, parent]() { widget = build<SpacerWidget>(config, parent); }},
         {"compass",     [&widget, config, parent]() { widget = build<CompassWidget>(config, parent); }}
     }, [&type]() {

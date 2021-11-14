@@ -50,7 +50,7 @@ TEST(MaxValue, selects_maximum_value)
 TEST(LastValue, selects_last_value)
 {
     topic::Publisher publisher;
-    cute::data::LastValue value("cute.data.test.double");
+    cute::data::LastValue<double> value("cute.data.test.double");
 
     EXPECT_EQ(value.value(), 0);
 

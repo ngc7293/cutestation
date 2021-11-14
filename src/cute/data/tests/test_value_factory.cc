@@ -11,7 +11,7 @@ TEST(ValueFactory, returns_static_value)
 {
     json data = R"(42)"_json;
 
-    cute::data::Value* value = cute::data::ValueFactory::build(data);
+    cute::data::NumberValue* value = cute::data::ValueFactory::build<double>(data);
     ASSERT_NE(value, nullptr);
     EXPECT_EQ(value->value(), 42);
 }
@@ -20,7 +20,7 @@ TEST(ValueFactory, returns_max_value)
 {
     json data = R"({"source": "cute.data.test", "type": "max"})"_json;
 
-    cute::data::Value* value = cute::data::ValueFactory::build(data);
+    cute::data::NumberValue* value = cute::data::ValueFactory::build<double>(data);
     EXPECT_NE(value, nullptr);
 
     topic::Publisher publisher;
@@ -32,7 +32,7 @@ TEST(ValueFactory, returns_max_value)
 
 TEST(ValueFactory, returns_error_for_nonnumber_nonobject_input)
 {
-    EXPECT_EQ(cute::data::ValueFactory::build(R"(true)"_json), nullptr);
-    EXPECT_EQ(cute::data::ValueFactory::build(R"([""])"_json), nullptr);
-    EXPECT_EQ(cute::data::ValueFactory::build(R"(null)"_json), nullptr);
+    EXPECT_EQ(cute::data::ValueFactory::build<double>(R"(true)"_json), nullptr);
+    EXPECT_EQ(cute::data::ValueFactory::build<double>(R"([""])"_json), nullptr);
+    EXPECT_EQ(cute::data::ValueFactory::build<double>(R"(null)"_json), nullptr);
 }

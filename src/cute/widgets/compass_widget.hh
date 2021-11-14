@@ -13,7 +13,7 @@ class CompassWidget: public ViewWidget {
     Q_OBJECT
 
 public:
-    using ValuePair = std::pair<std::unique_ptr<data::Value>, std::unique_ptr<data::Value>>;
+    using ValuePair = std::pair<std::unique_ptr<data::NumberValue>, std::unique_ptr<data::NumberValue>>;
 
 public:
     CompassWidget(QWidget* parent, const std::string& name);
