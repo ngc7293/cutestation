@@ -11,7 +11,8 @@ namespace cute::data {
 
 class ValueFactory {
 public:
-    static Value* build(const json& config);
+    template<typename Type>
+    static Value<Type>* build(const json& config);
 };
 
 } // namespaces

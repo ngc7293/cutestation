@@ -18,7 +18,7 @@
                     "colspan": 3,
                     "widgets": [
                         {
-                            "type": "singlevalue",
+                            "type": "numbervalue",
                             "name": "status.mission",
                             "label": "Mission",
                             "format": "BAD",
@@ -29,7 +29,7 @@
                             "width": 100
                         },
                         {
-                            "type": "singlevalue",
+                            "type": "numbervalue",
                             "name": "status.acqui",
                             "label": "Acquisition",
                             "format": "BAD",
@@ -40,7 +40,7 @@
                             "width": 100
                         },
                         {
-                            "type": "singlevalue",
+                            "type": "numbervalue",
                             "name": "status.comm",
                             "label": "Communication",
                             "format": "BAD",
@@ -51,7 +51,7 @@
                             "width": 100
                         },
                         {
-                            "type": "singlevalue",
+                            "type": "numbervalue",
                             "name": "status.psu",
                             "label": "Power Supply",
                             "format": "BAD",
@@ -78,7 +78,7 @@
                         {
                             "type": "chart",
                             "name": "altitude.chart",
-                            "refresh_rate": 60,
+                            "refresh_rate": 10,
                             "sources": [
                                 "anirniq.acquisition.altitude"
                             ],
@@ -89,10 +89,10 @@
                             ],
                             "x": 0,
                             "y": 0,
-                            "rowspan": 4
+                            "rowspan": 5
                         },
                         {
-                            "type": "singlevalue",
+                            "type": "numbervalue",
                             "name": "altitude.current",
                             "label": "Current (m)",
                             "format": "%.2f",
@@ -102,7 +102,21 @@
                             "y": 0
                         },
                         {
-                            "type": "singlevalue",
+                            "type": "numbervalue",
+                            "name": "altitude.current",
+                            "label": "Last 5s (m)",
+                            "format": "%.2f",
+                            "source": {
+                                "source": "anirniq.acquisition.altitude",
+                                "type": "avg",
+                                "window": 5000
+                            },
+                            "refresh_rate": 10,
+                            "x": 1,
+                            "y": 1
+                        },
+                        {
+                            "type": "numbervalue",
                             "name": "altitude.max",
                             "label": "Maximum (m)",
                             "format": "%.2f",
@@ -112,10 +126,10 @@
                             },
                             "refresh_rate": 10,
                             "x": 1,
-                            "y": 1
+                            "y": 2
                         },
                         {
-                            "type": "singlevalue",
+                            "type": "numbervalue",
                             "name": "altitude.min",
                             "label": "Minimum (m)",
                             "format": "%.2f",
@@ -125,14 +139,14 @@
                             },
                             "refresh_rate": 10,
                             "x": 1,
-                            "y": 2
+                            "y": 3
                         },
                         {
                             "type": "spacer",
                             "width": 200,
-                            "height": 250,
+                            "height": 210,
                             "x": 1,
-                            "y": 3
+                            "y": 4
                         }
                     ]
                 },
@@ -145,7 +159,7 @@
                         {
                             "type": "chart",
                             "name": "velocity.chart",
-                            "refresh_rate": 60,
+                            "refresh_rate": 10,
                             "sources": [
                                 "anirniq.acquisition.vertical_velocity"
                             ],
@@ -159,7 +173,7 @@
                             "rowspan": 4
                         },
                         {
-                            "type": "singlevalue",
+                            "type": "numbervalue",
                             "name": "velocity.current",
                             "label": "Current (m/s)",
                             "format": "%.2f",
@@ -169,7 +183,7 @@
                             "y": 0
                         },
                         {
-                            "type": "singlevalue",
+                            "type": "numbervalue",
                             "name": "velocity.max",
                             "label": "Maximum (m/s)",
                             "format": "%.2f",
@@ -182,7 +196,7 @@
                             "y": 1
                         },
                         {
-                            "type": "singlevalue",
+                            "type": "numbervalue",
                             "name": "velocity.min",
                             "label": "Minimum (m/s)",
                             "format": "%.2f",
@@ -250,7 +264,7 @@
                             "colspan": 2
                         },
                         {
-                            "type": "singlevalue",
+                            "type": "numbervalue",
                             "name": "gps.lat",
                             "label": "Latitude",
                             "format": "%.6f",
@@ -260,7 +274,7 @@
                             "y": 1
                         },
                         {
-                            "type": "singlevalue",
+                            "type": "numbervalue",
                             "name": "gps.lon",
                             "label": "Longitude",
                             "format": "%.6f",

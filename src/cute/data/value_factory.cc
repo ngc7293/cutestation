@@ -9,12 +9,26 @@
 
 namespace cute::data {
 
-Value* ValueFactory::build(const json& config)
+template<>
+StateValue* ValueFactory::build(const json& config)
+{
+    if (config.is_number_integer()) {
+        return new StaticValue<int>(config.get<int>());
+    } else if (config.is_string()) {
+        return new LastValue<int>(config.get<std::string>());
+    } else {
+        logging::err("Value") << "Invalid JSON type" << logging::endl;
+        return nullptr;
+    }
+}
+
+template<>
+NumberValue* ValueFactory::build(const json& config)
 {
     if (config.is_number()) {
-        return new StaticValue(config.get<double>());
+        return new StaticValue<double>(config.get<double>());
     } else if (config.is_string()) {
-        return new LastValue(config.get<std::string>());
+        return new LastValue<double>(config.get<std::string>());
     } else if (!config.is_object()) {
         logging::err("Value") << "Invalid JSON type" << logging::endl;
         return nullptr;
@@ -29,11 +43,17 @@ Value* ValueFactory::build(const json& config)
         return nullptr;
     };
 
-    Value* value;
+    NumberValue* value;
     util::switcher::string(type, {
         {"min", [&] { value = new data::MinValue(source); }},
         {"max", [&] { value = new data::MaxValue(source); }},
-        {"last", [&] { value = new data::LastValue(source); }},
+        {"last", [&] { value = new data::LastValue<double>(source); }},
+        {"avg", [&] {
+            unsigned window = 0;
+            if (util::json::validate("AverageValue", config, util::json::required(window, "window"))) {
+                value = new data::RollingAverageValue(source, std::chrono::milliseconds(window));
+            }
+        }}
     }, [&] {
         logging::err("Value") << "Invalid type '" << type << "'" << logging::endl;
     });

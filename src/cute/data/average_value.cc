@@ -3,7 +3,7 @@
 namespace cute::data {
 
 RollingAverageValue::RollingAverageValue(const std::string& source, std::chrono::milliseconds window)
-    : DynamicValue(source)
+    : DynamicValue<double>(source)
 {
     series_.reset(new TimeSeries(window));
 }

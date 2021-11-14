@@ -4,17 +4,17 @@
 
 #include <log/log.hh>
 
-#include "single_value_widget.hh"
+#include "number_value_widget.hh"
 
 namespace cute::widgets {
 
-struct SingleValueWidget::Priv {
+struct NumberValueWidget::Priv {
     QLabel *label, *value_label;
     std::string format;
-    std::unique_ptr<data::Value> value;
+    std::unique_ptr<data::NumberValue> value;
 };
 
-SingleValueWidget::SingleValueWidget(QWidget* parent, const std::string& name)
+NumberValueWidget::NumberValueWidget(QWidget* parent, const std::string& name)
     : ViewWidget(parent, name)
     , _d(new Priv)
 {
@@ -36,29 +36,29 @@ SingleValueWidget::SingleValueWidget(QWidget* parent, const std::string& name)
     layout()->addWidget(_d -> value_label);
 }
 
-SingleValueWidget::~SingleValueWidget() { }
+NumberValueWidget::~NumberValueWidget() { }
 
-void SingleValueWidget::set_label(const std::string& label)
+void NumberValueWidget::set_label(const std::string& label)
 {
     _d -> label -> setText(QString::fromStdString(label));
 }
 
-void SingleValueWidget::set_format(const std::string& format)
+void NumberValueWidget::set_format(const std::string& format)
 {
     _d -> format = format;
 }
 
-void SingleValueWidget::set_value(std::unique_ptr<data::Value>&& value)
+void NumberValueWidget::set_value(std::unique_ptr<data::NumberValue>&& value)
 {
     _d -> value = std::move(value);
 }
 
-void SingleValueWidget::refresh()
+void NumberValueWidget::refresh()
 {
     if (_d -> value) {
         _d -> value_label -> setText(QString::asprintf(_d -> format.c_str(), _d -> value -> value()));
     } else {
-        logging::err("SingleValue") << "Value not set!" << logging::endl;
+        logging::err("NumberValue") << "Value not set!" << logging::endl;
         assert(false);
     }
 }
