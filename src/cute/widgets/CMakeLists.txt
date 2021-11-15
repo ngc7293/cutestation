@@ -16,6 +16,8 @@ set(SOURCES
     number_value_widget.cc
     number_value_widget.hh
     spacer_widget.hh
+    state_value_widget.cc
+    state_value_widget.hh
     view_widget.cc
     view_widget.hh
     widget_factory.cc

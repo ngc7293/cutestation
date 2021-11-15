@@ -18,10 +18,9 @@
                     "colspan": 3,
                     "widgets": [
                         {
-                            "type": "numbervalue",
+                            "type": "statevalue",
                             "name": "status.mission",
-                            "label": "Mission",
-                            "format": "BAD",
+                            "label": "MISSION",
                             "source": 0,
                             "refresh_rate": 10,
                             "x": 0,
@@ -29,41 +28,56 @@
                             "width": 100
                         },
                         {
-                            "type": "numbervalue",
+                            "type": "statevalue",
                             "name": "status.acqui",
-                            "label": "Acquisition",
-                            "format": "BAD",
-                            "source": 0,
+                            "label": "ACQUISITION",
+                            "source": 1,
                             "refresh_rate": 10,
                             "x": 1,
                             "y": 0,
                             "width": 100
                         },
                         {
-                            "type": "numbervalue",
+                            "type": "statevalue",
                             "name": "status.comm",
-                            "label": "Communication",
-                            "format": "BAD",
-                            "source": 0,
+                            "label": "COMMUNICATION",
+                            "source": 2,
                             "refresh_rate": 10,
                             "x": 2,
                             "y": 0,
                             "width": 100
                         },
                         {
-                            "type": "numbervalue",
+                            "type": "statevalue",
                             "name": "status.psu",
-                            "label": "Power Supply",
-                            "format": "BAD",
-                            "source": 0,
+                            "label": "POWER SUPPLY",
+                            "source": 1,
                             "refresh_rate": 10,
                             "x": 3,
                             "y": 0,
                             "width": 100
                         },
                         {
-                            "type": "spacer",
+                            "type": "statevalue",
+                            "name": "status.psu",
+                            "label": "PAYLOAD",
+                            "source": 0,
+                            "refresh_rate": 10,
                             "x": 4,
+                            "y": 0,
+                            "width": 100
+                        },
+                        {
+                            "type": "spacer",
+                            "x": 5,
+                            "y": 0
+                        },
+                        {
+                            "type": "button",
+                            "name": "AZ-5",
+                            "command": "anirniq.remote_control.eject.drogue",
+                            "refresh_rate": 1,
+                            "x": 6,
                             "y": 0
                         }
                     ]

@@ -18,6 +18,7 @@
 #include "compass_widget.hh"
 #include "number_value_widget.hh"
 #include "spacer_widget.hh"
+#include "state_value_widget.hh"
 #include "widget_group.hh"
 
 namespace cute::widgets {
@@ -106,6 +107,42 @@ NumberValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
     widget->set_value(std::unique_ptr<data::NumberValue>(ptr));
     widget->set_label(label);
     widget->set_format(format);
+    widget->start(refresh_rate);
+    return widget;
+}
+
+template<>
+StateValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
+{
+    std::string name, label, format;
+    unsigned refresh_rate;
+
+    if (!(util::json::validate("StateValueWidget", config,
+        util::json::required(name, "name"),
+        util::json::optional(label, "label", "widget"),
+        util::json::optional(refresh_rate, "refresh_rate", 2u)
+    ))) {
+        return nullptr;
+    }
+
+    data::StateValue* ptr = nullptr;
+    if (config.count("source")) {
+        ptr = data::ValueFactory::build<int>(config["source"]);
+    }
+
+    if (!ptr) {
+        logging::err("StateValueWidget") << "Missing or invalid 'source' configuration" << logging::endl;
+        return nullptr;
+    }
+
+    StateValueWidget* widget = new StateValueWidget(parent, name);
+    widget->set_value(std::unique_ptr<data::StateValue>(ptr));
+    widget->set_value_mapping({
+        {0, 0, "OK", "white", "green"},
+        {1, 1, "BAD", "white", "orange"},
+        {2, 2, "FATAL", "white", "red"}
+    });
+    widget->set_label(label);
     widget->start(refresh_rate);
     return widget;
 }
@@ -201,6 +238,7 @@ Widget* WidgetFactory::build(const json& config, QWidget* parent)
         {"button",      [&widget, config, parent]() { widget = build<ButtonWidget>(config, parent); }},
         {"group",       [&widget, config, parent]() { widget = build<WidgetGroup>(config, parent); }},
         {"numbervalue", [&widget, config, parent]() { widget = build<NumberValueWidget>(config, parent); }},
+        {"statevalue",  [&widget, config, parent]() { widget = build<StateValueWidget>(config, parent); }},
         {"spacer",      [&widget, config, parent]() { widget = build<SpacerWidget>(config, parent); }},
         {"compass",     [&widget, config, parent]() { widget = build<CompassWidget>(config, parent); }}
     }, [&type]() {
