@@ -1,6 +1,6 @@
 # CuteStation
 
-[![C/C++ CI](https://github.com/ngc7293/cutestation/actions/workflows/build.yml/badge.svg)](https://github.com/ngc7293/cutestation/actions/workflows/build.yml)
+[![Build, test and package](https://github.com/ngc7293/cutestation/actions/workflows/build-package.yml/badge.svg?branch=develop&event=push)](https://github.com/ngc7293/cutestation/actions/workflows/build-package.yml)
 
 ## Contents
 
