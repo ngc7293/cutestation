@@ -111,6 +111,71 @@ NumberValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
     return widget;
 }
 
+std::optional<StateRangeMapping> buildStateRangeMapping(const std::string& key, const json& value)
+{
+    StateRangeMapping mapping;
+
+    try {
+        auto pos = key.find("~");
+
+        if (pos == std::string::npos) {
+            mapping.a = std::stol(key);
+            mapping.b = mapping.a;
+        } else {
+            if (pos == 0) {
+                mapping.a = std::numeric_limits<int>::min();
+            } else {
+                mapping.a = std::stol(key.substr(0, pos));
+            }
+
+            if (pos == key.length() - 1) {
+                mapping.b = std::numeric_limits<int>::max();
+            } else {
+                mapping.b = std::stol(key.substr(pos + 1, key.length()));
+            }
+        }
+    } catch (...) {
+        logging::err("StateRangeMapping") << "Could not parse range key '" << key << "'" << logging::endl;
+        return {};
+    }
+
+    if (value.is_object()) {
+        if (!(util::json::validate("StateRangeMapping", value,
+            util::json::required(mapping.display, "display"),
+            util::json::optional(mapping.color, "color", ""),
+            util::json::optional(mapping.backgroundColor, "background", "")
+        ))) {
+            return {};
+        }
+    } else if (value.is_string()) {
+        mapping.display = value.get<std::string>();
+    } else {
+        logging::err("StateRangeMapping") << "Invalid JSON type for mapping element" << logging::endl;
+        return {};
+    }
+
+    return {std::move(mapping)};
+}
+
+std::vector<StateRangeMapping> buildStateRangeMappings(const json& config)
+{
+    std::vector<StateRangeMapping> mappings;
+
+    for (const auto& [key, value]: config.items()) {
+        auto maybe = buildStateRangeMapping(key, value);
+
+        if (maybe) {
+            mappings.emplace_back(maybe.value());
+        }
+    }
+
+    for (const auto& m: mappings) {
+        logging::debug("StateRangeMapping") << logging::tag{"a", m.a} << logging::tag{"b", m.b} << logging::tag{"display", m.display} << logging::tag{"color", m.color} << logging::tag{"background", m.backgroundColor} << logging::endl;
+    }
+
+    return mappings;
+}
+
 template<>
 StateValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
 {
@@ -130,6 +195,13 @@ StateValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
         ptr = data::ValueFactory::build<int>(config["source"]);
     }
 
+    std::vector<StateRangeMapping> mappings;
+    if (config.count("mapping") && config["mapping"].is_object()) {
+        mappings = buildStateRangeMappings(config["mapping"]);
+    } else {
+        logging::warn("StateValueWidget") << "No mapping configured, displaying raw value";
+    }
+
     if (!ptr) {
         logging::err("StateValueWidget") << "Missing or invalid 'source' configuration" << logging::endl;
         return nullptr;
@@ -137,11 +209,7 @@ StateValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
 
     StateValueWidget* widget = new StateValueWidget(parent, name);
     widget->set_value(std::unique_ptr<data::StateValue>(ptr));
-    widget->set_value_mapping({
-        {0, 0, "OK", "white", "green"},
-        {1, 1, "BAD", "white", "orange"},
-        {2, 2, "FATAL", "white", "red"}
-    });
+    widget->set_value_mapping(std::move(mappings));
     widget->set_label(label);
     widget->start(refresh_rate);
     return widget;
@@ -226,7 +294,7 @@ Widget* WidgetFactory::build(const json& config, QWidget* parent)
 {
     std::string type;
 
-    if (!util::json::validate("Widget", config, 
+    if (!util::json::validate("Widget", config,
         util::json::required(type, "type")
     )) {
         return nullptr;
