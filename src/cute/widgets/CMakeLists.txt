@@ -13,9 +13,11 @@ set(SOURCES
     chart_widget.hh
     compass_widget.cc
     compass_widget.hh
-    number_value_widget.cc
-    number_value_widget.hh
+    range_mapping.cc
+    range_mapping.hh
     spacer_widget.hh
+    value_widget.cc
+    value_widget.hh
     view_widget.cc
     view_widget.hh
     widget_factory.cc
@@ -32,3 +34,13 @@ set(SOURCES
 add_library(cute.widgets STATIC ${SOURCES} ${HEADERS} ${QT_SOURCES})
 target_standard_compile_flags(cute.widgets)
 target_link_libraries(cute.widgets PUBLIC cute.data cute.log cute.util CONAN_PKG::nlohmann_json CONAN_PKG::qt)
+
+set(TESTS
+    tests/main.cc
+    tests/test_range_mapping.cc
+)
+
+add_executable(cute.widgets.test ${TESTS})
+target_standard_compile_flags(cute.widgets.test)
+target_link_libraries(cute.widgets.test PUBLIC cute.widgets cute.log CONAN_PKG::protobuf CONAN_PKG::gtest)
+gtest_discover_tests(cute.widgets.test)

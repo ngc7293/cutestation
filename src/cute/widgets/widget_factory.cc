@@ -16,8 +16,8 @@
 #include "button_widget.hh"
 #include "chart_widget.hh"
 #include "compass_widget.hh"
-#include "number_value_widget.hh"
 #include "spacer_widget.hh"
+#include "value_widget.hh"
 #include "widget_group.hh"
 
 namespace cute::widgets {
@@ -74,39 +74,6 @@ ButtonWidget* WidgetFactory::build(const json& config, QWidget* parent)
     widget->set_command(command);
     widget->start(refresh_rate);
 
-    return widget;
-}
-
-template<>
-NumberValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
-{
-    std::string name, label, format;
-    unsigned refresh_rate;
-
-    if (!(util::json::validate("NumberValueWidget", config,
-        util::json::required(name, "name"),
-        util::json::optional(label, "label", "widget"),
-        util::json::optional(format, "format", "%f"),
-        util::json::optional(refresh_rate, "refresh_rate", 2u)
-    ))) {
-        return nullptr;
-    }
-
-    data::NumberValue* ptr = nullptr;
-    if (config.count("source")) {
-        ptr = data::ValueFactory::build<double>(config["source"]);
-    }
-
-    if (!ptr) {
-        logging::err("NumberValueWidget") << "Missing or invalid 'source' configuration" << logging::endl;
-        return nullptr;
-    }
-
-    NumberValueWidget* widget = new NumberValueWidget(parent, name);
-    widget->set_value(std::unique_ptr<data::NumberValue>(ptr));
-    widget->set_label(label);
-    widget->set_format(format);
-    widget->start(refresh_rate);
     return widget;
 }
 
@@ -189,7 +156,7 @@ Widget* WidgetFactory::build(const json& config, QWidget* parent)
 {
     std::string type;
 
-    if (!util::json::validate("Widget", config, 
+    if (!util::json::validate("Widget", config,
         util::json::required(type, "type")
     )) {
         return nullptr;
@@ -200,7 +167,8 @@ Widget* WidgetFactory::build(const json& config, QWidget* parent)
         {"chart",       [&widget, config, parent]() { widget = build<ChartWidget>(config, parent); }},
         {"button",      [&widget, config, parent]() { widget = build<ButtonWidget>(config, parent); }},
         {"group",       [&widget, config, parent]() { widget = build<WidgetGroup>(config, parent); }},
-        {"numbervalue", [&widget, config, parent]() { widget = build<NumberValueWidget>(config, parent); }},
+        {"numbervalue", [&widget, config, parent]() { widget = ValueWidget<double>::build(config, parent); }},
+        {"statevalue",  [&widget, config, parent]() { widget = ValueWidget<int>::build(config, parent); }},
         {"spacer",      [&widget, config, parent]() { widget = build<SpacerWidget>(config, parent); }},
         {"compass",     [&widget, config, parent]() { widget = build<CompassWidget>(config, parent); }}
     }, [&type]() {
