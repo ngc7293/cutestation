@@ -86,7 +86,7 @@ std::vector<RangeMapping<Type>> RangeMapping<Type>::buildAll(const nlohmann::jso
     return mappings;
 }
 
-template class RangeMapping<int>;
-template class RangeMapping<double>;
+template struct RangeMapping<int>;
+template struct RangeMapping<double>;
 
 }
