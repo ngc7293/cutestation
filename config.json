@@ -21,8 +21,13 @@
                             "type": "statevalue",
                             "name": "status.mission",
                             "label": "MISSION",
-                            "source": 0,
+                            "source": 3,
                             "refresh_rate": 10,
+                            "mapping": {
+                                "1": { "displayFormat": "OK", "color": "white", "background": "green" },
+                                "2": { "displayFormat": "WARNING", "color": "white", "background": "orange" },
+                                "3": { "displayFormat": "FATAL", "color": "white", "background": "red" }
+                            },
                             "x": 0,
                             "y": 0,
                             "width": 100
@@ -33,6 +38,11 @@
                             "label": "ACQUISITION",
                             "source": 1,
                             "refresh_rate": 10,
+                            "mapping": {
+                                "1": { "displayFormat": "OK", "color": "white", "background": "green" },
+                                "2": { "displayFormat": "WARNING", "color": "white", "background": "orange" },
+                                "3": { "displayFormat": "FATAL", "color": "white", "background": "red" }
+                            },
                             "x": 1,
                             "y": 0,
                             "width": 100
@@ -43,6 +53,11 @@
                             "label": "COMMUNICATION",
                             "source": 2,
                             "refresh_rate": 10,
+                            "mapping": {
+                                "1": { "displayFormat": "OK", "color": "white", "background": "green" },
+                                "2": { "displayFormat": "WARNING", "color": "white", "background": "orange" },
+                                "3": { "displayFormat": "FATAL", "color": "white", "background": "red" }
+                            },
                             "x": 2,
                             "y": 0,
                             "width": 100
@@ -53,6 +68,11 @@
                             "label": "POWER SUPPLY",
                             "source": 1,
                             "refresh_rate": 10,
+                            "mapping": {
+                                "1": { "displayFormat": "OK", "color": "white", "background": "green" },
+                                "2": { "displayFormat": "WARNING", "color": "white", "background": "orange" },
+                                "3": { "displayFormat": "FATAL", "color": "white", "background": "red" }
+                            },
                             "x": 3,
                             "y": 0,
                             "width": 100
@@ -61,8 +81,13 @@
                             "type": "statevalue",
                             "name": "status.psu",
                             "label": "PAYLOAD",
-                            "source": 0,
+                            "source": 1,
                             "refresh_rate": 10,
+                            "mapping": {
+                                "1": { "displayFormat": "OK", "color": "white", "background": "green" },
+                                "2": { "displayFormat": "WARNING", "color": "white", "background": "orange" },
+                                "3": { "displayFormat": "FATAL", "color": "white", "background": "red" }
+                            },
                             "x": 4,
                             "y": 0,
                             "width": 100
@@ -109,7 +134,7 @@
                             "type": "numbervalue",
                             "name": "altitude.current",
                             "label": "Current (m)",
-                            "format": "%.2f",
+                            "mapping": { "~": "%.2f" },
                             "source": "anirniq.acquisition.altitude",
                             "refresh_rate": 10,
                             "x": 1,
@@ -119,7 +144,7 @@
                             "type": "numbervalue",
                             "name": "altitude.current",
                             "label": "Last 5s (m)",
-                            "format": "%.2f",
+                            "mapping": { "~": "%.2f" },
                             "source": {
                                 "source": "anirniq.acquisition.altitude",
                                 "type": "avg",
@@ -133,7 +158,7 @@
                             "type": "numbervalue",
                             "name": "altitude.max",
                             "label": "Maximum (m)",
-                            "format": "%.2f",
+                            "mapping": { "~": "%.2f" },
                             "source": {
                                 "source": "anirniq.acquisition.altitude",
                                 "type": "max"
@@ -146,7 +171,7 @@
                             "type": "numbervalue",
                             "name": "altitude.min",
                             "label": "Minimum (m)",
-                            "format": "%.2f",
+                            "mapping": { "~": "%.2f" },
                             "source": {
                                 "source": "anirniq.acquisition.altitude",
                                 "type": "min"
@@ -190,7 +215,7 @@
                             "type": "numbervalue",
                             "name": "velocity.current",
                             "label": "Current (m/s)",
-                            "format": "%.2f",
+                            "mapping": { "~": "%.2f" },
                             "source": "anirniq.acquisition.vertical_velocity",
                             "refresh_rate": 10,
                             "x": 1,
@@ -200,7 +225,7 @@
                             "type": "numbervalue",
                             "name": "velocity.max",
                             "label": "Maximum (m/s)",
-                            "format": "%.2f",
+                            "mapping": { "~": "%.2f" },
                             "source": {
                                 "source": "anirniq.acquisition.vertical_velocity",
                                 "type": "max"
@@ -213,7 +238,7 @@
                             "type": "numbervalue",
                             "name": "velocity.min",
                             "label": "Minimum (m/s)",
-                            "format": "%.2f",
+                            "mapping": { "~": "%.2f" },
                             "source": {
                                 "source": "anirniq.acquisition.vertical_velocity",
                                 "type": "min"

@@ -16,9 +16,8 @@
 #include "button_widget.hh"
 #include "chart_widget.hh"
 #include "compass_widget.hh"
-#include "number_value_widget.hh"
 #include "spacer_widget.hh"
-#include "state_value_widget.hh"
+#include "value_widget.hh"
 #include "widget_group.hh"
 
 namespace cute::widgets {
@@ -75,143 +74,6 @@ ButtonWidget* WidgetFactory::build(const json& config, QWidget* parent)
     widget->set_command(command);
     widget->start(refresh_rate);
 
-    return widget;
-}
-
-template<>
-NumberValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
-{
-    std::string name, label, format;
-    unsigned refresh_rate;
-
-    if (!(util::json::validate("NumberValueWidget", config,
-        util::json::required(name, "name"),
-        util::json::optional(label, "label", "widget"),
-        util::json::optional(format, "format", "%f"),
-        util::json::optional(refresh_rate, "refresh_rate", 2u)
-    ))) {
-        return nullptr;
-    }
-
-    data::NumberValue* ptr = nullptr;
-    if (config.count("source")) {
-        ptr = data::ValueFactory::build<double>(config["source"]);
-    }
-
-    if (!ptr) {
-        logging::err("NumberValueWidget") << "Missing or invalid 'source' configuration" << logging::endl;
-        return nullptr;
-    }
-
-    NumberValueWidget* widget = new NumberValueWidget(parent, name);
-    widget->set_value(std::unique_ptr<data::NumberValue>(ptr));
-    widget->set_label(label);
-    widget->set_format(format);
-    widget->start(refresh_rate);
-    return widget;
-}
-
-std::optional<StateRangeMapping> buildStateRangeMapping(const std::string& key, const json& value)
-{
-    StateRangeMapping mapping;
-
-    try {
-        auto pos = key.find("~");
-
-        if (pos == std::string::npos) {
-            mapping.a = std::stol(key);
-            mapping.b = mapping.a;
-        } else {
-            if (pos == 0) {
-                mapping.a = std::numeric_limits<int>::min();
-            } else {
-                mapping.a = std::stol(key.substr(0, pos));
-            }
-
-            if (pos == key.length() - 1) {
-                mapping.b = std::numeric_limits<int>::max();
-            } else {
-                mapping.b = std::stol(key.substr(pos + 1, key.length()));
-            }
-        }
-    } catch (...) {
-        logging::err("StateRangeMapping") << "Could not parse range key '" << key << "'" << logging::endl;
-        return {};
-    }
-
-    if (value.is_object()) {
-        if (!(util::json::validate("StateRangeMapping", value,
-            util::json::required(mapping.display, "display"),
-            util::json::optional(mapping.color, "color", ""),
-            util::json::optional(mapping.backgroundColor, "background", "")
-        ))) {
-            return {};
-        }
-    } else if (value.is_string()) {
-        mapping.display = value.get<std::string>();
-    } else {
-        logging::err("StateRangeMapping") << "Invalid JSON type for mapping element" << logging::endl;
-        return {};
-    }
-
-    return {std::move(mapping)};
-}
-
-std::vector<StateRangeMapping> buildStateRangeMappings(const json& config)
-{
-    std::vector<StateRangeMapping> mappings;
-
-    for (const auto& [key, value]: config.items()) {
-        auto maybe = buildStateRangeMapping(key, value);
-
-        if (maybe) {
-            mappings.emplace_back(maybe.value());
-        }
-    }
-
-    for (const auto& m: mappings) {
-        logging::debug("StateRangeMapping") << logging::tag{"a", m.a} << logging::tag{"b", m.b} << logging::tag{"display", m.display} << logging::tag{"color", m.color} << logging::tag{"background", m.backgroundColor} << logging::endl;
-    }
-
-    return mappings;
-}
-
-template<>
-StateValueWidget* WidgetFactory::build(const json& config, QWidget* parent)
-{
-    std::string name, label, format;
-    unsigned refresh_rate;
-
-    if (!(util::json::validate("StateValueWidget", config,
-        util::json::required(name, "name"),
-        util::json::optional(label, "label", "widget"),
-        util::json::optional(refresh_rate, "refresh_rate", 2u)
-    ))) {
-        return nullptr;
-    }
-
-    data::StateValue* ptr = nullptr;
-    if (config.count("source")) {
-        ptr = data::ValueFactory::build<int>(config["source"]);
-    }
-
-    std::vector<StateRangeMapping> mappings;
-    if (config.count("mapping") && config["mapping"].is_object()) {
-        mappings = buildStateRangeMappings(config["mapping"]);
-    } else {
-        logging::warn("StateValueWidget") << "No mapping configured, displaying raw value";
-    }
-
-    if (!ptr) {
-        logging::err("StateValueWidget") << "Missing or invalid 'source' configuration" << logging::endl;
-        return nullptr;
-    }
-
-    StateValueWidget* widget = new StateValueWidget(parent, name);
-    widget->set_value(std::unique_ptr<data::StateValue>(ptr));
-    widget->set_value_mapping(std::move(mappings));
-    widget->set_label(label);
-    widget->start(refresh_rate);
     return widget;
 }
 
@@ -305,8 +167,8 @@ Widget* WidgetFactory::build(const json& config, QWidget* parent)
         {"chart",       [&widget, config, parent]() { widget = build<ChartWidget>(config, parent); }},
         {"button",      [&widget, config, parent]() { widget = build<ButtonWidget>(config, parent); }},
         {"group",       [&widget, config, parent]() { widget = build<WidgetGroup>(config, parent); }},
-        {"numbervalue", [&widget, config, parent]() { widget = build<NumberValueWidget>(config, parent); }},
-        {"statevalue",  [&widget, config, parent]() { widget = build<StateValueWidget>(config, parent); }},
+        {"numbervalue", [&widget, config, parent]() { widget = ValueWidget<double>::build(config, parent); }},
+        {"statevalue",  [&widget, config, parent]() { widget = ValueWidget<int>::build(config, parent); }},
         {"spacer",      [&widget, config, parent]() { widget = build<SpacerWidget>(config, parent); }},
         {"compass",     [&widget, config, parent]() { widget = build<CompassWidget>(config, parent); }}
     }, [&type]() {
