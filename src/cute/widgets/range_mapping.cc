@@ -18,7 +18,7 @@ std::optional<RangeMapping<Type>> RangeMapping<Type>::build(const std::string& k
             mapping.high = mapping.low;
         } else {
             if (pos == 0) {
-                mapping.low = std::numeric_limits<Type>::min();
+                mapping.low = std::numeric_limits<Type>::lowest();
             } else {
                 mapping.low = std::stol(key.substr(0, pos));
             }
