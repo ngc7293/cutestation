@@ -1,0 +1,47 @@
+image: ubuntu:20.04
+
+build:
+  stage: build
+
+  before_script:
+    - apt-get update
+    - DEBIAN_FRONTEND=noninteractive apt-get install -y gpg wget
+    - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+    - echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
+    - apt-get update
+    - DEBIAN_FRONTEND=noninteractive apt-get install -y libgl-dev ninja-build cmake python3 python3-pip g++-10 gcc-10 pkg-config sudo
+    - pip install conan
+    - conan config set general.revisions_enabled=1
+    - conan remote add davidbourgault https://artifactory.davidbourgault.ca/artifactory/api/conan/conan
+    - mkdir build; cd build
+    - conan install .. --update --build=missing -s compiler.version=10 -s compiler.libcxx=libstdc++11 -s build_type=Release -r davidbourgault
+  script:
+    - CXX=g++-10 CC=gcc-10 cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+    - cmake --build . --config Release --parallel 2
+
+  artifacts:
+    paths:
+      - build/bin
+      - build/CMakeCache.txt
+    expire_in: 30 days'
+
+test:
+  stage: test
+  dependencies:
+    - build
+
+  before_script:
+    - apt-get update
+    - DEBIAN_FRONTEND=noninteractive apt-get install -y gpg wget
+    - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+    - echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
+    - apt-get update
+    - DEBIAN_FRONTEND=noninteractive apt-get install -y cmake
+  script:
+    - cd build
+    - ctest --rerun-failed --output-on-failure --output-junit report.xml
+
+  artifacts:
+    expire_in: 30 days
+    reports:
+      junit: build/report.xml
