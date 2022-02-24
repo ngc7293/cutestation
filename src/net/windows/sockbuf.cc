@@ -38,7 +38,7 @@ int sockbuf::underflow()
 {
     int count = recv(_fd, _garea, _len, 0);
 
-    if (count == SOCKET_ERROR) {
+    if (count == SOCKET_ERROR || count == 0) {
         return traits_type::eof();
     }
 
