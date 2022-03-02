@@ -1,4 +1,4 @@
-name: Build Qt Conan packages
+name: Build Conan packages
 
 on: workflow_dispatch
 
@@ -11,20 +11,36 @@ jobs:
       matrix:
         config:
           - {
-              name: Windows MSVC,
-              os: windows-latest,
+              name: Windows MSVC Release,
+              os: windows-2022,
+              build_type: Release,
+              cc: cl,
+              cxx: cl,
+              compiler_version: 17
+            }
+          - {
+              name: Windows MSVC Debug,
+              os: windows-2022,
               build_type: Debug,
               cc: cl,
               cxx: cl,
-              generator: Visual Studio 16 2019,
+              compiler_version: 17
             }
           - {
-              name: Ubuntu GCC,
-              os: ubuntu-latest,
+              name: Ubuntu GCC Release,
+              os: ubuntu-20.04,
+              build_type: Release,
+              cc: gcc-10,
+              cxx: g++-10,
+              compiler_version: 10
+            }
+          - {
+              name: Ubuntu GCC Debug,
+              os: ubuntu-20.04,
               build_type: Debug,
               cc: gcc-10,
               cxx: g++-10,
-              generator: Ninja,
+              compiler_version: 10
             }
     steps:
       - name: Checkout
@@ -33,7 +49,7 @@ jobs:
           submodules: true
 
       - name: Install tools (Ubuntu)
-        if: matrix.config.os == 'ubuntu-latest'
+        if: matrix.config.os == 'ubuntu-20.04'
         run: sudo apt-get install libgl-dev ninja-build
 
       - name: Install Conan
@@ -47,14 +63,14 @@ jobs:
         run: mkdir build
 
       - name: Install Third Parties (Ubuntu)
-        if: matrix.config.os == 'ubuntu-latest'
+        if: matrix.config.os == 'ubuntu-20.04'
         working-directory: build
-        run: conan install .. --update --build=missing -s compiler.version=10 -s compiler.libcxx=libstdc++11 -s build_type=${{ matrix.config.build_type }} -r davidbourgault
+        run: conan install .. --update --build=missing -s compiler.version=${{ matrix.config.compiler_version}} -s compiler.libcxx=libstdc++11 -s build_type=${{ matrix.config.build_type }} -r davidbourgault
 
       - name: Install Third Parties (Windows)
-        if: matrix.config.os == 'windows-latest'
+        if: matrix.config.os == 'windows-2022'
         working-directory: build
-        run: conan install .. --update --build=missing -s compiler="Visual Studio" -s compiler.version=16 -s build_type=${{ matrix.config.build_type }} -r davidbourgault
+        run: conan install .. --update --build=missing -s compiler="Visual Studio" -s compiler.version=${{ matrix.config.compiler_version}} -s build_type=${{ matrix.config.build_type }} -r davidbourgault
 
       - name: Upload
-        run: conan upload qt/* --remote davidbourgault --all --confirm
+        run: conan upload '*' --remote davidbourgault --all --confirm
