@@ -4,6 +4,7 @@ protobuf/3.17.1
 nlohmann_json/3.10.4
 gtest/1.11.0
 expat/2.4.2
+zlib/1.2.12
 
 [options]
 qt:shared=True
@@ -17,6 +18,7 @@ qt:with_dbus=True
 [generators]
 cmake
 cmake_paths
+cmake_find_package_multi
 
 [imports]
 bin, *.dll -> ./bin

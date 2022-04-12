@@ -6,9 +6,10 @@ include("${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
 conan_basic_setup(TARGETS)
 
 ## Libraries
-include(conan_qt_executables_variables)
-include(Qt5CoreMacros)
-include(Qt5WidgetsMacros)
+find_package(Qt5 COMPONENTS Core Widgets Charts REQUIRED)
+# include(conan_qt_core_extras)
+# include(Qt5CoreMacros)
+# include(Qt5WidgetsMacros)
 
 if (UNIX)
     target_compile_options(CONAN_PKG::qt INTERFACE -fPIC)
