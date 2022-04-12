@@ -29,43 +29,43 @@ install(TARGETS cute DESTINATION bin)
 if (UNIX)
     install(
         FILES
-            ${CONAN_QT_ROOT}/lib/libQt5Charts.so.5  ${CONAN_QT_ROOT}/lib/libQt5Charts.so.5.15.2
-            ${CONAN_QT_ROOT}/lib/libQt5Widgets.so.5 ${CONAN_QT_ROOT}/lib/libQt5Widgets.so.5.15.2
-            ${CONAN_QT_ROOT}/lib/libQt5Core.so.5    ${CONAN_QT_ROOT}/lib/libQt5Core.so.5.15.2
-            ${CONAN_QT_ROOT}/lib/libQt5Gui.so.5     ${CONAN_QT_ROOT}/lib/libQt5Gui.so.5.15.2
-            ${CONAN_QT_ROOT}/lib/libQt5XcbQpa.so.5  ${CONAN_QT_ROOT}/lib/libQt5XcbQpa.so.5.15.2
-            ${CONAN_QT_ROOT}/lib/libQt5DBus.so.5    ${CONAN_QT_ROOT}/lib/libQt5DBus.so.5.15.2
+            ${CONAN_QT_ROOT}/lib/libQt6Charts.so.6  ${CONAN_QT_ROOT}/lib/libQt6Charts.so.6.2.4
+            ${CONAN_QT_ROOT}/lib/libQt6Widgets.so.6 ${CONAN_QT_ROOT}/lib/libQt6Widgets.so.6.2.4
+            ${CONAN_QT_ROOT}/lib/libQt6Core.so.6    ${CONAN_QT_ROOT}/lib/libQt6Core.so.6.2.4
+            ${CONAN_QT_ROOT}/lib/libQt6Gui.so.6     ${CONAN_QT_ROOT}/lib/libQt6Gui.so.6.2.4
+            ${CONAN_QT_ROOT}/lib/libQt6XcbQpa.so.6  ${CONAN_QT_ROOT}/lib/libQt6XcbQpa.so.6.2.4
+            ${CONAN_QT_ROOT}/lib/libQt6DBus.so.6    ${CONAN_QT_ROOT}/lib/libQt6DBus.so.6.2.4
         DESTINATION
             share/cute/lib
     )
 
     install(
         FILES
-            ${CONAN_QT_ROOT}/bin/archdatadir/plugins/platforms/libqxcb.so
+            ${CONAN_QT_ROOT}/res/archdatadir/plugins/platforms/libqxcb.so
         DESTINATION
             share/cute/bin/archdatadir/plugins/platforms
     )
 
     install(
         FILES
-            ${CONAN_QT_ROOT}/bin/archdatadir/plugins/xcbglintegrations/libqxcb-glx-integration.so
+            ${CONAN_QT_ROOT}/res/archdatadir/plugins/xcbglintegrations/libqxcb-glx-integration.so
         DESTINATION
            share/cute/bin/archdatadir/plugins/xcbglintegrations
     )
 elseif(MSVC)
     install(
         FILES
-            ${CONAN_QT_ROOT}/bin/Qt5Charts.dll
-            ${CONAN_QT_ROOT}/bin/Qt5Widgets.dll
-            ${CONAN_QT_ROOT}/bin/Qt5Core.dll
-            ${CONAN_QT_ROOT}/bin/Qt5Gui.dll
+            ${CONAN_QT_ROOT}/bin/Qt6Charts.dll
+            ${CONAN_QT_ROOT}/bin/Qt6Widgets.dll
+            ${CONAN_QT_ROOT}/bin/Qt6Core.dll
+            ${CONAN_QT_ROOT}/bin/Qt6Gui.dll
         DESTINATION
             bin
     )
 
     install(
         FILES
-            ${CONAN_QT_ROOT}/bin/archdatadir/plugins/platforms/qwindows.dll
+            ${CONAN_QT_ROOT}/res/archdatadir/plugins/platforms/qwindows.dll
         DESTINATION
             bin/platforms
     )

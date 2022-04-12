@@ -1,6 +1,8 @@
 # Build artefacts
 build/
 _build/
+install/
+_install/
 out/
 __pycache__/
 CMakeCache.txt
