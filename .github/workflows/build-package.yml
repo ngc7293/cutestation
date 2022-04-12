@@ -1,11 +1,6 @@
 name: Build, test and package
 
-on:
-  push:
-    branches:
-      - '*'
-  schedule:
-    - cron: '0 0 * * 1'
+on: push
 
 jobs:
   build-package:
@@ -39,7 +34,11 @@ jobs:
 
       - name: Install tools (Ubuntu)
         if: matrix.config.os == 'ubuntu-20.04'
-        run: sudo apt-get install libgl-dev ninja-build
+        run: sudo apt-get install ninja-build
+
+      - name: Install system libraries (Ubuntu)
+        if: matrix.config.os == 'ubuntu-20.04'
+        run: sudo apt-get install $(cat ci_requirements.txt)
 
       - name: Install Conan
         run: |
@@ -55,6 +54,9 @@ jobs:
         if: matrix.config.os == 'ubuntu-20.04'
         working-directory: build
         run: conan install .. --update --build=missing -s compiler.version=10 -s compiler.libcxx=libstdc++11 -s build_type=${{ matrix.config.build_type }} -r davidbourgault
+        env:
+          CC: ${{matrix.config.cc}}
+          CXX: ${{matrix.config.cxx}}
 
       - name: Install Third Parties (Windows)
         if: matrix.config.os == 'windows-2022'
