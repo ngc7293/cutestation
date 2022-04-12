@@ -29,12 +29,14 @@ install(TARGETS cute DESTINATION bin)
 if (UNIX)
     install(
         FILES
-            ${CONAN_QT_ROOT}/lib/libQt6Charts.so.6  ${CONAN_QT_ROOT}/lib/libQt6Charts.so.6.2.4
-            ${CONAN_QT_ROOT}/lib/libQt6Widgets.so.6 ${CONAN_QT_ROOT}/lib/libQt6Widgets.so.6.2.4
-            ${CONAN_QT_ROOT}/lib/libQt6Core.so.6    ${CONAN_QT_ROOT}/lib/libQt6Core.so.6.2.4
-            ${CONAN_QT_ROOT}/lib/libQt6Gui.so.6     ${CONAN_QT_ROOT}/lib/libQt6Gui.so.6.2.4
-            ${CONAN_QT_ROOT}/lib/libQt6XcbQpa.so.6  ${CONAN_QT_ROOT}/lib/libQt6XcbQpa.so.6.2.4
-            ${CONAN_QT_ROOT}/lib/libQt6DBus.so.6    ${CONAN_QT_ROOT}/lib/libQt6DBus.so.6.2.4
+            ${CONAN_QT_ROOT}/lib/libQt6Charts.so.6        ${CONAN_QT_ROOT}/lib/libQt6Charts.so.6.2.4
+            ${CONAN_QT_ROOT}/lib/libQt6Core.so.6          ${CONAN_QT_ROOT}/lib/libQt6Core.so.6.2.4
+            ${CONAN_QT_ROOT}/lib/libQt6DBus.so.6          ${CONAN_QT_ROOT}/lib/libQt6DBus.so.6.2.4
+            ${CONAN_QT_ROOT}/lib/libQt6Gui.so.6           ${CONAN_QT_ROOT}/lib/libQt6Gui.so.6.2.4
+            ${CONAN_QT_ROOT}/lib/libQt6OpenGL.so.6        ${CONAN_QT_ROOT}/lib/libQt6OpenGL.so.6.2.4
+            ${CONAN_QT_ROOT}/lib/libQt6OpenGLWidgets.so.6 ${CONAN_QT_ROOT}/lib/libQt6OpenGLWidgets.so.6.2.4
+            ${CONAN_QT_ROOT}/lib/libQt6Widgets.so.6       ${CONAN_QT_ROOT}/lib/libQt6Widgets.so.6.2.4
+            ${CONAN_QT_ROOT}/lib/libQt6XcbQpa.so.6        ${CONAN_QT_ROOT}/lib/libQt6XcbQpa.so.6.2.4
         DESTINATION
             share/cute/lib
     )
@@ -56,9 +58,11 @@ elseif(MSVC)
     install(
         FILES
             ${CONAN_QT_ROOT}/bin/Qt6Charts.dll
-            ${CONAN_QT_ROOT}/bin/Qt6Widgets.dll
             ${CONAN_QT_ROOT}/bin/Qt6Core.dll
             ${CONAN_QT_ROOT}/bin/Qt6Gui.dll
+            ${CONAN_QT_ROOT}/bin/Qt6OpenGL.dll
+            ${CONAN_QT_ROOT}/bin/Qt6OpenGLWidgets.dll
+            ${CONAN_QT_ROOT}/bin/Qt6Widgets.dll
         DESTINATION
             bin
     )
