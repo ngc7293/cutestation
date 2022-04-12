@@ -6,10 +6,7 @@ include("${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
 conan_basic_setup(TARGETS)
 
 ## Libraries
-find_package(Qt5 COMPONENTS Core Widgets Charts REQUIRED)
-# include(conan_qt_core_extras)
-# include(Qt5CoreMacros)
-# include(Qt5WidgetsMacros)
+include(conan_qt_executables_variables)
 
 if (UNIX)
     target_compile_options(CONAN_PKG::qt INTERFACE -fPIC)
@@ -42,7 +39,7 @@ function(target_os_compile_options)
         "LINUX;WINDOWS;ALL"
         ${ARGN}
     )
-    
+
     if (UNIX)
         target_compile_options(${OS_COMPILE_OPTIONS_TARGET} PRIVATE ${OS_COMPILE_OPTIONS_LINUX})
     endif()
