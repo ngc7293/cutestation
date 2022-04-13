@@ -23,6 +23,8 @@ SET(UI
 add_executable(cute ${SOURCES} ${HEADERS})
 target_standard_compile_flags(cute)
 target_link_libraries(cute PUBLIC cute.widgets cute.data cute.io cute.log cute.util CONAN_PKG::nlohmann_json CONAN_PKG::qt)
+file(COPY qt.conf DESTINATION ${CMAKE_BINARY_DIR}/bin)
 
 install(TARGETS cute DESTINATION bin)
+install(FILES qt.conf DESTINATION bin)
 install_qt(LIBS Charts Core Gui OpenGL OpenGLWidgets Widgets LIBS_LINUX DBus XcbQpa)

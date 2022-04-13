@@ -7,6 +7,7 @@ conan_basic_setup(TARGETS)
 
 ## Libraries
 include(conan_qt_executables_variables)
+set(QT_ROOT ${CONAN_QT_ROOT} CACHE PATH "")
 
 if (UNIX)
     target_compile_options(CONAN_PKG::qt INTERFACE -fPIC)
@@ -70,30 +71,6 @@ function(target_standard_compile_flags TARGET)
     target_compile_features(${TARGET} PUBLIC cxx_std_20)
 endfunction()
 
-function(install_lib)
-    cmake_parse_arguments(
-        INSTALL_LIB
-        ""
-        "RPATH;DESTINATION;FILE;FROM"
-        "ALIAS"
-        ${ARGN}
-    )
-
-    set(INSTALL_LIB_FILES "")
-    foreach(F ${INSTALL_LIB_FILE} ${INSTALL_LIB_ALIAS})
-        list(APPEND INSTALL_LIB_FILES ${INSTALL_LIB_FROM}/${F})
-    endforeach()
-
-    install(FILES ${INSTALL_LIB_FILES} DESTINATION ${INSTALL_LIB_DESTINATION})
-
-    if(INSTALL_LIB_RPATH)
-        install(CODE "execute_process(COMMAND chrpath -r ${INSTALL_LIB_RPATH} ${CMAKE_INSTALL_PREFIX}/${INSTALL_LIB_DESTINATION}/${INSTALL_LIB_FILE})")
-    else()
-        install(CODE "execute_process(COMMAND chrpath -d ${CMAKE_INSTALL_PREFIX}/${INSTALL_LIB_DESTINATION}/${INSTALL_LIB_FILE})")
-    endif()
-
-endfunction()
-
 function(install_qt)
     cmake_parse_arguments(
         INSTALL_QT
@@ -105,28 +82,11 @@ function(install_qt)
 
     if(UNIX)
         foreach(QTLIB ${INSTALL_QT_LIBS} ${INSTALL_QT_LIBS_LINUX})
-            install_lib(
-                FROM ${CONAN_QT_ROOT}/lib
-                FILE libQt6${QTLIB}.so.6.2.4 ALIAS libQt6${QTLIB}.so.6
-                DESTINATION lib
-                RPATH "\$ORIGIN"
-            )
-            
+            install(FILES libQt6${QTLIB}.so.6.2.4 ALIAS libQt6${QTLIB}.so.6 DESTINATION lib)
         endforeach()
 
-        install_lib(
-            FROM ${CONAN_QT_ROOT}/res/archdatadir/plugins/platforms
-            FILE libqxcb.so
-            DESTINATION bin/platforms
-            RPATH ${CMAKE_INSTALL_PREFIX}/lib
-        )
-
-        install_lib(
-            FROM ${CONAN_QT_ROOT}/res/archdatadir/plugins/xcbglintegrations
-            FILE libqxcb-glx-integration.so
-            DESTINATION bin/xcbglintegrations
-            RPATH ${CMAKE_INSTALL_PREFIX}/lib
-        )
+        install(FILES ${CONAN_QT_ROOT}/res/archdatadir/plugins/platforms/libqxcb.so DESTINATION res/archdatadir/plugins/platforms)
+        install(FILES ${CONAN_QT_ROOT}/res/archdatadir/plugins/xcbglintegrations/libqxcb-glx-integration.so DESTINATION res/archdatadir/plugins/xcbglintegrations)
     endif()
 
     if(MSVC)
@@ -134,13 +94,7 @@ function(install_qt)
             install(FILES ${CONAN_QT_ROOT}/bin/Qt6${QTLIB}.dll DESTINATION bin)
         endforeach()
 
-        install(
-            FILES
-                ${CONAN_QT_ROOT}/res/archdatadir/plugins/platforms/qwindows.dll
-            DESTINATION
-                bin/platforms
-        )
-
+        install(FILES ${CONAN_QT_ROOT}/res/archdatadir/plugins/platforms/qwindows.dll DESTINATION res/archdatadir/plugins/platforms)
         install(FILES ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} DESTINATION bin)
     endif()
 endfunction()
