@@ -1,9 +1,11 @@
 [requires]
-qt/5.15.2
+qt/6.2.4
 protobuf/3.17.1
 nlohmann_json/3.10.4
 gtest/1.11.0
 expat/2.4.2
+openssl/1.1.1n
+zlib/1.2.12
 
 [options]
 qt:shared=True
@@ -20,6 +22,6 @@ cmake_paths
 
 [imports]
 bin, *.dll -> ./bin
-bin/archdatadir/plugins, *.dll -> ./bin
+res/archdatadir/, *.dll -> ./res/archdatadir
 lib, *.so* -> ./lib
-bin/archdatadir/plugins, *.so -> ./lib
+res/archdatadir/, *.so -> ./res/archdatadir

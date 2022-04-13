@@ -1,6 +1,9 @@
 name: Build, test and package
 
-on: push
+on:
+  push:
+  schedule:
+    - cron: '0 0 * * 0'
 
 jobs:
   build-package:
@@ -34,7 +37,11 @@ jobs:
 
       - name: Install tools (Ubuntu)
         if: matrix.config.os == 'ubuntu-20.04'
-        run: sudo apt-get install libgl-dev ninja-build
+        run: sudo apt-get install ninja-build
+
+      - name: Install system libraries (Ubuntu)
+        if: matrix.config.os == 'ubuntu-20.04'
+        run: sudo apt-get install $(cat ci_requirements.txt)
 
       - name: Install Conan
         run: |
@@ -50,6 +57,9 @@ jobs:
         if: matrix.config.os == 'ubuntu-20.04'
         working-directory: build
         run: conan install .. --update --build=missing -s compiler.version=10 -s compiler.libcxx=libstdc++11 -s build_type=${{ matrix.config.build_type }} -r davidbourgault
+        env:
+          CC: ${{matrix.config.cc}}
+          CXX: ${{matrix.config.cxx}}
 
       - name: Install Third Parties (Windows)
         if: matrix.config.os == 'windows-2022'
@@ -64,7 +74,7 @@ jobs:
         env:
           CC: ${{matrix.config.cc}}
           CXX: ${{matrix.config.cxx}}
-        run: cmake .. -G "${{ matrix.config.generator }}" -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -DCMAKE_INSTALL_PREFIX=/usr
+        run: cmake .. -G "${{ matrix.config.generator }}" -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -DCMAKE_INSTALL_PREFIX=/opt/cutestation
 
       - name: Build
         working-directory: build
@@ -100,7 +110,7 @@ jobs:
           submodules: true
 
       - name: Get package version
-        run: cat CMakeLists.txt | perl -lne 'print "VERSION=$1" if /project\(cute VERSION (\d+\.\d+\.\d+)\)/' >> $GITHUB_ENV
+        run: cat CMakeLists.txt | perl -lne 'print "VERSION=$1" if /project\(cutestation VERSION (\d+\.\d+\.\d+)\)/' >> $GITHUB_ENV
 
       - name: Download artifact
         uses: actions/download-artifact@v2

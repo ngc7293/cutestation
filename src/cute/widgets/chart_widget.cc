@@ -16,11 +16,11 @@ using namespace std::literals::chrono_literals;
 namespace cute::widgets {
 
 struct ChartWidget::Priv {
-    QtCharts::QChartView* chartview;
+    QChartView* chartview;
     double min, max;
     std::chrono::milliseconds length;
  
-    std::vector<std::pair<QtCharts::QLineSeries*, std::shared_ptr<data::TimeSeries>>> series;
+    std::vector<std::pair<QLineSeries*, std::shared_ptr<data::TimeSeries>>> series;
     std::chrono::milliseconds last_update;
 };
 
@@ -33,12 +33,12 @@ ChartWidget::ChartWidget(QWidget* parent, const std::string& name)
     _d->max = 1;
 
     _d->last_update = 0ms;
-    _d->chartview = new QtCharts::QChartView(this);
+    _d->chartview = new QChartView(this);
 
-    QtCharts::QValueAxis* yaxis = new QtCharts::QValueAxis(_d->chartview);
+    QValueAxis* yaxis = new QValueAxis(_d->chartview);
     yaxis->setRange(_d->min, _d->max);
 
-    QtCharts::QDateTimeAxis* xaxis = new QtCharts::QDateTimeAxis(_d->chartview);
+    QDateTimeAxis* xaxis = new QDateTimeAxis(_d->chartview);
     xaxis->setTickCount(5);
     xaxis->setFormat("HH:mm:ss");
 
@@ -58,7 +58,7 @@ ChartWidget::~ChartWidget() = default;
 
 void ChartWidget::add_series(std::shared_ptr<data::TimeSeries> series)
 {
-    QtCharts::QLineSeries* lineseries = new QtCharts::QLineSeries(_d->chartview);
+    QLineSeries* lineseries = new QLineSeries(_d->chartview);
     _d->chartview->chart()->addSeries(lineseries);
     lineseries->setUseOpenGL(true);
     lineseries->attachAxis(_d->chartview->chart()->axes()[0]);
@@ -75,7 +75,7 @@ void ChartWidget::set_range(double min, double max)
 {
     _d->min = min;
     _d->max = max;
-    ((QtCharts::QValueAxis*)_d->chartview->chart()->axes(Qt::Vertical)[0])->setRange(_d->min, _d->max);
+    ((QValueAxis*)_d->chartview->chart()->axes(Qt::Vertical)[0])->setRange(_d->min, _d->max);
 }
 
 void ChartWidget::refresh()
@@ -89,7 +89,7 @@ void ChartWidget::refresh()
             series.first->replace(points);
             _d->last_update = std::max(_d->last_update, now);
 
-            ((QtCharts::QDateTimeAxis*)_d->chartview->chart()->axes(Qt::Horizontal)[0])->setRange(QDateTime::fromMSecsSinceEpoch((_d->last_update - _d->length).count()), QDateTime::fromMSecsSinceEpoch(_d->last_update.count()));
+            ((QDateTimeAxis*)_d->chartview->chart()->axes(Qt::Horizontal)[0])->setRange(QDateTime::fromMSecsSinceEpoch((_d->last_update - _d->length).count()), QDateTime::fromMSecsSinceEpoch(_d->last_update.count()));
         }
     }
 }
