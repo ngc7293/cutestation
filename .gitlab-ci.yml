@@ -1,16 +1,10 @@
-image: ubuntu:20.04
+image: ghcr.io/ngc7293/cxxci:latest
 
 build:
   stage: build
 
   before_script:
-    - apt-get update
-    - DEBIAN_FRONTEND=noninteractive apt-get install -y gpg wget
-    - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
-    - echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
-    - apt-get update
-    - DEBIAN_FRONTEND=noninteractive apt-get install -y libgl-dev ninja-build cmake python3 python3-pip g++-10 gcc-10 pkg-config sudo
-    - pip install conan
+    - apt-get update && apt-get install $(cat ci_requirements.txt) -y
     - conan config set general.revisions_enabled=1
     - conan remote add davidbourgault https://artifactory.davidbourgault.ca/artifactory/api/conan/conan
     - mkdir build; cd build
@@ -31,13 +25,6 @@ test:
   dependencies:
     - build
 
-  before_script:
-    - apt-get update
-    - DEBIAN_FRONTEND=noninteractive apt-get install -y gpg wget
-    - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
-    - echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
-    - apt-get update
-    - DEBIAN_FRONTEND=noninteractive apt-get install -y cmake
   script:
     - cd build
     - ctest --rerun-failed --output-on-failure --output-junit report.xml
