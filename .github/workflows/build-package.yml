@@ -74,7 +74,7 @@ jobs:
         env:
           CC: ${{matrix.config.cc}}
           CXX: ${{matrix.config.cxx}}
-        run: cmake .. -G "${{ matrix.config.generator }}" -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -DCMAKE_INSTALL_PREFIX=/usr
+        run: cmake .. -G "${{ matrix.config.generator }}" -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -DCMAKE_INSTALL_PREFIX=/opt/cutestation
 
       - name: Build
         working-directory: build
@@ -83,12 +83,6 @@ jobs:
       - name: Test
         working-directory: build
         run: ctest --rerun-failed --output-on-failure
-
-      - name: Clean Qt-Conan's RPATHs
-        if: matrix.config.os == 'ubuntu-20.04'
-        run: |
-          QT=$(cat build/CMakeCache.txt | grep QT | cut -f 2 -d '=')
-          ls ${QT}/lib/*.so | xargs chrpath -r "\$ORIGIN"
 
       - name: Package
         working-directory: build
@@ -116,7 +110,7 @@ jobs:
           submodules: true
 
       - name: Get package version
-        run: cat CMakeLists.txt | perl -lne 'print "VERSION=$1" if /project\(cute VERSION (\d+\.\d+\.\d+)\)/' >> $GITHUB_ENV
+        run: cat CMakeLists.txt | perl -lne 'print "VERSION=$1" if /project\(cutestation VERSION (\d+\.\d+\.\d+)\)/' >> $GITHUB_ENV
 
       - name: Download artifact
         uses: actions/download-artifact@v2
