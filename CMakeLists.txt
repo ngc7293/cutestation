@@ -116,7 +116,7 @@ function(install_qt)
         endforeach()
 
         if(INSTALL_QT_PLATFORM)
-            install(FILES ${CMAKE_BINARY_DIR}/res/archdatadir/plugins/platforms/qwindows.dll DESTINATION res/archdatadir/plugins/platforms)
+            install(FILES ${CMAKE_BINARY_DIR}/res/archdatadir/plugins/platforms/qwindows.dll DESTINATION bin/platforms)
             install(FILES ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} DESTINATION bin)
         endif()
     endif()
