@@ -1,4 +1,4 @@
-image: ghcr.io/ngc7293/cxxci:latest
+image: ghcr.io/ngc7293/cxxci:focal
 
 build:
   stage: build
@@ -8,9 +8,9 @@ build:
     - conan config set general.revisions_enabled=1
     - conan remote add davidbourgault https://artifactory.davidbourgault.ca/artifactory/api/conan/conan
     - mkdir build; cd build
-    - conan install .. --update --build=missing -s compiler.version=10 -s compiler.libcxx=libstdc++11 -s build_type=Release -r davidbourgault
+    - conan install .. --update --build=missing -s compiler.libcxx=libstdc++11 -s build_type=Release -r davidbourgault
   script:
-    - CXX=g++-10 CC=gcc-10 cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+    - cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
     - cmake --build . --config Release --parallel 2
 
   artifacts:
