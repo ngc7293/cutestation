@@ -51,7 +51,7 @@ void ValueWidget<Type>::set_label(const std::string& label)
 }
 
 template<typename Type>
-void ValueWidget<Type>::set_value(std::unique_ptr<data::Value<Type>>&& value)
+void ValueWidget<Type>::set_value(std::unique_ptr<cute::data::Value<Type>>&& value)
 {
     _d -> value = std::move(value);
 }
