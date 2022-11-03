@@ -5,7 +5,7 @@ protobuf/3.21.4
 nlohmann_json/3.11.2
 gtest/1.12.1
 expat/2.4.9
-openssl/1.1.1s
+openssl/1.1.1q
 zlib/1.2.13
 
 [options]
